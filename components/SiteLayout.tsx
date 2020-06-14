@@ -5,9 +5,8 @@ import {Header} from "./Header/Header";
 import theme from "../styles/theme";
 
 const Main = styled.main`
-    padding: 25px;
-    min-height: calc(100vh - 50px);
-  
+  padding: 25px;
+  min-height: calc(100vh - 50px);
   
   ${theme.mediaQueries.small} {
     padding: 50px;

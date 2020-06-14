@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import styled from "@emotion/styled";
 import {Box, Image} from 'rebass';
+import theme from "../../styles/theme";
 
 const Anchor = styled.div`
     background: white;
@@ -15,16 +16,21 @@ const Anchor = styled.div`
 
 const FooterComponent = styled.footer`
   position: relative;
-  padding: 50px;
+
+  padding: 65px 25px 50px 25px;
+  ${theme.mediaQueries.small} {
+    padding: 65px 50px 50px 50px;
+  }
+
   background: black;  
   height: 100vh;
-  
+
   color: white;
-  
+
   & a {
     color: white;    
   }
-  
+
   & a:hover {
     text-decoration: none;
   }
