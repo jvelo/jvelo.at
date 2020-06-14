@@ -2,7 +2,7 @@ import App from 'next/app';
 
 import React from 'react';
 import { Router } from 'next/router';
-import PageLoading from '../components/PageLoading';
+import PageLoading from '../components/PageLoading/PageLoading';
 
 type Props = {
 };

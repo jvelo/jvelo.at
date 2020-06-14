@@ -1,6 +1,6 @@
 import {NProgress} from '@tanem/react-nprogress';
 import React from 'react';
-import Theme from '../styles/theme'
+import Theme from '../../styles/theme'
 
 type Props = {
     isRouteChanging: boolean;

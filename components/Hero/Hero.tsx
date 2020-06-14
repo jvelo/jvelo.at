@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from "react";
 
 const Heading = styled.h1`
   word-spacing: 100vw;

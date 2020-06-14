@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import SiteLayout from '../components/SiteLayout'
-import {PageTitle} from "../components/PageTitle";
+import {PageTitle} from "../components/PageTitle/PageTitle";
 
 function About() {
 
