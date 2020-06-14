@@ -1,5 +1,8 @@
+const primaryColor = 'black';
+const breakpoints = [
+    '576px', '768px', '992px', '1200px',
+];
 
-const primaryColor = 'black'
 
 export default {
     fonts: {
@@ -16,9 +19,13 @@ export default {
         offWhite: '#f7f7f7',
         darkGray: '#4e4e4e',
     },
-    breakpoints: [
-        '576px', '768px', '992px', '1200px',
-    ],
+    breakpoints,
+    mediaQueries: {
+        small: `@media screen and (min-width: ${breakpoints[0]})`,
+        medium: `@media screen and (min-width: ${breakpoints[1]})`,
+        large: `@media screen and (min-width: ${breakpoints[2]})`,
+        xl: `@media screen and (min-width: ${breakpoints[3]})`,
+    },
     space: [
         0, 4, 8, 16, 32, 64, 128, 256,
     ],
