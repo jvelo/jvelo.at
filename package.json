@@ -6,8 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "validate-typescript": "tsc --noEmit",
     "storybook": "start-storybook -p 6006 -s ./public -c .storybook",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "get-schema": "node scripts/get-schema.js",
+    "graphql-codegen": "graphql-codegen",
+    "update-schema": "yarn get-schema && yarn graphql-codegen"
   },
   "dependencies": {
     "@tanem/react-nprogress": "^3.0.27",
@@ -19,6 +23,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
+    "@graphql-codegen/cli": "^1.15.3",
+    "@graphql-codegen/fragment-matcher": "^1.15.3",
+    "@graphql-codegen/typescript": "^1.15.3",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
@@ -28,6 +35,17 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-preset-react-app": "^9.1.2",
-    "typescript": "^3.8.3"
+    "dotenv": "^8.2.0",
+    "graphql": "^15.1.0",
+    "husky": "^4.2.5",
+    "node-fetch": "^2.6.0",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
+    "typescript": "^3.9.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && yarn run validate-typescript"
+    }
   }
 }
