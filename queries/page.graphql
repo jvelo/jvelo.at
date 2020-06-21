@@ -1,0 +1,16 @@
+query page($slug: String!) {
+    page(uid: $slug, lang: "en-gb") {
+        body {
+            ... on PageBodyContent {
+                type
+                primary {
+                    text
+                }
+            }
+        }
+        _meta {
+            id
+            uid
+        }
+    }
+}
