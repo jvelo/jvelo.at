@@ -37,6 +37,8 @@ export type Meta = {
 export type Page = _Document &
   _Linkable & {
     __typename?: "Page";
+    title?: Maybe<Scalars["Json"]>;
+    subtitle?: Maybe<Scalars["Json"]>;
     body?: Maybe<Array<PageBody>>;
     _meta: Meta;
     _linkType?: Maybe<Scalars["String"]>;
@@ -144,6 +146,7 @@ export type QueryAllPagesArgs = {
   lastPublicationDate_before?: Maybe<Scalars["DateTime"]>;
   fulltext?: Maybe<Scalars["String"]>;
   similar?: Maybe<Similar>;
+  where?: Maybe<WherePage>;
   before?: Maybe<Scalars["String"]>;
   after?: Maybe<Scalars["String"]>;
   first?: Maybe<Scalars["Int"]>;
@@ -174,7 +177,18 @@ export enum SortPagey {
   MetaFirstPublicationDateDesc = "meta_firstPublicationDate_DESC",
   MetaLastPublicationDateAsc = "meta_lastPublicationDate_ASC",
   MetaLastPublicationDateDesc = "meta_lastPublicationDate_DESC",
+  TitleAsc = "title_ASC",
+  TitleDesc = "title_DESC",
+  SubtitleAsc = "subtitle_ASC",
+  SubtitleDesc = "subtitle_DESC",
 }
+
+export type WherePage = {
+  /** title */
+  title_fulltext?: Maybe<Scalars["String"]>;
+  /** subtitle */
+  subtitle_fulltext?: Maybe<Scalars["String"]>;
+};
 
 /** A prismic document */
 export type _Document = {

@@ -51,6 +51,8 @@ type Meta {
 }
 
 type Page implements _Document & _Linkable {
+  title: Json
+  subtitle: Json
   body: [PageBody!]
   _meta: Meta!
   _linkType: String
@@ -169,6 +171,7 @@ type Query {
     lastPublicationDate_before: DateTime
     fulltext: String
     similar: similar
+    where: WherePage
     before: String
     after: String
     first: Int
@@ -210,6 +213,22 @@ enum SortPagey {
   meta_firstPublicationDate_DESC
   meta_lastPublicationDate_ASC
   meta_lastPublicationDate_DESC
+  title_ASC
+  title_DESC
+  subtitle_ASC
+  subtitle_DESC
+}
+
+input WherePage {
+  """
+  title
+  """
+  title_fulltext: String
+
+  """
+  subtitle
+  """
+  subtitle_fulltext: String
 }
 
 """
