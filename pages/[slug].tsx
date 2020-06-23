@@ -5,7 +5,8 @@ import React from 'react';
 import {getQueryFun} from "../src/apollo/utils";
 import SiteLayout from "../components/SiteLayout";
 import {PageTitle} from "../components/PageTitle/PageTitle";
-import {RichText} from "prismic-reactjs";
+import {RichText} from "../components/RichText/RichText";
+
 
 export type Props = {
     page?: PrismicPage;
