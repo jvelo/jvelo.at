@@ -17,7 +17,7 @@ export default class MyDocument extends Document {
             <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 
             <meta key="viewport" name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width"/>
-            <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=PT+Sans&display=swap"
+            <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,200&family=PT+Sans&display=swap"
                   rel="stylesheet" />
 
             <meta name="msapplication-TileColor" content="#000000"/>
