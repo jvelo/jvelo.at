@@ -1,0 +1,18 @@
+query home {
+    home(uid: "home", lang: "en-gb") {
+        introduction
+        hero_title
+        meta_title
+        meta_description
+        body {
+            ... on HomeBodyText {
+                primary {
+                    text
+                }
+            }
+        }
+        _meta {
+            id
+        }
+    }
+}

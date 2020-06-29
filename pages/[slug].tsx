@@ -26,8 +26,6 @@ const GenericPage: NextApolloPage<Props> = ({page}) => {
                 { page.subtitle && <Subtitle>{RichText.asText(page.subtitle)}</Subtitle> }
             </PageTitle>
 
-
-
             {
                 page.body.map(slice => <>
                     {slices[slice.__typename](slice)}

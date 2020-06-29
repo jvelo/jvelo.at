@@ -14,6 +14,51 @@ export type Scalars = {
   Long: any;
 };
 
+export type Home = _Document &
+  _Linkable & {
+    __typename?: "Home";
+    introduction?: Maybe<Scalars["Json"]>;
+    hero_title?: Maybe<Scalars["String"]>;
+    body?: Maybe<Array<HomeBody>>;
+    meta_title?: Maybe<Scalars["String"]>;
+    meta_description?: Maybe<Scalars["String"]>;
+    _meta: Meta;
+    _linkType?: Maybe<Scalars["String"]>;
+  };
+
+export type HomeBody = HomeBodyText;
+
+export type HomeBodyText = {
+  __typename?: "HomeBodyText";
+  type?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars["String"]>;
+  primary?: Maybe<HomeBodyTextPrimary>;
+};
+
+export type HomeBodyTextPrimary = {
+  __typename?: "HomeBodyTextPrimary";
+  text?: Maybe<Scalars["Json"]>;
+};
+
+/** A connection to a list of items. */
+export type HomeConnectionConnection = {
+  __typename?: "HomeConnectionConnection";
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<HomeConnectionEdge>>>;
+  totalCount: Scalars["Long"];
+};
+
+/** An edge in a connection. */
+export type HomeConnectionEdge = {
+  __typename?: "HomeConnectionEdge";
+  /** The item at the end of the edge. */
+  node: Home;
+  /** A cursor for use in pagination. */
+  cursor: Scalars["String"];
+};
+
 export type Meta = {
   __typename?: "Meta";
   /** The id of the document. */
@@ -95,6 +140,8 @@ export type Query = {
   _allDocuments: _DocumentConnection;
   page?: Maybe<Page>;
   allPages: PageConnectionConnection;
+  home?: Maybe<Home>;
+  allHomes: HomeConnectionConnection;
 };
 
 export type Query_AllDocumentsArgs = {
@@ -153,6 +200,37 @@ export type QueryAllPagesArgs = {
   last?: Maybe<Scalars["Int"]>;
 };
 
+export type QueryHomeArgs = {
+  uid: Scalars["String"];
+  lang: Scalars["String"];
+};
+
+export type QueryAllHomesArgs = {
+  sortBy?: Maybe<SortHomey>;
+  id?: Maybe<Scalars["String"]>;
+  id_in?: Maybe<Array<Scalars["String"]>>;
+  uid?: Maybe<Scalars["String"]>;
+  uid_in?: Maybe<Array<Scalars["String"]>>;
+  lang?: Maybe<Scalars["String"]>;
+  tags?: Maybe<Array<Scalars["String"]>>;
+  tags_in?: Maybe<Array<Scalars["String"]>>;
+  type?: Maybe<Scalars["String"]>;
+  type_in?: Maybe<Array<Scalars["String"]>>;
+  firstPublicationDate?: Maybe<Scalars["DateTime"]>;
+  firstPublicationDate_after?: Maybe<Scalars["DateTime"]>;
+  firstPublicationDate_before?: Maybe<Scalars["DateTime"]>;
+  lastPublicationDate?: Maybe<Scalars["DateTime"]>;
+  lastPublicationDate_after?: Maybe<Scalars["DateTime"]>;
+  lastPublicationDate_before?: Maybe<Scalars["DateTime"]>;
+  fulltext?: Maybe<Scalars["String"]>;
+  similar?: Maybe<Similar>;
+  where?: Maybe<WhereHome>;
+  before?: Maybe<Scalars["String"]>;
+  after?: Maybe<Scalars["String"]>;
+  first?: Maybe<Scalars["Int"]>;
+  last?: Maybe<Scalars["Int"]>;
+};
+
 export type RelatedDocument = {
   __typename?: "RelatedDocument";
   /** The id of the document. */
@@ -172,6 +250,21 @@ export enum SortDocumentsBy {
   MetaLastPublicationDateDesc = "meta_lastPublicationDate_DESC",
 }
 
+export enum SortHomey {
+  MetaFirstPublicationDateAsc = "meta_firstPublicationDate_ASC",
+  MetaFirstPublicationDateDesc = "meta_firstPublicationDate_DESC",
+  MetaLastPublicationDateAsc = "meta_lastPublicationDate_ASC",
+  MetaLastPublicationDateDesc = "meta_lastPublicationDate_DESC",
+  IntroductionAsc = "introduction_ASC",
+  IntroductionDesc = "introduction_DESC",
+  HeroTitleAsc = "hero_title_ASC",
+  HeroTitleDesc = "hero_title_DESC",
+  MetaTitleAsc = "meta_title_ASC",
+  MetaTitleDesc = "meta_title_DESC",
+  MetaDescriptionAsc = "meta_description_ASC",
+  MetaDescriptionDesc = "meta_description_DESC",
+}
+
 export enum SortPagey {
   MetaFirstPublicationDateAsc = "meta_firstPublicationDate_ASC",
   MetaFirstPublicationDateDesc = "meta_firstPublicationDate_DESC",
@@ -182,6 +275,17 @@ export enum SortPagey {
   SubtitleAsc = "subtitle_ASC",
   SubtitleDesc = "subtitle_DESC",
 }
+
+export type WhereHome = {
+  /** introduction */
+  introduction_fulltext?: Maybe<Scalars["String"]>;
+  hero_title?: Maybe<Scalars["String"]>;
+  hero_title_fulltext?: Maybe<Scalars["String"]>;
+  meta_title?: Maybe<Scalars["String"]>;
+  meta_title_fulltext?: Maybe<Scalars["String"]>;
+  meta_description?: Maybe<Scalars["String"]>;
+  meta_description_fulltext?: Maybe<Scalars["String"]>;
+};
 
 export type WherePage = {
   /** title */

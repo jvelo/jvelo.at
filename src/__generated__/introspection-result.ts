@@ -14,6 +14,15 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: "UNION",
+        name: "HomeBody",
+        possibleTypes: [
+          {
+            name: "HomeBodyText",
+          },
+        ],
+      },
+      {
+        kind: "UNION",
         name: "PageBody",
         possibleTypes: [
           {
@@ -26,6 +35,9 @@ const result: IntrospectionResultData = {
         name: "_Document",
         possibleTypes: [
           {
+            name: "Home",
+          },
+          {
             name: "Page",
           },
         ],
@@ -34,6 +46,9 @@ const result: IntrospectionResultData = {
         kind: "INTERFACE",
         name: "_Linkable",
         possibleTypes: [
+          {
+            name: "Home",
+          },
           {
             name: "Page",
           },

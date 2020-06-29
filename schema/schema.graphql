@@ -3,6 +3,59 @@ DateTime
 """
 scalar DateTime
 
+type Home implements _Document & _Linkable {
+  introduction: Json
+  hero_title: String
+  body: [HomeBody!]
+  meta_title: String
+  meta_description: String
+  _meta: Meta!
+  _linkType: String
+}
+
+union HomeBody = HomeBodyText
+
+type HomeBodyText {
+  type: String
+  label: String
+  primary: HomeBodyTextPrimary
+}
+
+type HomeBodyTextPrimary {
+  text: Json
+}
+
+"""
+A connection to a list of items.
+"""
+type HomeConnectionConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [HomeConnectionEdge]
+  totalCount: Long!
+}
+
+"""
+An edge in a connection.
+"""
+type HomeConnectionEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Home!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
 """
 Raw JSON value
 """
@@ -177,6 +230,32 @@ type Query {
     first: Int
     last: Int
   ): PageConnectionConnection!
+  home(uid: String!, lang: String!): Home
+  allHomes(
+    sortBy: SortHomey
+    id: String
+    id_in: [String!]
+    uid: String
+    uid_in: [String!]
+    lang: String
+    tags: [String!]
+    tags_in: [String!]
+    type: String
+    type_in: [String!]
+    firstPublicationDate: DateTime
+    firstPublicationDate_after: DateTime
+    firstPublicationDate_before: DateTime
+    lastPublicationDate: DateTime
+    lastPublicationDate_after: DateTime
+    lastPublicationDate_before: DateTime
+    fulltext: String
+    similar: similar
+    where: WhereHome
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): HomeConnectionConnection!
 }
 
 type RelatedDocument {
@@ -208,6 +287,21 @@ enum SortDocumentsBy {
   meta_lastPublicationDate_DESC
 }
 
+enum SortHomey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  introduction_ASC
+  introduction_DESC
+  hero_title_ASC
+  hero_title_DESC
+  meta_title_ASC
+  meta_title_DESC
+  meta_description_ASC
+  meta_description_DESC
+}
+
 enum SortPagey {
   meta_firstPublicationDate_ASC
   meta_firstPublicationDate_DESC
@@ -217,6 +311,19 @@ enum SortPagey {
   title_DESC
   subtitle_ASC
   subtitle_DESC
+}
+
+input WhereHome {
+  """
+  introduction
+  """
+  introduction_fulltext: String
+  hero_title: String
+  hero_title_fulltext: String
+  meta_title: String
+  meta_title_fulltext: String
+  meta_description: String
+  meta_description_fulltext: String
 }
 
 input WherePage {
