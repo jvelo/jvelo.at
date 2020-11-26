@@ -3,11 +3,13 @@ import App from 'next/app';
 import React from 'react';
 import { Router } from 'next/router';
 import PageLoading from '../components/PageLoading/PageLoading';
+import {ThemeProvider} from "styled-components";
+import theme from "../styles/theme";
 
-type Props = {
+type AppProps = {
 };
 
-class SiteApp extends App<Props> {
+class SiteApp extends App<AppProps> {
     state = {
         hasNavigated: false,
         isRouteChanging: false,
@@ -57,13 +59,13 @@ class SiteApp extends App<Props> {
         const { Component, pageProps } = this.props;
 
         return (
-            <>
+            <ThemeProvider theme={theme}>
                 <PageLoading
                     isRouteChanging={this.state.isRouteChanging}
                     loadingKey={this.state.loadingKey}
                 />
                 <Component {...pageProps} />
-            </>
+            </ThemeProvider>
         );
     }
 }

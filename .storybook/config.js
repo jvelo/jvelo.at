@@ -2,11 +2,13 @@ import { configure, addDecorator } from '@storybook/react';
 // import Modal from 'react-modal';
 
 import GlobalStyle from '../styles/global';
+import {ThemeProvider} from "styled-components";
+import theme from "../styles/theme";
 
 // Modal.setAppElement(`body`);
 
 const StoryWrapper = storyFn => (
-    <div
+    <ThemeProvider theme={theme}
         style={{
             position: 'fixed',
             top: '0',
@@ -22,8 +24,9 @@ const StoryWrapper = storyFn => (
         <div style={{ backgroundColor: 'white', margin: 'auto', flex: 1 }}>
             {storyFn()}
         </div>
+
         <GlobalStyle />
-    </div>
+    </ThemeProvider>
 );
 addDecorator(StoryWrapper);
 

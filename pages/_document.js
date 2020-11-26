@@ -32,7 +32,8 @@ export default class MyDocument extends Document {
             <meta name="theme-color" content="#ffffff"/>
 
             <GlobalStyles/>
-                {this.props.styleTags}
+
+            {this.props.styleTags}
         </Head>
         <body>
         <Main/>

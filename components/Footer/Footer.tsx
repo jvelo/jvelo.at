@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import {Box, Image} from 'rebass';
 import theme from "../../styles/theme";
 
