@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
-import {Box, Image} from 'rebass';
+import {Box, Image} from 'rebass/styled-components';
 import theme from "../../styles/theme";
 
 const Anchor = styled.div`

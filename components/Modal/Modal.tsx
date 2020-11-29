@@ -1,9 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
 import {
-    Box
+    Box, Image
 } from 'rebass/styled-components';
-import {Button} from "../Button/Button";
 import theme from "../../styles/theme";
 
 type Props = {
@@ -46,6 +45,10 @@ const Content = styled(Box)`
     }
 `;
 
+const CloseButton = styled(Box)`
+    float: right;
+`
+
 export const Modal: React.FunctionComponent<Props> = ({children, open, onClose}) => (
     <>
         <Overlay open={open}>
@@ -54,9 +57,11 @@ export const Modal: React.FunctionComponent<Props> = ({children, open, onClose})
                  aria-modal="true"
                  open={open}>
             {children}
-            <Button onClick={() => onClose && onClose()}>
-                Close
-            </Button>
+
+            <CloseButton
+                onClick={() => onClose && onClose()}>
+                <Image src={'/cross.svg'} height={50}/>
+            </CloseButton>
         </Content>
     </>
 );
