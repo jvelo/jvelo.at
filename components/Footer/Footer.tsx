@@ -67,6 +67,9 @@ export const Footer: React.FC = () => (
         <Link href={"/"}>Home</Link>
       </li>
       <li>
+        <Link href={"/sitemap"}>Sitemap</Link>
+      </li>
+      <li>
         <Link href={"/about"}>About</Link>
       </li>
       <li>
