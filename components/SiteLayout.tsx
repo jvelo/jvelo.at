@@ -1,13 +1,17 @@
-import styled from 'styled-components';
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import styled from "styled-components";
 import React from "react";
-import {Footer} from "./Footer/Footer";
-import {Header} from "./Header/Header";
+import { Footer } from "./Footer/Footer";
+import { Header } from "./Header/Header";
 import theme from "../styles/theme";
 
 const Main = styled.main`
   padding: 25px;
   min-height: calc(100vh - 50px);
-  
+
   ${theme.mediaQueries.small} {
     padding: 50px;
     min-height: calc(100vh - 100px);
@@ -15,15 +19,12 @@ const Main = styled.main`
   }
 `;
 
-
 export const Page: React.FunctionComponent = ({ children }) => (
-    <>
-        <Header />
-        <Main>
-            {children}
-        </Main>
-        <Footer />
-    </>
+  <>
+    <Header />
+    <Main>{children}</Main>
+    <Footer />
+  </>
 );
 
 export default Page;

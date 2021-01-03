@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import styled from "styled-components";
 
 export const PageTitle = styled.h1`
-  margin-block-start: 0;            
+  margin-block-start: 0;
   font-size: 60px;
   line-height: 80px;
   font-weight: bold;
