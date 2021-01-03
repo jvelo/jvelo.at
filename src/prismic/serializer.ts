@@ -1,6 +1,10 @@
-// See https://prismic.io/docs/reactjs/getting-started/prismic-nextjs
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+
+// See https://prismic.io/docs/reactjs/getting-started/prismic-nextjs
 
 import * as React from "react";
 import { HTMLSerializer } from "prismic-reactjs";
