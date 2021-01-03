@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import React from "react";
 
 const Heading = styled.h1`
@@ -7,12 +7,8 @@ const Heading = styled.h1`
   font-size: 60px;
   line-height: 80px;
   font-weight: bold;
-`
+`;
 
-export const Hero: React.FunctionComponent = ({ children }) => (
-    <Heading>
-        {children}
-    </Heading>
-);
+export const Hero: React.FC = ({ children }) => <Heading>{children}</Heading>;
 
 export default Hero;

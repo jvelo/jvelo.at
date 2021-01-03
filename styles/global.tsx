@@ -1,8 +1,9 @@
-import React from 'react'
-import Theme from './theme'
+import React from "react";
+import Theme from "./theme";
 
-export default () => (
-    <style>{`
+const globalStyles: () => JSX.Element = () => (
+  <style>
+    {`
         body {
             color: ${Theme.colors.primary};
             margin: 0;
@@ -51,5 +52,7 @@ export default () => (
           list-style-type: square;
         }
     `}
-    </style>
-)
+  </style>
+);
+
+export default globalStyles;

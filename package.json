@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint": "eslint -- ./",
     "validate-typescript": "tsc --noEmit",
     "storybook": "start-storybook -p 6006 -s ./public -c .storybook",
     "build-storybook": "build-storybook",
@@ -40,11 +41,16 @@
     "@storybook/react": "^5.3.19",
     "@types/node": "^13.13.5",
     "@types/react": "^16.9.35",
+    "@types/styled-components": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-import-graphql": "^2.7.0",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-preset-react-app": "^9.1.2",
     "dotenv": "^8.2.0",
+    "eslint": "^7.17.0",
+    "eslint-plugin-react": "^7.22.0",
     "graphql": "^15.1.0",
     "husky": "^4.2.5",
     "node-fetch": "^2.6.0",
@@ -54,7 +60,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && yarn run validate-typescript"
+      "pre-commit": "pretty-quick --staged && yarn run validate-typescript && yarn run lint"
     }
   }
 }

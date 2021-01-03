@@ -1,0 +1,8 @@
+node_modules
+**/.next/**
+**/_next/**
+**/dist/**
+scripts/*
+src/@types/graphql-schema.d.ts
+src/__generated__/**
+next.config.js
