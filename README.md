@@ -1,10 +1,15 @@
 Source code for my personal website living at [jvelo.at](https://jvelo.at).
 
-![build status](https://github.com/jvelo/jvelo.at/workflows/build/badge.svg)
+If I have built it, it is by standing on the shoulders of Giants:
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+- [React](https://github.com/facebook/react)
+- [Next.js](https://nextjs.org/)
+- [styled-components](https://github.com/styled-components)
+- [Rebass](https://github.com/rebassjs/rebass)
 
 The code for the site is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/).
+
+![build status](https://github.com/jvelo/jvelo.at/workflows/build/badge.svg)
 
 ## Getting Started
 
@@ -15,8 +20,6 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
 ## Storybook
 
