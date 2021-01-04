@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import React from "react";
 import { Footer } from "./Footer/Footer";
 import { Header } from "./Header/Header";
@@ -23,6 +23,8 @@ const Main = styled.main`
 export const Page: React.FunctionComponent = ({ children }) => (
   <>
     <Head>
+      {/* The viewport meta apparently can't be in _document – so here it goes rather than _app
+           See https://err.sh/next.js/no-document-viewport-meta*/}
       <meta
         key="viewport"
         name="viewport"
