@@ -9,9 +9,9 @@ jobs:
       NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - run: git fetch --prune --unshallow --tags
       - run: yarn install --frozen-lockfile --check-files
-      - run: yarn validate-typescript
+      - run: yarn build
       - uses: actions/cache@v2
         id: cache-build
         with:
