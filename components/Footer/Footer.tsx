@@ -27,7 +27,7 @@ const FooterComponent = styled.footer`
   }
 
   background: black;
-  height: 100vh;
+  min-height: 100vh;
 
   color: white;
 

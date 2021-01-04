@@ -9,6 +9,7 @@ import { Router } from "next/router";
 import PageLoading from "../components/PageLoading/PageLoading";
 import { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
+import { Head } from "next/document";
 
 type AppProps = Record<string, never>;
 

@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import Document, {
+  Html,
   Head,
   Main,
   NextScript,
@@ -45,15 +46,10 @@ class MyDocument extends Document {
   }
 
   render: () => JSX.Element = () => (
-    <html lang="en">
+    <Html lang="en">
       <Head>
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 
-        <meta
-          key="viewport"
-          name="viewport"
-          content="initial-scale=1, minimum-scale=1, width=device-width"
-        />
         <link
           href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,200&family=PT+Sans&display=swap"
           rel="stylesheet"
@@ -92,7 +88,7 @@ class MyDocument extends Document {
         <Main />
         <NextScript />
       </body>
-    </html>
+    </Html>
   );
 }
 
