@@ -5,6 +5,9 @@
 const primaryColor = "black";
 const breakpoints = ["576px", "768px", "992px", "1200px"];
 
+// Following Theme UI Specification
+// https://theme-ui.com/
+
 export default {
   fonts: {
     sans: "PT Sans, sans-serif",

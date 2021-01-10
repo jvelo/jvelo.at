@@ -5,4 +5,13 @@
 import { Button as RebassButton } from "rebass/styled-components";
 import styled from "styled-components";
 
-export const Button = styled(RebassButton)``;
+import Theme from "../../styles/theme";
+
+export const Button = styled(RebassButton)`
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: ${Theme.space[2]}px;
+  }
+`;

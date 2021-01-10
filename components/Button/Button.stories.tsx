@@ -5,6 +5,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { Button } from "./Button";
+import { Activity } from "react-feather";
 
 storiesOf("Button", module).add("default", () => {
   return (
@@ -17,6 +18,17 @@ storiesOf("Button", module).add("default", () => {
       </Button>
       <Button variant="outline" mr={2}>
         Outline
+      </Button>
+    </>
+  );
+});
+
+storiesOf("Button", module).add("icon button", () => {
+  return (
+    <>
+      <Button variant="primary" mr={2}>
+        <Activity />
+        Icon button
       </Button>
     </>
   );
