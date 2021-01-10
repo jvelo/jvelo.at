@@ -5,8 +5,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Box } from "rebass/styled-components";
-import { Button } from "../Button/Button";
 import theme from "../../styles/theme";
+import { X } from "react-feather";
 
 type Props = {
   open: boolean;
@@ -56,8 +56,10 @@ export const Modal: React.FunctionComponent<Props> = ({
   <>
     <Overlay open={open}></Overlay>
     <Content role="dialog" aria-modal="true" open={open}>
+      <Box sx={{ float: "right" }} onClick={() => onClose && onClose()}>
+        <X />
+      </Box>
       {children}
-      <Button onClick={() => onClose && onClose()}>Close</Button>
     </Content>
   </>
 );
