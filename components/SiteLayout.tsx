@@ -20,7 +20,19 @@ const Main = styled.main`
   }
 `;
 
-export const Page: React.FunctionComponent = ({ children }) => (
+type Meta = {
+  title?: string;
+  description?: string;
+};
+
+type Props = {
+  meta?: Meta;
+};
+
+export const Page: React.FunctionComponent<Props> = ({
+  children,
+  meta = {},
+}) => (
   <>
     <Head>
       {/* The viewport meta apparently can't be in _document – so here it goes rather than _app
@@ -30,6 +42,10 @@ export const Page: React.FunctionComponent = ({ children }) => (
         name="viewport"
         content="initial-scale=1, minimum-scale=1, width=device-width"
       />
+      {meta.title && <title>{meta.title}</title>}
+      {meta.description && (
+        <meta name="description" content={meta.description} />
+      )}
     </Head>
     <Header />
     <Main>{children}</Main>
