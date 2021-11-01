@@ -5,7 +5,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import * as React from "react";
-import Head from "next/head";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { getApolloClient } from "./client";
 import { NextComponentType, NextPage, NextPageContext } from "next";
