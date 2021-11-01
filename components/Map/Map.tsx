@@ -9,14 +9,13 @@ const MAPBOX_STYLE = "mapbox://styles/jvelo/ckvgvoamk0wds15mj5j2g3zu6";
 const ACCESS_TOKEN = process.env.MAPBOX_TOKEN;
 
 const DEFAULT_ZOOM = 10.5;
-const FOCUSED_ZOOM = 14;
 
 const DEFAULT_COORDS = {
   latitude: 48.8587741, // Paname, paname, paname
   longitude: 2.3270149,
 };
 
-export const Map: React.FC = ({ children }) => {
+export const Map: React.FC = () => {
   const [viewport, setViewport] = useState({
     width: 400,
     height: 400,
