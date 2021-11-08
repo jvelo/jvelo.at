@@ -4,7 +4,9 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import mysql from "mysql2";
 
-const conn = mysql.createConnection(process.env.DATABASE_URL);
+const conn = mysql.createConnection(
+  process.env.DATABASE_URL || "mysql://user:@127.0.0.1/db"
+);
 
 type Props = {
   links: [
