@@ -1,0 +1,14 @@
+{
+  "name": "@jvelo/gh-action-twitter",
+  "version": "1.0.0",
+  "dependencies": {
+    "mysql2": "^2.3.3-rc.0",
+    "node-fetch": "2.6.6"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/node-fetch": "2.5.12",
+    "ts-node": "10.4.0",
+    "twitter-d": "^0.4.0"
+  }
+}
