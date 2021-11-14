@@ -1,6 +1,11 @@
-/* important or not important legaleses */
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+/* 👆 important or not important legaleses */
 
-import mysql, { ResultSetHeader } from "mysql2";
+import mysql, { ResultSetHeader, RowDataPacket } from "mysql2";
 import fetch from "node-fetch";
 import { Status } from "twitter-d";
 
@@ -9,6 +14,7 @@ type Tweet = Status & {
   text: string;
 };
 
+// Environment stuffing we'll need later
 const {
   TWITTER_USERNAME,
   TWITTER_BEARER_TOKEN,
@@ -18,10 +24,13 @@ const {
   DB_PASSWORD,
 } = process.env;
 
-// We're poking this door
-const API = `https://api.twitter.com/1.1/favorites/list.json?screen_name=${TWITTER_USERNAME}`;
+// How many chirps to get at once
+const PAGE_SIZE = 200;
 
-// We'll throw it all in this sink ouf ours
+// We're poking this door on @jack's website
+const API = `https://api.twitter.com/1.1/favorites/list.json?screen_name=${TWITTER_USERNAME}&count=${PAGE_SIZE}`;
+
+// We'll pipe it all in this sink ouf ours
 const client = mysql
   .createConnection({
     host: DB_HOST,
@@ -38,14 +47,14 @@ const saveTweets: (tweets: Tweet[]) => Promise<number> = (tweets) =>
   client
     .query<ResultSetHeader>(
       `
-        insert into twitter_like (id, created_at, text, truncated, entities, extended_entities,
-                                  is_quote_status, quoted_status, quoted_status_id, source,
-                                  in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name,
-                                  user, retweet_count, favorite_count, favorited, retweeted,
-                                  possibly_sensitive, lang)
-        values
-        ?
-    `,
+                insert into twitter_like (id, created_at, text, truncated, entities, extended_entities,
+                                          is_quote_status, quoted_status, quoted_status_id, source,
+                                          in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name,
+                                          user, retweet_count, favorite_count, favorited, retweeted,
+                                          possibly_sensitive, lang)
+                values
+                ?
+            `,
       [
         tweets.map((tweet) => [
           tweet.id,
@@ -78,16 +87,63 @@ const saveTweets: (tweets: Tweet[]) => Promise<number> = (tweets) =>
 const toMySQLDateTime = (date: Date) =>
   date.toISOString().slice(0, 19).replace("T", " ");
 
-async function main() {
+// Gets highest and lowest ids from our database, useful for pagination
+const getIdBounds: () => Promise<{
+  min: number | undefined;
+  max: number | undefined;
+}> = () =>
+  client
+    .query<RowDataPacket[]>(
+      "select min(id) as min, max(id) as max from twitter_like"
+    )
+    .then(([result]) => {
+      return {
+        min: result[0] && result[0].min,
+        max: result[0] && result[0].max,
+      };
+    });
+
+/**
+ * Perform the dance : get someone's favorite tweets against American billionaire technology entrepreneur and
+ * philanthropist Jack Dorsey website API, and clone them in our little database.
+ *
+ * @param tail if we want to get and save older tweets than the ones already in DB. Useful for initial back-filling.
+ */
+async function main(tail: boolean) {
+  const { min, max } = await getIdBounds();
+
+  const endpoint = (() => {
+    if (tail && min) {
+      return `${API}&max_id=${min}`;
+    }
+    if (!tail && max) {
+      return `${API}&since_id=${max}`;
+    }
+    return API;
+  })();
+
   const headers = {
     Authorization: `Bearer ${TWITTER_BEARER_TOKEN}`,
   };
 
-  const data: Tweet[] = await fetch(API, { headers }).then((response) =>
+  const data: Tweet[] = await fetch(endpoint, { headers }).then((response) =>
     response.json()
   );
 
-  const insertedRows = await saveTweets(data).catch((error) => {
+  if (data.length === 0) {
+    console.info("Nothing to do 🤷");
+    return;
+  }
+
+  data
+    .filter((tweet) => [min, max].indexOf(tweet.id) >= 0)
+    .forEach((tweet) => {
+      console.debug("Ignoring tweet", tweet.id, tweet.created_at, tweet.text);
+    });
+
+  const insertedRows = await saveTweets(
+    data.filter((tweet) => [min, max].indexOf(tweet.id) < 0)
+  ).catch((error) => {
     console.error("Failed to add tweets to db 🥌 ... 👶");
     console.error(error.message);
     process.exit(-1);
@@ -96,4 +152,4 @@ async function main() {
   console.info(`Inserted ${insertedRows} rows 🐶`);
 }
 
-main().then(() => client.end());
+main(process.argv[2] === "--tail").then(() => client.end());
