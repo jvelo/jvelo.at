@@ -57,7 +57,7 @@ const saveTweets: (tweets: Tweet[]) => Promise<number> = (tweets) =>
             `,
       [
         tweets.map((tweet) => [
-          tweet.id,
+          tweet.id_str,
           toMySQLDateTime(new Date(tweet.created_at)),
           tweet.text,
           tweet.truncated,
@@ -89,8 +89,8 @@ const toMySQLDateTime = (date: Date) =>
 
 // Gets highest and lowest ids from our database, useful for pagination
 const getIdBounds: () => Promise<{
-  min: number | undefined;
-  max: number | undefined;
+  min: string | undefined;
+  max: string | undefined;
 }> = () =>
   client
     .query<RowDataPacket[]>(
@@ -130,20 +130,14 @@ async function main(tail: boolean) {
     response.json()
   );
 
-  if (data.length === 0) {
+  const tweets = data.filter((tweet) => [min, max].indexOf(tweet.id_str) < 0);
+
+  if (tweets.length === 0) {
     console.info("Nothing to do 🤷");
     return;
   }
 
-  data
-    .filter((tweet) => [min, max].indexOf(tweet.id) >= 0)
-    .forEach((tweet) => {
-      console.debug("Ignoring tweet", tweet.id, tweet.created_at, tweet.text);
-    });
-
-  const insertedRows = await saveTweets(
-    data.filter((tweet) => [min, max].indexOf(tweet.id) < 0)
-  ).catch((error) => {
+  const insertedRows = await saveTweets(tweets).catch((error) => {
     console.error("Failed to add tweets to db 🥌 ... 👶");
     console.error(error.message);
     process.exit(-1);
