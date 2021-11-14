@@ -1,9 +1,8 @@
 name: Twitter things
 
 on:
-  push:
-    branches:
-      - twitter-action
+  schedule:
+    - cron: "37 13 * * *"
 
 jobs:
   get-likes:
