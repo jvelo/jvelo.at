@@ -8,4 +8,7 @@ module.exports = withMDX({
     DATABASE_URL: process.env.DATABASE_URL,
   },
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
+  images: {
+    domains: ["pbs.twimg.com"],
+  },
 });
