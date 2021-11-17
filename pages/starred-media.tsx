@@ -4,7 +4,7 @@
 
 import SiteLayout from "../components/SiteLayout";
 import Head from "next/head";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { twitter_like } from "@prisma/client";
 import { Button } from "../components/Button/Button";
 import useSWRInfinite from "swr/infinite";
@@ -32,6 +32,19 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const Video = (props: { video: VideoInfo; size: Size }) => {
   const ref = useRef<HTMLVideoElement>();
   const [playing, setPlaying] = useState(false);
+
+  const onVideoEnd = () => {
+    setTimeout(() => {
+      setPlaying(false);
+      ref.current.currentTime = 0;
+    }, 2000);
+  };
+
+  useEffect(() => {
+    ref.current.addEventListener("ended", onVideoEnd, false);
+    return () => ref.current.removeEventListener("ended", onVideoEnd);
+  }, []);
+
   const play = () => {
     if (ref.current.paused) {
       ref.current.play();
