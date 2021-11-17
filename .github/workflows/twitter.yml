@@ -30,4 +30,4 @@ jobs:
 
       - name: Run script
         run: |
-          ./node_modules/.bin/ts-node get-likes.ts
+          yarn ts-node get-likes.ts

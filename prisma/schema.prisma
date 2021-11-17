@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model link {
+  slug String @id @db.VarChar(255)
+  link String @db.Text
+}
+
+model twitter_like {
+  id                      String   @id @db.VarChar(20)
+  created_at              DateTime @db.DateTime(0)
+  text                    String?  @db.Text
+  truncated               Boolean? @default(false)
+  entities                Json?
+  extended_entities       Json?
+  is_quote_status         Boolean?
+  quoted_status           Json?
+  quoted_status_id        BigInt?
+  source                  String?  @db.Text
+  in_reply_to_status_id   BigInt?
+  in_reply_to_user_id     BigInt?
+  in_reply_to_screen_name String?  @db.Text
+  user                    Json?
+  retweet_count           Int?
+  favorite_count          Int?
+  favorited               Boolean?
+  retweeted               Boolean?
+  possibly_sensitive      Boolean?
+  lang                    String?  @db.VarChar(10)
+
+  @@index([created_at], map: "twitter_like_created_at_index")
+  @@index([lang], map: "twitter_like_lang_index")
+}
