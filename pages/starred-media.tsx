@@ -110,6 +110,7 @@ const Media = (props: { media: MediaEntity }) => {
     <div className={`media ${isVideo ? "video" : ""}`}>
       {!isVideo && (
         <Image
+          layout="responsive"
           width={props.media.sizes.medium.w}
           height={props.media.sizes.medium.h}
           src={props.media.media_url_https}

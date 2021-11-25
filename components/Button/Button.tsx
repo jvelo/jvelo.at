@@ -10,6 +10,9 @@ import Theme from "../../styles/theme";
 export const Button = styled(RebassButton)`
   display: flex;
   align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
 
   svg {
     margin-right: ${Theme.space[2]}px;
