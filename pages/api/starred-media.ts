@@ -3,14 +3,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, twitter_like } from "@prisma/client";
+import { twitter_like } from "@prisma/client";
+import { prisma } from "../../src/prisma/client";
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
   const before = req.query.before || "z";
-  const prisma = new PrismaClient();
   const likes = await prisma.$queryRaw<twitter_like[]>`select *
                                                          from twitter_like
                                                          where json_length(entities, '$.media') > 0
