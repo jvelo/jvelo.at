@@ -48,7 +48,7 @@ class MyDocument extends Document {
   render: () => JSX.Element = () => (
     <Html lang="en">
       <Head>
-        <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+        <script async src="https://cdn.polyfill.io/v3/polyfill.min.js" />
 
         <link
           href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,200&family=PT+Sans&display=swap"
