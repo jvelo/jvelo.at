@@ -17,7 +17,6 @@ export default async (
                                                            and id < ${before}
                                                          order by id desc
                                                          limit 25`;
-  prisma.$disconnect();
   res.status(200).json({
     likes,
     lastIndex: likes.reduce(
