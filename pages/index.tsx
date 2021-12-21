@@ -35,8 +35,10 @@ const HomePage: NextApolloPage<Props> = ({ home }) => {
 
       <Hero>{home.hero_title}</Hero>
 
-      {home.body.map((slice) => (
-        <>{slices[slice.__typename] && slices[slice.__typename](slice)}</>
+      {home.body.map((slice, index) => (
+        <React.Fragment key={"slice-" + index}>
+          {slices[slice.__typename] && slices[slice.__typename](slice)}
+        </React.Fragment>
       ))}
     </SiteLayout>
   );

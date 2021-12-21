@@ -35,8 +35,10 @@ const GenericPage: NextApolloPage<Props> = ({ page }) => {
         {page.subtitle && <Subtitle>{RichText.asText(page.subtitle)}</Subtitle>}
       </PageTitle>
 
-      {page.body.map((slice) => (
-        <>{slices[slice.__typename](slice)}</>
+      {page.body.map((slice, index) => (
+        <React.Fragment key={"slice-" + index}>
+          {slices[slice.__typename](slice)}
+        </React.Fragment>
       ))}
     </SiteLayout>
   );
