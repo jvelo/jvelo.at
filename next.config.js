@@ -3,6 +3,7 @@ dotenv.config();
 
 const withMDX = require("@next/mdx")();
 module.exports = withMDX({
+  swcMinify: true,
   env: {
     PRISMIC_ENDPOINT: process.env.PRISMIC_ENDPOINT,
     DATABASE_URL: process.env.DATABASE_URL,
