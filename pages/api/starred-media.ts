@@ -13,7 +13,8 @@ export default async (
   const before = req.query.before || "z";
   const likes = await prisma.$queryRaw<twitter_like[]>`select *
                                                          from twitter_like
-                                                         where json_length(entities, '$.media') > 0
+                                                         where json_length(extended_entities, '$.media') > 0
+                                                           and not json_contains_path(extended_entities, 'one', '$.media[0].video_info')
                                                            and id < ${before}
                                                          order by id desc
                                                          limit 25`;
