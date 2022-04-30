@@ -27,7 +27,7 @@ const {
 // How many chirps to get at once
 const PAGE_SIZE = 200;
 
-// We're poking this door on @jack's website
+// We're poking this door on @̶j̶a̶c̶k̶ elon's website
 const API = `https://api.twitter.com/1.1/favorites/list.json?screen_name=${TWITTER_USERNAME}&count=${PAGE_SIZE}`;
 
 // We'll pipe it all in this sink ouf ours
