@@ -2,7 +2,7 @@ name: Twitter things
 
 on:
   schedule:
-    - cron: "37 13 * * *"
+    - cron: "37 12 * * *"
 
 jobs:
   get-likes:
