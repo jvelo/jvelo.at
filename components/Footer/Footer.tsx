@@ -67,16 +67,7 @@ export const Footer: React.FC = () => (
         <Link href={"/"}>Home</Link>
       </li>
       <li>
-        <Link href={"/sitemap"}>Sitemap</Link>
-      </li>
-      <li>
         <Link href={"/about"}>About</Link>
-      </li>
-      <li>
-        <Link href={"/now"}>Now</Link>
-      </li>
-      <li>
-        <Link href={"/uses"}>Uses</Link>
       </li>
       <li>
         <Link href={"/connect"}>Connect</Link>
