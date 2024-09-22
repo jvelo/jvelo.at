@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint -- ./",
     "validate-typescript": "tsc --noEmit",
@@ -22,7 +22,6 @@
     "@apollo/react-ssr": "^3.1.5",
     "@mdx-js/loader": "^1.6.22",
     "@next/mdx": "^10.0.5",
-    "@prisma/client": "3.4.2",
     "@tanem/react-nprogress": "3.0.81",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
@@ -72,7 +71,6 @@
     "node-fetch": "^2.6.0",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "prisma": "5.19.1",
     "twitter-d": "0.4.0",
     "typescript": "^4.4.4"
   },
