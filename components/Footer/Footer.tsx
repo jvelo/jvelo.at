@@ -72,6 +72,9 @@ export const Footer: React.FC = () => (
       <li>
         <Link href={"/connect"}>Connect</Link>
       </li>
+      <li>
+        <Link href={"/pgp"}>PGP</Link>
+      </li>
     </Menu>
   </FooterComponent>
 );
