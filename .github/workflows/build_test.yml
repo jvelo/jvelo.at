@@ -15,7 +15,7 @@ jobs:
       - run: git fetch --prune --unshallow --tags
       - run: yarn install --frozen-lockfile --check-files
       - run: yarn build
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: cache-build
         with:
           path: ./*
