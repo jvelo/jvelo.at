@@ -9,6 +9,9 @@ jobs:
       NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - run: git fetch --prune --unshallow --tags
       - run: yarn install --frozen-lockfile --check-files
       - run: yarn build
