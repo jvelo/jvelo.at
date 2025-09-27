@@ -16,9 +16,8 @@ export type Props = {
   home?: Home;
 };
 
-const HomeBodyTextSlice: React.FC<HomeBodyText> = ({ primary }) => (
-  <RichText render={primary?.text} />
-);
+const HomeBodyTextSlice: React.FC<HomeBodyText> = ({ primary }) =>
+  primary?.text ? <RichText render={primary.text} /> : <></>;
 
 const slices: { [typeName: string]: React.FC<HomeBody> } = {
   HomeBodyText: HomeBodyTextSlice,
@@ -31,9 +30,9 @@ const HomePage: NextApolloPage<Props> = ({ home }) => {
         <title>{home.meta_title}</title>
       </Head>
 
-      <RichText render={home?.introduction} />
+      {home?.introduction && <RichText render={home.introduction} />}
 
-      <Hero>{home.hero_title}</Hero>
+      <Hero>{home?.hero_title}</Hero>
 
       {home.body.map((slice, index) => (
         <React.Fragment key={"slice-" + index}>
