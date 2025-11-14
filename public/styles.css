@@ -240,35 +240,50 @@ ul {
   navigation: auto;
 }
 
-/* Customize the transition */
-::view-transition-old(root),
-::view-transition-new(root) {
+/* Give the main content a transition name so it animates independently */
+.main-content {
+  view-transition-name: main-content;
+}
+
+/* Customize the transition for the main content */
+::view-transition-old(main-content),
+::view-transition-new(main-content) {
   animation-duration: 0.3s;
 }
 
-/* Fade transition */
-::view-transition-old(root) {
-  animation-name: fade-out;
+/* Fade and slide transition for main content */
+::view-transition-old(main-content) {
+  animation-name: fade-out-slide;
 }
 
-::view-transition-new(root) {
-  animation-name: fade-in;
+::view-transition-new(main-content) {
+  animation-name: fade-in-slide;
 }
 
-@keyframes fade-out {
+@keyframes fade-out-slide {
   from {
     opacity: 1;
+    transform: translateY(0);
   }
   to {
     opacity: 0;
+    transform: translateY(-20px);
   }
 }
 
-@keyframes fade-in {
+@keyframes fade-in-slide {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
+}
+
+/* Keep header and footer static (no transition) */
+.header,
+.footer {
+  view-transition-name: none;
 }

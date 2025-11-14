@@ -18,7 +18,7 @@ export const Layout = ({ title, description, children }: LayoutProps) => {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
-  <script src="/app.js" defer></script>
+  <script src="/page-loader.js"></script>
 </head>
 <body>
   <div class="site-layout">
