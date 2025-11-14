@@ -6,7 +6,7 @@
 body {
   color: black;
   margin: 0;
-  padding: 0;
+  padding: 15px 0 0 0; /* Account for the fixed loading bar at top */
   font-size: 20px;
   line-height: 2.0rem;
   background-color: #ffffff;
@@ -65,11 +65,11 @@ ul {
 
 /* Header */
 .header {
-  padding: 65px 25px 50px 25px;
+  padding: 50px 25px 50px 25px;
   height: 50px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .header .logo {
@@ -86,7 +86,7 @@ ul {
 
 @media screen and (min-width: 576px) {
   .header {
-    padding: 65px 50px 50px 50px;
+    padding: 50px 50px 50px 50px;
   }
 }
 
@@ -235,55 +235,5 @@ ul {
   left: 0;
 }
 
-/* View Transitions API */
-@view-transition {
-  navigation: auto;
-}
-
-/* Give the main content a transition name so it animates independently */
-.main-content {
-  view-transition-name: main-content;
-}
-
-/* Customize the transition for the main content */
-::view-transition-old(main-content),
-::view-transition-new(main-content) {
-  animation-duration: 0.3s;
-}
-
-/* Fade and slide transition for main content */
-::view-transition-old(main-content) {
-  animation-name: fade-out-slide;
-}
-
-::view-transition-new(main-content) {
-  animation-name: fade-in-slide;
-}
-
-@keyframes fade-out-slide {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes fade-in-slide {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Keep header and footer static (no transition) */
-.header,
-.footer {
-  view-transition-name: none;
-}
+/* View Transitions API - disabled for now */
+/* No custom transitions, just use the progress bar */

@@ -1,0 +1,10 @@
+name = "jvelo-at"
+main = "src/index.ts"
+compatibility_date = "2025-01-14"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "public"
+
+[observability]
+enabled = true

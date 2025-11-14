@@ -4,6 +4,10 @@ package-lock.json
 
 # Build output
 dist/
+src/content-bundle.ts
+
+# Wrangler
+.wrangler/
 
 # Environment variables
 .env

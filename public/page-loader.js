@@ -43,19 +43,27 @@ class PageLoader extends HTMLElement {
   }
 
   connectedCallback() {
+    // Show the progress bar at 100% on initial page load
+    this.showInitialLoad();
+
     // Set up Navigation API when component is added to DOM
     this.setupNavigation();
   }
 
+  showInitialLoad() {
+    // Show bar at 100% for initial page load
+    this.bar.style.width = '100%';
+    this.setAttribute('loading', '');
+    // Keep it visible (don't remove the loading attribute)
+  }
+
   setupNavigation() {
     // Check if Navigation API is supported
-    if (!navigation) {
-      console.log('Navigation API not supported');
+    if (typeof navigation === 'undefined') {
       return;
     }
 
     // Intercept navigations for progress bar only
-    // View Transitions are handled by CSS via @view-transition rule
     navigation.addEventListener('navigate', (e) => {
       // Skip non-HTTP(S) URLs, external URLs, downloads, and hash navigations
       const url = new URL(e.destination.url);
@@ -102,15 +110,8 @@ class PageLoader extends HTMLElement {
       this.progressInterval = null;
     }
     this.bar.style.width = '100%';
-    setTimeout(() => {
-      this.removeAttribute('loading');
-    }, 200);
+    // Keep the bar visible at 100% (don't remove loading attribute)
   }
 }
 
 customElements.define('page-loader', PageLoader);
-
-document.addEventListener('DOMContentLoaded', () => {
-  const loader = document.createElement('page-loader');
-  document.body.appendChild(loader);
-});

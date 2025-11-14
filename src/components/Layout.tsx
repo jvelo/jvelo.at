@@ -28,6 +28,7 @@ export const Layout = ({ title, description, children }: LayoutProps) => {
     </main>
     ${Footer()}
   </div>
+  <page-loader></page-loader>
 </body>
 </html>`;
 };
