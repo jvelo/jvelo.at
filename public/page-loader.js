@@ -7,7 +7,6 @@ class PageLoader extends HTMLElement {
     this.progress = 0;
     this.progressInterval = null;
 
-    // Create the progress bar element
     const bar = document.createElement('div');
     bar.id = 'bar';
 
@@ -43,29 +42,21 @@ class PageLoader extends HTMLElement {
   }
 
   connectedCallback() {
-    // Show the progress bar at 100% on initial page load
     this.showInitialLoad();
-
-    // Set up Navigation API when component is added to DOM
     this.setupNavigation();
   }
 
   showInitialLoad() {
-    // Show bar at 100% for initial page load
     this.bar.style.width = '100%';
     this.setAttribute('loading', '');
-    // Keep it visible (don't remove the loading attribute)
   }
 
   setupNavigation() {
-    // Check if Navigation API is supported
     if (typeof navigation === 'undefined') {
       return;
     }
 
-    // Intercept navigations for progress bar only
     navigation.addEventListener('navigate', (e) => {
-      // Skip non-HTTP(S) URLs, external URLs, downloads, and hash navigations
       const url = new URL(e.destination.url);
 
       if (
@@ -77,10 +68,8 @@ class PageLoader extends HTMLElement {
         return;
       }
 
-      // Start progress bar
       this.startProgress();
 
-      // Add listener to finish progress when navigation completes
       navigation.addEventListener('navigatesuccess', () => {
         this.finishProgress();
       }, { once: true });
@@ -93,8 +82,13 @@ class PageLoader extends HTMLElement {
 
   startProgress() {
     this.progress = 0;
+    // Disable transition for instant reset to 0%
+    this.bar.style.transition = 'none';
     this.bar.style.width = '0%';
     this.setAttribute('loading', '');
+
+    // Re-enable transition after a brief delay
+    setTimeout(() => {this.bar.style.transition = '';});
 
     this.progressInterval = setInterval(() => {
       // Slow down as we get closer to 100%
@@ -110,7 +104,6 @@ class PageLoader extends HTMLElement {
       this.progressInterval = null;
     }
     this.bar.style.width = '100%';
-    // Keep the bar visible at 100% (don't remove loading attribute)
   }
 }
 

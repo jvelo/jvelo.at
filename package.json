@@ -7,7 +7,7 @@
     "node": ">=20.x"
   },
   "scripts": {
-    "dev": "wrangler dev src/index.ts",
+    "dev": "wrangler dev src/index.tsx",
     "dev:node": "tsx watch src/server.tsx",
     "prebuild": "tsx scripts/bundle-content.ts",
     "build": "tsc",

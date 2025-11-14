@@ -6,7 +6,7 @@
 body {
   color: black;
   margin: 0;
-  padding: 15px 0 0 0; /* Account for the fixed loading bar at top */
+  padding: 15px 0 0 0;
   font-size: 20px;
   line-height: 2.0rem;
   background-color: #ffffff;
@@ -65,7 +65,7 @@ ul {
 
 /* Header */
 .header {
-  padding: 50px 25px 50px 25px;
+  padding: 65px 25px 50px 25px;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -223,7 +223,6 @@ ul {
   }
 }
 
-/* Anchor at top of footer */
 .footer::before {
   content: '';
   background: white;
@@ -234,6 +233,3 @@ ul {
   width: 100%;
   left: 0;
 }
-
-/* View Transitions API - disabled for now */
-/* No custom transitions, just use the progress bar */
