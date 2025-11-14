@@ -1,29 +1,20 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022"],
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "strict": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "types": ["node"]
   },
-  "exclude": ["node_modules"],
-  "include": [
-    "types.d.ts",
-    "next-env.d.ts",
-    "pages/**/*.ts",
-    "pages/**/*.tsx",
-    "components/**/*.tsx",
-    "components/**/*.tsx",
-    "src/**/*.tsx",
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*", "scripts/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
