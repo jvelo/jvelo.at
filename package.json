@@ -75,10 +75,5 @@
     "pretty-quick": "^2.0.1",
     "twitter-d": "0.4.0",
     "typescript": "^4.4.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && yarn run validate-typescript && yarn run lint"
-    }
   }
 }
