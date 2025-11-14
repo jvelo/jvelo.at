@@ -6,17 +6,9 @@ import { html, raw } from 'hono/html';
 
 const app = new Hono();
 
-// Helper to add artificial delay for development
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Serve static files from public directory
 app.use('/*', serveStatic({ root: './public' }));
 
-// Home page route
 app.get('/', async (c) => {
-  // Add delay to see transition animation (remove in production)
-  await delay(300);
-
   const page = getHomePage();
 
   return c.html(
@@ -33,11 +25,7 @@ app.get('/', async (c) => {
   );
 });
 
-// Dynamic page routes
 app.get('/:slug', async (c) => {
-  // Add delay to see transition animation (remove in production)
-  await delay(300);
-
   const slug = c.req.param('slug');
   const page = getPageBySlug(slug);
 
