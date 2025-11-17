@@ -1,5 +1,5 @@
 import type { Hono } from 'hono';
-import { Layout, Hero, PageTitle } from './components/Layout';
+import { Layout, Hero, PageTitle, HomeHero, HomeNav, SelectedWorks } from './components/Layout';
 
 interface PageData {
   slug: string;
@@ -22,8 +22,15 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
 
     return c.html(
       <Layout title={page.title} description={page.description}>
-        {page.hero_title && <Hero title={page.hero_title} />}
-        <div class="content" dangerouslySetInnerHTML={{ __html: page.html }}></div>
+        <div class="home-container">
+          <div class="home-left">
+            <HomeHero />
+            <HomeNav />
+          </div>
+          <div class="home-right">
+            <SelectedWorks />
+          </div>
+        </div>
       </Layout>
     );
   });
