@@ -1,5 +1,3 @@
-// Page Loader Web Component
-// Handles client-side navigation with View Transitions and progress indication
 class PageLoader extends HTMLElement {
   constructor() {
     super();
@@ -10,7 +8,6 @@ class PageLoader extends HTMLElement {
     const bar = document.createElement('div');
     bar.id = 'bar';
 
-    // Add styles
     const style = document.createElement('style');
     style.textContent = `
       :host {
@@ -33,6 +30,16 @@ class PageLoader extends HTMLElement {
         background: black;
         width: 0%;
         transition: width 300ms linear;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :host-context(:root:not([data-theme="light"])) #bar {
+          background: white;
+        }
+      }
+
+      :host-context(:root[data-theme="dark"]) #bar {
+        background: white;
       }
     `;
 
@@ -82,16 +89,13 @@ class PageLoader extends HTMLElement {
 
   startProgress() {
     this.progress = 0;
-    // Disable transition for instant reset to 0%
     this.bar.style.transition = 'none';
     this.bar.style.width = '0%';
     this.setAttribute('loading', '');
 
-    // Re-enable transition after a brief delay
     setTimeout(() => {this.bar.style.transition = '';});
 
     this.progressInterval = setInterval(() => {
-      // Slow down as we get closer to 100%
       const increment = this.progress < 50 ? 10 : this.progress < 80 ? 5 : 1;
       this.progress = Math.min(this.progress + increment, 90);
       this.bar.style.width = this.progress + '%';
