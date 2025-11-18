@@ -276,7 +276,7 @@ pre {
                 </p>
                 <p>
                     <label for="example-textarea">Example textarea</label>
-                    <textarea id="example-textarea" rows="3"></textarea>
+                    <textarea id="example-textarea" rows={3}></textarea>
                 </p>
                 <p>
                     <label for="example-input-file">File input</label>
