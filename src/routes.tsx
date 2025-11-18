@@ -1,5 +1,6 @@
 import type { Hono } from 'hono';
 import { Layout, Hero, PageTitle, HomeHero, HomeNav, SelectedWorks } from './components/Layout';
+import { Sink } from './components/KitchenSink';
 
 interface PageData {
   slug: string;
@@ -31,6 +32,14 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
             <SelectedWorks />
           </div>
         </div>
+      </Layout>
+    );
+  });
+
+  app.get('/kitchen-sink', async (c) => {
+    return c.html(
+      <Layout title="Kitchen Sink">
+        <Sink />
       </Layout>
     );
   });

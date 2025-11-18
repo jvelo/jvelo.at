@@ -15,6 +15,9 @@
   --color-badge-bg: #000000;
   --color-badge-text: #ffffff;
   --color-top-bar: #ffffff;
+  --font-serif: 'Crimson Text', Georgia, serif;
+  --font-sans: 'PT Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'PT Mono', 'Courier New', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,10 +58,10 @@ body {
   color: var(--color-text);
   margin: 0;
   padding: 15px 0 0 0;
-  font-size: 20px;
+  font-size: 1rem;
   line-height: 2.0rem;
   background-color: var(--color-bg);
-  font-family: 'PT Sans', sans-serif;
+  font-family: var(--font-sans);
 }
 
 *::selection {
@@ -84,12 +87,19 @@ h3 {
   font-weight: bold;
 }
 
-a {
+main a {
   color: var(--color-text);
-  text-decoration: overline;
   font-weight: bold;
-  text-decoration-thickness: 3px;
   cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 0.188rem 0 0 var(--color-border);
+}
+
+main a.link {
+  /*box-shadow: 0.125rem 0.125rem 0px 3px var(--color-border);*/
+  box-shadow: 0.063rem 0.063rem 0 0.188rem var(--color-border);
+  padding: 0 0.25rem;
+  margin-right: 0.25rem;
 }
 
 a:hover {
@@ -122,15 +132,22 @@ ul {
 
 .header .logo {
   height: 50px;
+  width: 50px;
+  background-image: url('/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .header .logo {
+    background-image: url('/logo-dark.png');
     filter: invert(1);
   }
 }
 
 :root[data-theme="dark"] .header .logo {
+  background-image: url('/logo-dark.png');
   filter: invert(1);
 }
 
@@ -161,6 +178,7 @@ ul {
   font-style: italic;
   margin: 0;
   font-weight: normal;
+  font-family: var(--font-serif);
 }
 
 @media screen and (min-width: 1024px) {
@@ -275,7 +293,7 @@ ul {
 }
 
 .content code {
-  font-family: 'PT Mono', monospace;
+  font-family: var(--font-mono);
   background-color: var(--color-code-bg);
   padding: 2px 6px;
   border-radius: 3px;
@@ -305,18 +323,19 @@ ul {
 }
 
 .hero-name {
-  font-size: 20px;
+  font-size: 1.6rem;
   line-height: 1.2;
   font-weight: bold;
   margin: 0 0 0.25rem 0;
 }
 
 .hero-subtitle {
-  font-size: 14px;
+  font-size: 1.2rem;
   line-height: 1.2;
   font-style: italic;
   margin: 0;
   font-weight: normal;
+  font-family: var(--font-serif);
 }
 
 .hero-photo {
@@ -331,7 +350,7 @@ ul {
 }
 
 .hero-text {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -361,16 +380,19 @@ ul {
 .home-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   margin-top: 3rem;
 }
 
 .home-nav-link {
-  font-size: 32px;
+  font-size: 1.3rem;
   line-height: 1.2;
   font-weight: bold;
   text-decoration: none;
+  box-shadow: none;
   display: block;
+  text-transform: uppercase;
+  padding: 0.25rem;
 }
 
 .home-social-links {
@@ -384,6 +406,7 @@ ul {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-shadow: none;
   color: var(--color-text);
 }
 
@@ -412,7 +435,7 @@ ul {
 @media screen and (min-width: 1024px) {
   .projects-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 3.4rem;
   }
 }
 
@@ -425,8 +448,8 @@ ul {
 .project-image {
   margin-bottom: 0.75rem;
   overflow: hidden;
-  width: 14.4rem;
-  height: 14.4rem;
+  min-width: 14.4rem;
+  min-height: 14.4rem;
 }
 
 .project-image img {
@@ -445,12 +468,13 @@ ul {
 .project-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
 }
 
 .project-title {
-  font-size: 18px;
+  font-size: 1.3rem;
   font-weight: bold;
   margin: 0;
 }
@@ -458,24 +482,28 @@ ul {
 .project-badge {
   background: var(--color-badge-bg);
   color: var(--color-badge-text);
-  padding: 3px 10px;
-  font-size: 11px;
-  border-radius: 12px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  border-radius: 0.75rem;
   white-space: nowrap;
   font-weight: normal;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  font-family: var(--font-mono);
+  line-height: 1;
 }
 
 .project-description {
-  font-size: 14px;
   line-height: 1.4;
   margin: 0;
 }
 
 .project-link {
-  font-size: 14px;
   font-style: italic;
   align-self: flex-end;
   margin-top: 0.25rem;
+  font-family: var(--font-serif);
+  font-weight: normal;
 }
 
 /* Footer */
@@ -485,6 +513,16 @@ ul {
   background: var(--color-footer-bg);
   min-height: 100vh;
   color: var(--color-footer-text);
+}
+
+.footer .anchor {
+  background: var(--color-bg);
+  position: absolute;
+  z-index: 10001;
+  height: 1rem;
+  top: 0;
+  width: 100%;
+  left: 0;
 }
 
 .footer a {
@@ -509,6 +547,16 @@ ul {
 .back-to-top img {
   height: 50px;
   display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .back-to-top img {
+    filter: invert(1);
+  }
+}
+
+:root[data-theme="dark"] .back-to-top img {
+  filter: invert(1);
 }
 
 .nav-menu {
@@ -557,7 +605,7 @@ ul {
   border: 2px solid var(--color-footer-text);
   color: var(--color-footer-text);
   padding: 0.5rem 1rem;
-  font-family: 'PT Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;

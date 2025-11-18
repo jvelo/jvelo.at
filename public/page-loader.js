@@ -15,7 +15,7 @@ class PageLoader extends HTMLElement {
         top: 0;
         left: 0;
         width: 100%;
-        height: 15px;
+        height: 1rem;
         z-index: 10000;
         pointer-events: none;
         display: none;

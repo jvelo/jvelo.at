@@ -16,7 +16,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, children }) => {
         {description && <meta name="description" content={description} />}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/styles.css" />
         <script src="/theme-switcher.js"></script>
         <script src="/page-loader.js"></script>
@@ -39,7 +39,7 @@ export const Header: FC = () => {
   return (
     <header class="header">
       <a href="#navigation">
-        <img src="/logo.png" alt="JV Logo" class="logo" />
+        <div class="logo" role="img" aria-label="JV Logo"></div>
       </a>
       <div class="header-info">
         <h1 class="header-name">Jérôme Velociter</h1>
@@ -52,6 +52,7 @@ export const Header: FC = () => {
 export const Footer: FC = () => {
   return (
     <footer id="navigation" class="footer">
+      <div class="anchor"></div>
       <a href="#top" class="back-to-top">
         <img src="/arrowup.svg" alt="Back to top" style="height: 50px;" />
       </a>
@@ -84,12 +85,11 @@ export const PageTitle: FC<{ title: string; subtitle?: string }> = ({ title, sub
 export const HomeNav: FC = () => {
   return (
     <nav class="home-nav">
-      <a href="/projects" class="home-nav-link">PROJECTS</a>
-      <a href="/work" class="home-nav-link">WORK</a>
-      <a href="/services" class="home-nav-link">SERVICES</a>
-      <a href="/writings" class="home-nav-link">WRITINGS</a>
+      <a href="/projects" class="home-nav-link">Projects</a>
+      <a href="/work" class="home-nav-link">Work</a>
+      <a href="/services" class="home-nav-link">Services</a>
       <div class="home-social-links">
-        <a href="https://github.com/jvelo" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <a href="https://github.com/jvelo" rel="noopener noreferrer" aria-label="GitHub">
           <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
           </svg>
@@ -110,9 +110,9 @@ export const HomeHero: FC = () => {
         <img src="/images/jvelo.png" alt="Jérôme Velociter" class="border-backdrop" />
       </div>
       <div class="hero-text">
-        <p class="hero-intro">8-bit digital native, grown general purpose hacker.</p>
+        <p>8-bit digital native, grown general purpose hacker.</p>
         <p>I bring ideas to life with software.</p>
-        <p>I'm available for consulting and freelancing work. <a href="/connect">Book a call</a>.</p>
+        <p>I'm available for consulting and freelancing work, <a href="/connect">let's get in touch</a></p>
       </div>
     </section>
   );
