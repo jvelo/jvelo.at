@@ -112,7 +112,8 @@ export const HomeHero: FC = () => {
       <div class="hero-text">
         <p>8-bit digital native, grown general purpose hacker.</p>
         <p>I bring ideas to life with software.</p>
-        <p>I'm available for consulting and freelancing work, <a href="/connect">let's get in touch</a></p>
+        <p>I'm available for consulting and freelancing work.</p>
+        <p><a class="link" href="/connect">let's get in touch</a></p>
       </div>
     </section>
   );

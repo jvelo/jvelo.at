@@ -1,5 +1,11 @@
 /* Global Styles */
-* {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
   box-sizing: border-box;
 }
 
@@ -97,7 +103,8 @@ main a {
 
 main a.link {
   /*box-shadow: 0.125rem 0.125rem 0px 3px var(--color-border);*/
-  box-shadow: 0.063rem 0.063rem 0 0.188rem var(--color-border);
+  border: 1px solid;
+  box-shadow: -0.125rem -0.125rem 0 0 var(--color-border);
   padding: 0 0.25rem;
   margin-right: 0.25rem;
 }
@@ -123,8 +130,7 @@ ul {
 
 /* Header */
 .header {
-  padding: 65px 25px 50px 25px;
-  height: 50px;
+  padding: 2.5rem 1.25rem 0;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -161,8 +167,9 @@ ul {
 
 .header-info {
   text-align: right;
-  flex: 1;
+  flex-shrink: 1;
   margin-left: 2rem;
+  min-width: 0;
 }
 
 .header-name {
@@ -193,13 +200,13 @@ ul {
 
 @media screen and (min-width: 576px) {
   .header {
-    padding: 50px 50px 50px 50px;
+    padding: 3.125rem 3.125rem 0;
   }
 }
 
 /* Main Content */
 .main-content {
-  padding: 25px;
+  padding: 3.125rem 1.25rem;
   min-height: calc(100vh - 50px);
   flex: 1;
 }
@@ -256,6 +263,8 @@ ul {
   font-size: 60px;
   line-height: 80px;
   font-weight: bold;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Page Header */
@@ -316,6 +325,7 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-width: 12.5rem;
 }
 
 .hero-header {
@@ -450,6 +460,7 @@ ul {
   overflow: hidden;
   min-width: 14.4rem;
   min-height: 14.4rem;
+  aspect-ratio: 1 / 1;
 }
 
 .project-image img {
