@@ -236,6 +236,12 @@ ul {
 }
 
 @media screen and (min-width: 1024px) {
+  .hero-photo img {
+    width: 12.5rem;
+    height: 12.5rem;
+    object-fit: cover;
+  }
+
   .main-content {
     max-width: 1400px;
   }
@@ -354,8 +360,8 @@ ul {
 }
 
 .hero-photo img {
-  width: 12.5rem;
-  height: 12.5rem;
+  width: 5rem;
+  height: 5rem;
   object-fit: cover;
 }
 
@@ -365,7 +371,7 @@ ul {
 }
 
 .hero-text p {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.8rem 0;
 }
 
 .hero-intro {
