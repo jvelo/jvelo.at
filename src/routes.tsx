@@ -4,10 +4,13 @@ import { Sink } from './components/KitchenSink';
 
 interface PageData {
   slug: string;
+  type?: 'page' | 'work';
   title: string;
   subtitle?: string;
   description?: string;
   hero_title?: string;
+  image?: string;
+  badge?: string;
   content: string;
   html: string;
 }

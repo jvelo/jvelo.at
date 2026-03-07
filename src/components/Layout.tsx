@@ -75,9 +75,10 @@ export const Footer: FC = () => {
       </a>
       <nav class="nav-menu">
         <a href="/">Home</a>
+        <a href="/works">Works</a>
+        <a href="/services">Services</a>
         <a href="/about">About</a>
-        <a href="/connect">Connect</a>
-        <a href="/pgp">PGP</a>
+        <a href="/connect">Contact</a>
       </nav>
       <div class="theme-toggle">
         <theme-switcher></theme-switcher>
@@ -102,10 +103,9 @@ export const PageTitle: FC<{ title: string; subtitle?: string }> = ({ title, sub
 export const SidebarNav: FC = () => {
   return (
     <nav class="sidebar-nav">
-      <a href="/projects" class="sidebar-nav-link">Projects</a>
-      <a href="/work" class="sidebar-nav-link">Work</a>
+      <a href="/works" class="sidebar-nav-link">Works</a>
       <a href="/services" class="sidebar-nav-link">Services</a>
-      <a href="/writings" class="sidebar-nav-link">Writings</a>
+      <a href="/connect" class="sidebar-nav-link">Contact</a>
       <div class="sidebar-social-links">
         <a href="https://github.com/jvelo" rel="noopener noreferrer" aria-label="GitHub">
           <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
@@ -131,7 +131,7 @@ export const Sidebar: FC = () => {
       <div class="sidebar-text">
         <p>I design and build software products.</p>
         <p>I'm available for freelance and consulting work.</p>
-        <p class="sidebar-cta"><a class="link" href="/connect">let's get in touch</a></p>
+        <p class="sidebar-cta"><a class="link" href="/connect">Work with me <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
   );
@@ -147,7 +147,7 @@ interface Project {
 
 export const ProjectCard: FC<Project> = ({ title, description, image, badge, link }) => {
   return (
-    <article class="project-card">
+    <a href={link} class="project-card">
       <div class="project-image border-backdrop">
         <img src={image} alt={title} />
       </div>
@@ -157,9 +157,9 @@ export const ProjectCard: FC<Project> = ({ title, description, image, badge, lin
           {badge && <span class="project-badge">{badge}</span>}
         </div>
         <p class="project-description">{description}</p>
-        <a href={link} class="project-link">Learn more</a>
+        <span class="project-link">Learn more</span>
       </div>
-    </article>
+    </a>
   );
 };
 
@@ -172,20 +172,20 @@ export const SelectedWorks: FC = () => {
           " dependencies.",
       image: "/images/typebar.png",
       badge: "private beta",
-      link: "#"
+      link: "/typebar"
     },
     {
       title: "Dotpad",
       description: "A low-level library for building infinite-canvas spatial applications. Written in #TypeScript",
       image: "/images/dotpad.png",
       badge: "private beta",
-      link: "#"
+      link: "/dotpad"
     },
     {
       title: "BiomeOS",
       description: "An extensible controlled environment platform for agronomic research and indoor farming production",
       image: "/images/biomeos.png",
-      link: "#"
+      link: "/biomeos"
     }
   ];
 
