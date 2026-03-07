@@ -45,6 +45,7 @@ class ThemeSwitcher extends HTMLElement {
   setTheme(theme) {
     localStorage.setItem(this.THEME_KEY, theme);
     this.applyTheme(theme);
+    document.getElementById('#top')?.scrollIntoView();
   }
 
   applyTheme(theme) {

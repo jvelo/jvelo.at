@@ -1,5 +1,5 @@
 import type { Hono } from 'hono';
-import { Layout, Hero, PageTitle, HomeHero, HomeNav, SelectedWorks } from './components/Layout';
+import { Layout, Hero, PageTitle, SelectedWorks } from './components/Layout';
 import { Sink } from './components/KitchenSink';
 
 interface PageData {
@@ -22,16 +22,8 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const page = provider.getHome();
 
     return c.html(
-      <Layout title={page.title} description={page.description} bodyClass="home-page">
-        <div class="home-container">
-          <div class="home-left">
-            <HomeHero />
-            <HomeNav />
-          </div>
-          <div class="home-right">
-            <SelectedWorks />
-          </div>
-        </div>
+      <Layout title={page.title} description={page.description}>
+        <SelectedWorks />
       </Layout>
     );
   });

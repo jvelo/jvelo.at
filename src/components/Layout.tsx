@@ -4,10 +4,11 @@ interface LayoutProps {
   title: string;
   description?: string;
   bodyClass?: string;
+  sidebar?: boolean;
   children?: any;
 }
 
-export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, children }) => {
+export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar = true, children }) => {
   return (
     <html lang="en">
       <head>
@@ -26,7 +27,21 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, childre
         <div class="site-layout">
           <Header />
           <main class="main-content">
-            {children}
+            {sidebar ? (
+              <div class="page-container">
+                <div class="sidebar">
+                  <Sidebar />
+                  <SidebarNav />
+                </div>
+                <div class="page-body">
+                  {children}
+                </div>
+              </div>
+            ) : (
+              <div class="page-body">
+                {children}
+              </div>
+            )}
           </main>
           <Footer />
         </div>
@@ -44,7 +59,8 @@ export const Header: FC = () => {
       </a>
       <div class="header-info">
         <h1 class="header-name">Jérôme Velociter</h1>
-        <p class="header-subtitle">Software creative</p>
+        <p class="header-subtitle header-subtitle--light">Product engineer</p>
+        <p class="header-subtitle header-subtitle--dark">Software creative</p>
       </div>
     </header>
   );
@@ -83,14 +99,14 @@ export const PageTitle: FC<{ title: string; subtitle?: string }> = ({ title, sub
   );
 };
 
-export const HomeNav: FC = () => {
+export const SidebarNav: FC = () => {
   return (
-    <nav class="home-nav">
-      <a href="/projects" class="home-nav-link">Projects</a>
-      <a href="/work" class="home-nav-link">Work</a>
-      <a href="/services" class="home-nav-link">Services</a>
-      <a href="/writings" class="home-nav-link">Writings</a>
-      <div class="home-social-links">
+    <nav class="sidebar-nav">
+      <a href="/projects" class="sidebar-nav-link">Projects</a>
+      <a href="/work" class="sidebar-nav-link">Work</a>
+      <a href="/services" class="sidebar-nav-link">Services</a>
+      <a href="/writings" class="sidebar-nav-link">Writings</a>
+      <div class="sidebar-social-links">
         <a href="https://github.com/jvelo" rel="noopener noreferrer" aria-label="GitHub">
           <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
@@ -101,20 +117,21 @@ export const HomeNav: FC = () => {
   );
 };
 
-export const HomeHero: FC = () => {
+export const Sidebar: FC = () => {
   return (
-    <section class="home-hero">
-      <div class="hero-header">
-        <h1 class="hero-name">Jérôme Velociter</h1>
-        <p class="hero-subtitle">Software creative</p>
+    <section class="sidebar-hero">
+      <div class="sidebar-header">
+        <h1 class="sidebar-name">Jérôme Velociter</h1>
+        <p class="sidebar-subtitle sidebar-subtitle--light">Product engineer</p>
+        <p class="sidebar-subtitle sidebar-subtitle--dark">Software creative</p>
       </div>
-      <div class="hero-photo">
+      <div class="sidebar-photo">
         <img src="/images/jvelo.png" alt="Jérôme Velociter" class="border-backdrop" />
       </div>
-      <div class="hero-text">
+      <div class="sidebar-text">
         <p>I design and build software products.</p>
         <p>I'm available for freelance and consulting work.</p>
-        <p><a class="link" href="/connect">let's get in touch</a></p>
+        <p class="sidebar-cta"><a class="link" href="/connect">let's get in touch</a></p>
       </div>
     </section>
   );
