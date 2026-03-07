@@ -22,8 +22,9 @@ html {
   --color-badge-text: #ffffff;
   --color-top-bar: #ffffff;
   --font-serif: 'Crimson Text', Georgia, serif;
-  --font-sans: 'PT Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'PT Mono', 'Courier New', monospace;
+  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'IBM Plex Sans Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,8 +65,8 @@ body {
   color: var(--color-text);
   margin: 0;
   padding: 15px 0 0 0;
-  font-size: 1rem;
-  line-height: 2.0rem;
+  font-size: 1.125rem;
+  line-height: 1.8rem;
   background-color: var(--color-bg);
   font-family: var(--font-sans);
 }
@@ -75,21 +76,25 @@ body {
   color: var(--color-selection-text);
 }
 
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
 h1 {
-  font-size: 60px;
-  line-height: 80px;
+  font-size: 3.75rem;
+  line-height: 5rem;
   font-weight: bold;
 }
 
 h2 {
-  font-size: 48px;
-  line-height: 60px;
+  font-size: 3rem;
+  line-height: 3.75rem;
   font-weight: bold;
 }
 
 h3 {
-  font-size: 32px;
-  line-height: 48px;
+  font-size: 2rem;
+  line-height: 3rem;
   font-weight: bold;
 }
 
@@ -105,7 +110,7 @@ main a.link {
   /*box-shadow: 0.125rem 0.125rem 0px 3px var(--color-border);*/
   border: 1px solid;
   box-shadow: -0.125rem -0.125rem 0 0 var(--color-border);
-  padding: 0 0.25rem;
+  padding: 0.25rem 0.5rem;
   margin-right: 0.25rem;
 }
 
@@ -173,14 +178,14 @@ ul {
 }
 
 .header-name {
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.2;
   font-weight: bold;
   margin: 0;
 }
 
 .header-subtitle {
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.2;
   font-style: italic;
   margin: 0;
@@ -266,8 +271,8 @@ ul {
 .hero {
   word-spacing: 100vw;
   text-transform: capitalize;
-  font-size: 60px;
-  line-height: 80px;
+  font-size: 3.75rem;
+  line-height: 5rem;
   font-weight: bold;
   max-width: 100%;
   overflow-x: hidden;
@@ -279,14 +284,14 @@ ul {
 }
 
 .page-title {
-  font-size: 60px;
-  line-height: 80px;
+  font-size: 3.75rem;
+  line-height: 5rem;
   font-weight: bold;
   margin: 0 0 1rem 0;
 }
 
 .page-subtitle {
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1.5;
   font-style: italic;
   color: #4e4e4e;
@@ -367,7 +372,7 @@ ul {
 
 .hero-text {
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6rem;
 }
 
 .hero-text p {
@@ -437,7 +442,7 @@ ul {
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: bold;
   margin: 0 0 2rem 0;
 }
@@ -499,7 +504,7 @@ ul {
 .project-badge {
   background: var(--color-badge-bg);
   color: var(--color-badge-text);
-  padding: 0.15rem 0.5rem;
+  padding: 0.33rem 0.7rem;
   font-size: 0.65rem;
   border-radius: 0.75rem;
   white-space: nowrap;
@@ -511,7 +516,6 @@ ul {
 }
 
 .project-description {
-  line-height: 1.4;
   margin: 0;
 }
 
@@ -586,8 +590,8 @@ ul {
 }
 
 .nav-menu a {
-  font-size: 60px;
-  line-height: 80px;
+  font-size: 3.75rem;
+  line-height: 5rem;
   font-weight: bold;
   text-decoration: none;
   display: block;
@@ -623,7 +627,7 @@ ul {
   color: var(--color-footer-text);
   padding: 0.5rem 1rem;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   text-transform: uppercase;

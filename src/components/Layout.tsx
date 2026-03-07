@@ -16,7 +16,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, children }) => {
         {description && <meta name="description" content={description} />}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/styles.css" />
         <script src="/theme-switcher.js"></script>
         <script src="/page-loader.js"></script>
@@ -110,9 +110,8 @@ export const HomeHero: FC = () => {
         <img src="/images/jvelo.png" alt="Jérôme Velociter" class="border-backdrop" />
       </div>
       <div class="hero-text">
-        <p>8-bit digital native, grown general purpose hacker.</p>
-        <p>I bring ideas to life with software.</p>
-        <p>I'm available for consulting and freelancing work.</p>
+        <p>I design and build software products.</p>
+        <p>I'm available for freelance and consulting work.</p>
         <p><a class="link" href="/connect">let's get in touch</a></p>
       </div>
     </section>
@@ -149,7 +148,9 @@ export const SelectedWorks: FC = () => {
   const projects: Project[] = [
     {
       title: "Typebar",
-      description: "A text editor aimed at building delightful writing experiences. Built upon the HTML canvas element, written in #TypeScript with zero dependencies.",
+      description: "A rich-text editor framework aimed at building delightful writing" +
+          " experiences. Built upon the HTML canvas element, written in #TypeScript with zero" +
+          " dependencies.",
       image: "/images/typebar.png",
       badge: "private beta",
       link: "#"
