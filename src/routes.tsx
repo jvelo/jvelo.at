@@ -22,7 +22,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const page = provider.getHome();
 
     return c.html(
-      <Layout title={page.title} description={page.description}>
+      <Layout title={page.title} description={page.description} bodyClass="home-page">
         <div class="home-container">
           <div class="home-left">
             <HomeHero />

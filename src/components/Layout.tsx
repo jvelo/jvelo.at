@@ -3,10 +3,11 @@ import type { FC } from 'hono/jsx';
 interface LayoutProps {
   title: string;
   description?: string;
+  bodyClass?: string;
   children?: any;
 }
 
-export const Layout: FC<LayoutProps> = ({ title, description, children }) => {
+export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, children }) => {
   return (
     <html lang="en">
       <head>
@@ -21,7 +22,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, children }) => {
         <script src="/theme-switcher.js"></script>
         <script src="/page-loader.js"></script>
       </head>
-      <body id="#top">
+      <body id="#top" class={bodyClass || ''}>
         <div class="site-layout">
           <Header />
           <main class="main-content">
@@ -88,6 +89,7 @@ export const HomeNav: FC = () => {
       <a href="/projects" class="home-nav-link">Projects</a>
       <a href="/work" class="home-nav-link">Work</a>
       <a href="/services" class="home-nav-link">Services</a>
+      <a href="/writings" class="home-nav-link">Writings</a>
       <div class="home-social-links">
         <a href="https://github.com/jvelo" rel="noopener noreferrer" aria-label="GitHub">
           <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
