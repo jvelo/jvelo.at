@@ -26,23 +26,21 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar
       <body id="#top" class={bodyClass || ''}>
         <div class="site-layout">
           <Header />
-          <main class="main-content">
-            {sidebar ? (
-              <div class="page-container">
-                <div class="sidebar">
-                  <Sidebar />
-                  <SidebarNav />
-                </div>
-                <div class="page-body">
-                  {children}
-                </div>
-              </div>
-            ) : (
-              <div class="page-body">
+          {sidebar ? (
+            <div class="page-container main-content">
+              <aside class="sidebar">
+                <Sidebar />
+                <SidebarNav />
+              </aside>
+              <main class="page-body">
                 {children}
-              </div>
-            )}
-          </main>
+              </main>
+            </div>
+          ) : (
+            <main class="main-content page-body">
+              {children}
+            </main>
+          )}
           <Footer />
         </div>
         <page-loader></page-loader>

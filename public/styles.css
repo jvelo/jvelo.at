@@ -99,7 +99,7 @@ h3 {
   font-weight: bold;
 }
 
-main a {
+.content a {
   color: var(--color-text);
   font-weight: bold;
   cursor: pointer;
@@ -107,7 +107,8 @@ main a {
   box-shadow: 0 0.188rem 0 0 var(--color-border);
 }
 
-main a.link {
+.content a.link,
+.sidebar a.link {
   /*box-shadow: 0.125rem 0.125rem 0px 3px var(--color-border);*/
   border: 1px solid;
   box-shadow: -0.125rem -0.125rem 0 0 var(--color-border);
@@ -379,6 +380,15 @@ ul {
 .content pre code {
   background: none;
   padding: 0;
+}
+
+.sidebar a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: var(--color-bg);
 }
 
 /* Sidebar Hero */
