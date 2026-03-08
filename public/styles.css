@@ -114,6 +114,7 @@ h3 {
   box-shadow: -0.125rem -0.125rem 0 0 var(--color-border);
   padding: 0.25rem 0.5rem;
   margin-right: 0.25rem;
+  font-weight: bold;
 }
 
 a:hover {
@@ -523,6 +524,59 @@ ul {
   background: none;
 }
 
+/* Expertise */
+.expertise {
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+}
+
+.expertise-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+
+.expertise-card {
+  flex: 1 1 100%;
+}
+
+@media screen and (min-width: 576px) {
+  .expertise-card {
+    flex: 1 1 12rem;
+    max-width: 35rem;
+  }
+}
+
+.expertise-title {
+  position: relative;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+@media screen and (min-width: 576px) {
+  .expertise-title::before {
+    content: "→";
+    position: absolute;
+    right: 100%;
+    margin-right: 0.5rem;
+    font-size: 1.25rem;
+    color: #9C7D7D;
+  }
+}
+
+.expertise-divider {
+  border: none;
+  border-top: 2px solid #9C7D7D;
+  width: 5rem;
+  margin: 0.5rem 0 1.5rem 0;
+}
+
+.expertise-description p {
+  margin: 0 0 0.8rem 0;
+  line-height: 1.6;
+}
+
 /* Selected Works */
 .selected-works {
   margin-bottom: 3rem;
@@ -532,7 +586,7 @@ ul {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: bold;
-  margin: 0 0 3rem 0;
+  margin: 0 0 1.5rem 0;
 }
 
 .projects-grid {
