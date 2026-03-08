@@ -423,7 +423,7 @@ ul {
 }
 
 .sidebar-text {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   font-size: 1rem;
   line-height: 1.6rem;
 }
@@ -435,6 +435,7 @@ ul {
 .sidebar-text .sidebar-cta {
   margin-top: 1.5rem;
 }
+
 
 @media screen and (min-width: 576px) {
   .sidebar-photo img {
@@ -563,7 +564,7 @@ ul {
 }
 
 .project-card:hover .project-image {
-  transform: translateY(-0.5rem);
+  transform: scale(1.02);
 }
 
 @media screen and (min-width: 1024px) {
@@ -583,6 +584,7 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
 }
 
 .project-header {
@@ -619,11 +621,9 @@ ul {
 }
 
 .project-link {
-  font-style: italic;
   align-self: flex-end;
-  margin-top: 0.25rem;
-  font-family: var(--font-serif);
-  font-weight: normal;
+  margin-top: auto;
+  font-weight: bold;
 }
 
 /* Footer */

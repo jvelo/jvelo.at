@@ -131,7 +131,7 @@ export const Sidebar: FC = () => {
       <div class="sidebar-text">
         <p>I design and build software products.</p>
         <p>I'm available for freelance and consulting work.</p>
-        <p class="sidebar-cta"><a class="link" href="/connect">Work with me <span aria-hidden="true">→</span></a></p>
+        <p class="sidebar-cta"><a class="link" href="/connect">Work with me</a></p>
       </div>
     </section>
   );
@@ -157,7 +157,7 @@ export const ProjectCard: FC<Project> = ({ title, description, image, badge, lin
           {badge && <span class="project-badge">{badge}</span>}
         </div>
         <p class="project-description">{description}</p>
-        <span class="project-link">Learn more</span>
+        <span class="project-link">Learn more <span aria-hidden="true">→</span></span>
       </div>
     </a>
   );
