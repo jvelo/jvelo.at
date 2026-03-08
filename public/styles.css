@@ -7,6 +7,7 @@
 
 html {
   box-sizing: border-box;
+  overscroll-behavior: none;
 }
 
 :root {
@@ -422,6 +423,7 @@ ul {
 }
 
 .sidebar-text {
+  margin-top: 1rem;
   font-size: 1rem;
   line-height: 1.6rem;
 }
@@ -449,8 +451,8 @@ ul {
   }
 
   .sidebar-photo img {
-    width: 12.5rem;
-    height: 12.5rem;
+    width: 10rem;
+    height: 10rem;
   }
 
   .sidebar-header {
@@ -613,6 +615,7 @@ ul {
 
 .project-description {
   margin: 0;
+  line-height: 1.6;
 }
 
 .project-link {
@@ -686,9 +689,8 @@ ul {
 }
 
 .nav-menu a {
-  font-size: 3.75rem;
+  font-size: 3rem;
   line-height: 5rem;
-  font-weight: bold;
   text-decoration: none;
   display: block;
 }
