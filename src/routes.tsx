@@ -1,5 +1,5 @@
 import type { Hono } from 'hono';
-import { Layout, Hero, PageTitle, SelectedWorks, Expertise } from './components/Layout';
+import { Layout, Hero, PageTitle, SelectedWorks, Expertise, ReachOut } from './components/Layout';
 import { Sink } from './components/KitchenSink';
 
 interface PageData {
@@ -28,6 +28,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
       <Layout title={page.title} description={page.description}>
         <SelectedWorks />
         <Expertise />
+        <ReachOut />
       </Layout>
     );
   });

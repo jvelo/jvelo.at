@@ -434,9 +434,14 @@ ul {
 }
 
 .sidebar-text {
-  margin-top: 1.5rem;
   font-size: 1rem;
   line-height: 1.6rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .sidebar-text {
+    margin-top: 1.5rem;
+  }
 }
 
 .sidebar-text p {
@@ -575,6 +580,37 @@ ul {
 .expertise-description p {
   margin: 0 0 0.8rem 0;
   line-height: 1.6;
+}
+
+/* Reach Out */
+.reach-out {
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+}
+
+.reach-out p {
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+  max-width: 35rem;
+}
+
+.cta-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.cta-link:hover {
+  background: none;
+  color: var(--color-text);
+}
+
+.reach-out-alt {
+  font-size: 0.9rem;
+}
+
+.reach-out-alt a {
+  text-decoration: underline;
 }
 
 /* Selected Works */
