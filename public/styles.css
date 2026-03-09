@@ -99,17 +99,24 @@ h3 {
   font-weight: bold;
 }
 
-.content a {
+a {
   color: var(--color-text);
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 0.188rem 0 0 var(--color-border);
+  box-shadow: 0 0.125rem 0 0 var(--color-border);
+  /*border-bottom: 1px solid currentColor;*/
+
 }
 
-.content a.link,
-.sidebar a.link {
-  /*box-shadow: 0.125rem 0.125rem 0px 3px var(--color-border);*/
+a:hover {
+  text-decoration: none;
+  color: var(--color-bg);
+  background: var(--color-text);
+  text-decoration-thickness: 3px;
+}
+
+a.link {
   border: 1px solid;
   box-shadow: -0.125rem -0.125rem 0 0 var(--color-border);
   padding: 0.25rem 0.5rem;
@@ -117,12 +124,28 @@ h3 {
   font-weight: bold;
 }
 
-a:hover {
-  text-decoration: none;
-  color: var(--color-bg);
-  background: var(--color-text);
-  font-weight: bold;
-  text-decoration-thickness: 3px;
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  background-color: var(--color-code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: var(--color-code-bg);
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
 }
 
 ul {
@@ -163,6 +186,11 @@ ul {
 :root[data-theme="dark"] .header .logo {
   background-image: url('/logo-dark.png');
   filter: invert(1);
+}
+
+.header a {
+  box-shadow: none;
+  font-weight: normal;
 }
 
 .header a:hover {
@@ -355,37 +383,16 @@ ul {
   max-width: 800px;
 }
 
-.content p {
-  margin: 1rem 0;
-}
-
-.content img {
-  max-width: 100%;
-  height: auto;
-}
-
-.content code {
-  font-family: var(--font-mono);
-  background-color: var(--color-code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-}
-
-.content pre {
-  background-color: var(--color-code-bg);
-  padding: 1rem;
-  border-radius: 5px;
-  overflow-x: auto;
-}
-
-.content pre code {
-  background: none;
-  padding: 0;
-}
-
 .sidebar a {
   color: var(--color-text);
   text-decoration: none;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.sidebar a.link {
+  box-shadow: -0.125rem -0.125rem 0 0 var(--color-border);
+  font-weight: bold;
 }
 
 .sidebar a:hover {
@@ -598,6 +605,7 @@ ul {
   font-weight: bold;
   text-decoration: none;
   color: var(--color-text);
+  box-shadow: none;
 }
 
 .cta-link:hover {
@@ -611,6 +619,7 @@ ul {
 
 .reach-out-alt a {
   text-decoration: underline;
+  box-shadow: none;
 }
 
 /* Selected Works */
@@ -747,6 +756,8 @@ ul {
 
 .footer a {
   color: var(--color-footer-text);
+  box-shadow: none;
+  font-weight: normal;
 }
 
 .footer a:hover {
