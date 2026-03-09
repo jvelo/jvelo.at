@@ -13,12 +13,13 @@ html {
 :root {
   --color-bg: #ffffff;
   --color-text: #000000;
+  --color-heading: #181818;
   --color-accent: #9C7D7D;
-  --color-border: #000000;
-  --color-selection-bg: #000000;
+  --color-border: #181818;
+  --color-selection-bg: #181818;
   --color-selection-text: #ffffff;
   --color-code-bg: #f0f0f0;
-  --color-footer-bg: #000000;
+  --color-footer-bg: #181818;
   --color-footer-text: #ffffff;
   --color-badge-bg: #000000;
   --color-badge-text: #ffffff;
@@ -31,10 +32,11 @@ html {
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-bg: #000000;
+    --color-bg: #181818;
     --color-text: #ffffff;
-    --color-accent: #9F9FFC;
-    --color-border: #ffffff;
+    --color-heading: #F3F3F3;
+    --color-accent: #FFD043;
+    --color-border: #F3F3F3;
     --color-selection-bg: #ffffff;
     --color-selection-text: #000000;
     --color-code-bg: #1a1a1a;
@@ -47,9 +49,11 @@ html {
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #000000;
+  --color-bg: #181818;
   --color-text: #ffffff;
-  --color-border: #ffffff;
+  --color-heading: #F3F3F3;
+  --color-accent: #FFD043;
+  --color-border: #F3F3F3;
   --color-selection-bg: #ffffff;
   --color-selection-text: #000000;
   --color-code-bg: #1a1a1a;
@@ -81,6 +85,7 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-heading);
+  color: var(--color-heading);
 }
 
 h1 {
@@ -324,6 +329,9 @@ ul {
     flex-direction: column;
     max-width: 16rem;
     flex-shrink: 0;
+    position: sticky;
+    top: 4rem;
+    align-self: flex-start;
   }
 
   .sidebar-hero,

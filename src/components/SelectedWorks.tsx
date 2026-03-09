@@ -30,16 +30,14 @@ export const SelectedWorks: FC = () => {
   const projects: Project[] = [
     {
       title: "Typebar",
-      description: "A rich-text editor framework aimed at building delightful writing" +
-          " experiences. Built upon the HTML canvas element, written in #TypeScript with zero" +
-          " dependencies.",
+      description: "A rich-text editor framework for building delightful writing experiences. Built on the HTML canvas element, written in TypeScript with zero dependencies.",
       image: "/images/typebar.png",
       badge: "private beta",
       link: "/typebar"
     },
     {
       title: "Dotpad",
-      description: "A low-level library for building infinite-canvas spatial applications. Written in #TypeScript",
+      description: "A low-level library for building infinite-canvas spatial applications. Written in TypeScript",
       image: "/images/dotpad.png",
       badge: "private beta",
       link: "/dotpad"
