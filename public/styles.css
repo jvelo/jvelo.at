@@ -13,6 +13,7 @@ html {
 :root {
   --color-bg: #ffffff;
   --color-text: #000000;
+  --color-accent: #9C7D7D;
   --color-border: #000000;
   --color-selection-bg: #000000;
   --color-selection-text: #ffffff;
@@ -105,8 +106,6 @@ a {
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0 0.125rem 0 0 var(--color-border);
-  /*border-bottom: 1px solid currentColor;*/
-
 }
 
 a:hover {
@@ -122,6 +121,13 @@ a.link {
   padding: 0.25rem 0.5rem;
   margin-right: 0.25rem;
   font-weight: bold;
+}
+
+p.accent {
+  font-family: 'Crimson Text';
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--color-accent);
 }
 
 img {
@@ -571,17 +577,19 @@ ul {
     content: "→";
     position: absolute;
     right: 100%;
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
     font-size: 1.25rem;
-    color: #9C7D7D;
+    color: var(--color-accent);
+    opacity: 0.7;
   }
 }
 
 .expertise-divider {
   border: none;
-  border-top: 2px solid #9C7D7D;
+  border-top: 2px solid var(--color-accent);
   width: 5rem;
   margin: 0.5rem 0 1.5rem 0;
+  opacity: 0.7;
 }
 
 .expertise-description p {
@@ -598,7 +606,15 @@ ul {
 .reach-out p {
   margin: 0 0 1rem 0;
   line-height: 1.6;
-  max-width: 35rem;
+  max-width: 46ch;
+}
+
+.reach-out p.accent {
+  margin-bottom: 1.5rem;
+}
+
+.reach-out p.cta {
+  margin-top: 2rem;
 }
 
 .cta-link {
