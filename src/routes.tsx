@@ -1,5 +1,8 @@
 import type { Hono } from 'hono';
-import { Layout, Hero, PageTitle, SelectedWorks, Expertise, ReachOut } from './components/Layout';
+import { Layout, Hero, PageTitle } from './components/Layout';
+import { SelectedWorks } from './components/SelectedWorks';
+import { Expertise } from './components/Expertise';
+import { ReachOut } from './components/ReachOut';
 import { Sink } from './components/KitchenSink';
 
 interface PageData {
