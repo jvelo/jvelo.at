@@ -308,6 +308,11 @@ ul {
   order: 2;
 }
 
+.page-body > section + section {
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+}
+
 .sidebar-nav {
   order: 3;
 }
@@ -544,8 +549,6 @@ ul {
 
 /* Expertise */
 .expertise {
-  margin-top: 6rem;
-  margin-bottom: 3rem;
 }
 
 .expertise-grid {
@@ -599,8 +602,6 @@ ul {
 
 /* Reach Out */
 .reach-out {
-  margin-top: 6rem;
-  margin-bottom: 3rem;
 }
 
 .reach-out p {
@@ -639,15 +640,16 @@ ul {
 }
 
 /* Selected Works */
-.selected-works {
-  margin-bottom: 3rem;
+.selected-works .section-title {
+  margin-bottom: 2.5rem;
 }
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  letter-spacing: -1px;
   font-weight: bold;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
 }
 
 .works-grid {
@@ -710,6 +712,7 @@ ul {
   flex-direction: column;
   gap: 0.5rem;
   flex: 1;
+  margin-top: 1rem;
 }
 
 .project-header {
