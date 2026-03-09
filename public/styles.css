@@ -33,6 +33,7 @@ html {
   :root:not([data-theme="light"]) {
     --color-bg: #000000;
     --color-text: #ffffff;
+    --color-accent: #9F9FFC;
     --color-border: #ffffff;
     --color-selection-bg: #ffffff;
     --color-selection-text: #000000;
@@ -646,7 +647,7 @@ ul {
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   letter-spacing: -1px;
   font-weight: bold;
   margin: 0 0 2rem 0;
