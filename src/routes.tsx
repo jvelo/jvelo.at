@@ -1,4 +1,5 @@
 import type { Hono } from 'hono';
+import type { FC } from 'hono/jsx';
 import { Layout, Hero, PageTitle } from './components/Layout';
 import { SelectedWorks } from './components/SelectedWorks';
 import { Expertise } from './components/Expertise';
@@ -17,6 +18,68 @@ interface PageData {
   content: string;
   html: string;
 }
+
+interface TocEntry {
+  id: string;
+  text: string;
+}
+
+function extractToc(html: string): TocEntry[] {
+  const entries: TocEntry[] = [];
+  const regex = /<h2[^>]*id="([^"]*)"[^>]*>(.*?)<\/h2>/gi;
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    entries.push({ id: match[1], text: match[2].replace(/<[^>]*>/g, '') });
+  }
+  return entries;
+}
+
+function addHeadingIds(html: string): string {
+  return html.replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (_match, attrs, content) => {
+    const text = content.replace(/<[^>]*>/g, '');
+    const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+    return `<h2${attrs} id="${id}">${content}</h2>`;
+  });
+}
+
+const WorkPage: FC<{ page: PageData }> = ({ page }) => {
+  const html = addHeadingIds(page.html);
+  const toc = extractToc(html);
+
+  return (
+    <Layout title={page.title} description={page.description}>
+      <div class="work-page">
+        <nav class="work-breadcrumb">
+          <a href="/works">selected works</a>
+          <span class="work-breadcrumb-sep">&gt;</span>
+          <span>{page.slug}</span>
+        </nav>
+        <h1 class="work-title">{page.title}</h1>
+        {page.subtitle && <p class="work-subtitle">{page.subtitle}</p>}
+        <div class="work-layout">
+          <div class="work-content content">
+            {page.image && (
+              <div class="work-hero-image border-backdrop">
+                <img src={page.image} alt={page.title} />
+              </div>
+            )}
+            <div dangerouslySetInnerHTML={{ __html: html }}></div>
+          </div>
+          {toc.length > 0 && (
+            <aside class="work-toc">
+              <h2 class="work-toc-title">Contents</h2>
+              <nav>
+                {toc.map((entry) => (
+                  <a href={`#${entry.id}`} class="work-toc-link">{entry.text}</a>
+                ))}
+              </nav>
+            </aside>
+          )}
+        </div>
+      </div>
+    </Layout>
+  );
+};
 
 interface PageProvider {
   getHome: () => PageData;
@@ -61,6 +124,10 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
         </Layout>,
         404
       );
+    }
+
+    if (page.type === 'work') {
+      return c.html(<WorkPage page={page} />);
     }
 
     return c.html(

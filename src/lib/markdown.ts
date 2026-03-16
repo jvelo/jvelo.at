@@ -9,10 +9,13 @@ const contentDir = path.join(__dirname, '../../content');
 
 export interface PageData {
   slug: string;
+  type?: 'page' | 'work';
   title: string;
   subtitle?: string;
   description?: string;
   hero_title?: string;
+  image?: string;
+  badge?: string;
   content: string;
   html: string;
 }
@@ -40,8 +43,12 @@ export function getPageBySlug(slug: string): PageData | null {
 
     return {
       slug,
+      type: (data.type as 'page' | 'work') || undefined,
       title: data.title || slug,
       subtitle: data.subtitle,
+      description: data.description,
+      image: data.image,
+      badge: data.badge,
       content,
       html: marked(content) as string,
     };

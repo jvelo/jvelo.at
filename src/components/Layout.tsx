@@ -19,7 +19,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar
         {description && <meta name="description" content={description} />}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/styles.css" />
         <script src="/theme-switcher.js"></script>
         <script src="/page-loader.js"></script>
