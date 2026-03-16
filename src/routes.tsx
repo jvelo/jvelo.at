@@ -48,35 +48,35 @@ const WorkPage: FC<{ page: PageData }> = ({ page }) => {
 
   return (
     <Layout title={page.title} description={page.description}>
-      <div class="work-page">
-        <nav class="work-breadcrumb">
+      <article class="project">
+        <nav class="breadcrumb">
           <a href="/works">selected works</a>
-          <span class="work-breadcrumb-sep">&gt;</span>
+          <span class="breadcrumb-sep">&gt;</span>
           <span>{page.slug}</span>
         </nav>
-        <h1 class="work-title">{page.title}</h1>
-        {page.subtitle && <p class="work-subtitle">{page.subtitle}</p>}
-        <div class="work-layout">
-          <div class="work-content content">
+        <h1 class="project-name">{page.title}</h1>
+        {page.subtitle && <p class="project-tagline">{page.subtitle}</p>}
+        <div class="content-with-aside">
+          <div class="content-primary prose">
             {page.image && (
-              <div class="work-hero-image border-backdrop">
+              <div class="hero-cover border-backdrop">
                 <img src={page.image} alt={page.title} />
               </div>
             )}
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
           </div>
           {toc.length > 0 && (
-            <aside class="work-toc">
-              <h2 class="work-toc-title">Contents</h2>
+            <aside class="content-aside toc">
+              <h2 class="toc-title">Contents</h2>
               <nav>
                 {toc.map((entry) => (
-                  <a href={`#${entry.id}`} class="work-toc-link">{entry.text}</a>
+                  <a href={`#${entry.id}`} class="toc-link">{entry.text}</a>
                 ))}
               </nav>
             </aside>
           )}
         </div>
-      </div>
+      </article>
     </Layout>
   );
 };
