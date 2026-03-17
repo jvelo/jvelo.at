@@ -15,6 +15,8 @@ interface PageData {
   hero_title?: string;
   image?: string;
   badge?: string;
+  technologies?: string[];
+  years?: string;
   content: string;
   html: string;
 }
@@ -42,9 +44,34 @@ function addHeadingIds(html: string): string {
   });
 }
 
+const ProjectMeta: FC<{ technologies?: string[]; years?: string }> = ({ technologies, years }) => {
+  if (!technologies?.length && !years) return null;
+  return (
+    <>
+      {technologies && technologies.length > 0 && (
+        <section class="aside-section">
+          <h2 class="aside-heading">Technologies</h2>
+          <ul class="aside-tags">
+            {technologies.map((tech) => (
+              <li>{tech}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {years && (
+        <section class="aside-section">
+          <h2 class="aside-heading">Years active</h2>
+          <p class="aside-meta">{years}</p>
+        </section>
+      )}
+    </>
+  );
+};
+
 const WorkPage: FC<{ page: PageData }> = ({ page }) => {
   const html = addHeadingIds(page.html);
   const toc = extractToc(html);
+  const hasMeta = !!(page.technologies?.length || page.years);
 
   return (
     <Layout title={page.title} description={page.description}>
@@ -63,18 +90,27 @@ const WorkPage: FC<{ page: PageData }> = ({ page }) => {
                 <img src={page.image} alt={page.title} />
               </div>
             )}
+            {hasMeta && (
+              <div class="project-meta-mobile">
+                <ProjectMeta technologies={page.technologies} years={page.years} />
+              </div>
+            )}
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
           </div>
-          {toc.length > 0 && (
-            <aside class="content-aside toc">
-              <h2 class="toc-title">Contents</h2>
-              <nav>
-                {toc.map((entry) => (
-                  <a href={`#${entry.id}`} class="toc-link">{entry.text}</a>
-                ))}
-              </nav>
-            </aside>
-          )}
+          <aside class="content-aside">
+            {toc.length > 0 && (
+              <section class="toc">
+                <h2 class="aside-heading">Contents</h2>
+                <nav>
+                  {toc.map((entry) => (
+                    <a href={`#${entry.id}`} class="toc-link">{entry.text}</a>
+                  ))}
+                </nav>
+              </section>
+            )}
+            {hasMeta && <hr class="aside-divider" />}
+            <ProjectMeta technologies={page.technologies} years={page.years} />
+          </aside>
         </div>
       </article>
     </Layout>

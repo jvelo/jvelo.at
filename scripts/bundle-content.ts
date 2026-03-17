@@ -19,6 +19,8 @@ interface PageData {
   hero_title?: string;
   image?: string;
   badge?: string;
+  technologies?: string[];
+  years?: string;
   content: string;
   html: string;
 }
@@ -36,6 +38,8 @@ function processMarkdownFile(filePath: string, slug: string): PageData {
     hero_title: data.hero_title || undefined,
     image: data.image || undefined,
     badge: data.badge || undefined,
+    technologies: data.technologies || undefined,
+    years: data.years || undefined,
     content,
     html: marked(content) as string,
   };
@@ -75,6 +79,8 @@ export interface PageData {
   hero_title?: string;
   image?: string;
   badge?: string;
+  technologies?: string[];
+  years?: string;
   content: string;
   html: string;
 }

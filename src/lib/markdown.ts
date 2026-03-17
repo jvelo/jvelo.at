@@ -16,6 +16,8 @@ export interface PageData {
   hero_title?: string;
   image?: string;
   badge?: string;
+  technologies?: string[];
+  years?: string;
   content: string;
   html: string;
 }
@@ -49,6 +51,8 @@ export function getPageBySlug(slug: string): PageData | null {
       description: data.description,
       image: data.image,
       badge: data.badge,
+      technologies: data.technologies,
+      years: data.years,
       content,
       html: marked(content) as string,
     };
