@@ -36,11 +36,10 @@ export const SelectedWorks: FC = () => {
       link: "/typebar"
     },
     {
-      title: "Dotpad",
-      description: "A low-level library for building infinite-canvas spatial applications. Written in TypeScript",
-      image: "/images/dotpad.png",
-      badge: "private beta",
-      link: "/dotpad"
+      title: "Mayocat Shop",
+      description: "An open source e-commerce and marketplace platform on the JVM. Self-contained, multi-tenant, themeable.",
+      image: "/images/mayocat-shop.png",
+      link: "/mayocat-shop"
     },
     {
       title: "BiomeOS",
