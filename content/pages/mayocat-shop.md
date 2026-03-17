@@ -42,7 +42,7 @@ Multi-tenancy is structural, not a filter on queries. It runs through configurat
 
 A few storefronts that ran on the platform — each with its own theme, branding, and content:
 
-<figure class="figure-gallery">
+<figure class="figure-gallery" data-ratio="16/10">
 <img src="/images/mayocat-doolishop.png" alt="Doolittle — children's magazine and shop" />
 <img src="/images/mayocat-thisisnotamap.png" alt="This is not a map — travel photography books" />
 <img src="/images/mayocat-aristide.png" alt="Aristide — cat hotel in Paris" />

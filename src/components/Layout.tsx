@@ -23,6 +23,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar
         <link rel="stylesheet" href="/styles.css" />
         <script src="/theme-switcher.js"></script>
         <script src="/page-loader.js"></script>
+        <script src="/gallery.js" defer></script>
       </head>
       <body id="#top" class={bodyClass || ''}>
         <div class="site-layout">
