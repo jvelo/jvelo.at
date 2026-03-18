@@ -31,7 +31,7 @@ export const Sidebar: FC = () => {
       <div class="sidebar-text">
         <p>I design and build software products.</p>
         <p>I'm available for freelance and consulting work.</p>
-        <p class="sidebar-cta"><a class="link" href="/connect">Work with me</a></p>
+        <p class="sidebar-cta"><a class="link" href="#contact" onclick="event.preventDefault(); document.querySelector('contact-form').open();">Work with me</a></p>
       </div>
     </section>
   );

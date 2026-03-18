@@ -6,10 +6,11 @@ interface LayoutProps {
   description?: string;
   bodyClass?: string;
   sidebar?: boolean;
+  turnstileSiteKey?: string;
   children?: any;
 }
 
-export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar = true, children }) => {
+export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar = true, turnstileSiteKey = '', children }) => {
   return (
     <html lang="en">
       <head>
@@ -24,6 +25,8 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar
         <script src="/theme-switcher.js"></script>
         <script src="/page-loader.js"></script>
         <script src="/gallery.js" defer></script>
+        <script src="/contact-form.js" defer></script>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
       </head>
       <body id="#top" class={bodyClass || ''}>
         <div class="site-layout">
@@ -45,6 +48,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar
           )}
           <Footer />
         </div>
+        <contact-form sitekey={turnstileSiteKey}></contact-form>
         <page-loader></page-loader>
       </body>
     </html>

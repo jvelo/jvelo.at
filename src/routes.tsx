@@ -82,13 +82,13 @@ const ProjectMeta: FC<{ technologies?: string[]; years?: string; license?: strin
   );
 };
 
-const WorkPage: FC<{ page: PageData }> = ({ page }) => {
+const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ page, turnstileSiteKey }) => {
   const html = addHeadingIds(page.html);
   const toc = extractToc(html);
   const hasMeta = !!(page.technologies?.length || page.years || page.license || page.source);
 
   return (
-    <Layout title={page.title} description={page.description}>
+    <Layout title={page.title} description={page.description} turnstileSiteKey={turnstileSiteKey}>
       <article class="project">
         <nav class="breadcrumb">
           <a href="/">selected works</a>
@@ -136,12 +136,56 @@ interface PageProvider {
   getPage: (slug: string) => PageData | null;
 }
 
+async function verifyTurnstile(token: string, secret: string): Promise<boolean> {
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ secret, response: token }),
+  });
+  const data = await res.json() as { success: boolean };
+  return data.success;
+}
+
+interface EmailConfig {
+  scwSecretKey: string;
+  scwProjectId: string;
+  toEmail: string;
+  fromEmail: string;
+}
+
+async function sendEmail(name: string, email: string, message: string, config: EmailConfig): Promise<boolean> {
+  const res = await fetch('https://api.scaleway.com/transactional-email/v1alpha1/regions/fr-par/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': config.scwSecretKey,
+    },
+    body: JSON.stringify({
+      from: { email: config.fromEmail, name: 'Contact Form' },
+      to: [{ email: config.toEmail }],
+      subject: `Contact from ${name}`,
+      text: `From: ${name} <${email}>\n\n${message}`,
+      project_id: config.scwProjectId,
+    }),
+  });
+
+  if (!res.ok) {
+    console.error('Scaleway email error:', res.status, await res.text());
+  }
+  return res.ok;
+}
+
+function getTurnstileKey(c: { env: unknown }): string {
+  return ((c.env as Record<string, string>)?.TURNSTILE_SITE_KEY) || '';
+}
+
 export function setupRoutes(app: Hono, provider: PageProvider) {
   app.get('/', async (c) => {
     const page = provider.getHome();
+    const tsKey = getTurnstileKey(c);
 
     return c.html(
-      <Layout title={page.title} description={page.description}>
+      <Layout title={page.title} description={page.description} turnstileSiteKey={tsKey}>
         <SelectedWorks />
         <Expertise />
         <ReachOut />
@@ -150,20 +194,54 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   });
 
   app.get('/kitchen-sink', async (c) => {
+    const tsKey = getTurnstileKey(c);
     return c.html(
-      <Layout title="Kitchen Sink">
+      <Layout title="Kitchen Sink" turnstileSiteKey={tsKey}>
         <Sink />
       </Layout>
     );
   });
 
+  app.post('/contact', async (c) => {
+    const body = await c.req.json<{ name: string; email: string; message: string; token: string }>();
+    const { name, email, message, token } = body;
+
+    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+      return c.json({ error: 'All fields are required.' }, 400);
+    }
+
+    const env = c.env as Record<string, string>;
+    const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+    if (!turnstileSecret) {
+      return c.json({ error: 'Server configuration error.' }, 500);
+    }
+
+    const valid = await verifyTurnstile(token, turnstileSecret);
+    if (!valid) {
+      return c.json({ error: 'Verification failed. Please try again.' }, 403);
+    }
+
+    const sent = await sendEmail(name.trim(), email.trim(), message.trim(), {
+      scwSecretKey: env.SCW_TEM_SECRET_KEY,
+      scwProjectId: env.SCW_PROJECT_ID,
+      toEmail: env.CONTACT_TO_EMAIL,
+      fromEmail: env.CONTACT_FROM_EMAIL,
+    });
+    if (!sent) {
+      return c.json({ error: 'Failed to send message. Please try again later.' }, 500);
+    }
+
+    return c.json({ ok: true });
+  });
+
   app.get('/:slug', async (c) => {
     const slug = c.req.param('slug');
     const page = provider.getPage(slug);
+    const tsKey = getTurnstileKey(c);
 
     if (!page) {
       return c.html(
-        <Layout title="Page Not Found">
+        <Layout title="Page Not Found" turnstileSiteKey={tsKey}>
           <div class="page-title">
             <h1>404 - Page Not Found</h1>
             <p class="subtitle">The page you're looking for doesn't exist.</p>
@@ -177,11 +255,11 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     }
 
     if (page.type === 'work') {
-      return c.html(<WorkPage page={page} />);
+      return c.html(<WorkPage page={page} turnstileSiteKey={tsKey} />);
     }
 
     return c.html(
-      <Layout title={page.title} description={page.subtitle}>
+      <Layout title={page.title} description={page.subtitle} turnstileSiteKey={tsKey}>
         <PageTitle title={page.title} subtitle={page.subtitle} />
         <div class="content" dangerouslySetInnerHTML={{ __html: page.html }}></div>
       </Layout>
