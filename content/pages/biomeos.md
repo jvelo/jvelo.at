@@ -3,12 +3,12 @@ title: BiomeOS
 type: work
 subtitle: A controlled-environment agriculture platform for indoor farms and research facilities.
 description: Software platform for operating indoor farms — environment control, real-time monitoring, safety systems, and agronomic protocol management. Runs dozens of facilities across three continents.
-image: /images/biomeos.png
+image: /images/biomeos-touchscreen.png
 technologies:
   - Python
   - React
   - GraphQL
-  - PostgreSQL
+  - Prometheus
   - Ansible
   - Modbus
 years: 2021–present

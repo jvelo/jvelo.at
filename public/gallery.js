@@ -4,6 +4,7 @@ class ImageGallery extends HTMLElement {
     if (images.length === 0) return;
 
     const ratio = this.getAttribute('ratio') || '16/9';
+    const isAuto = ratio === 'auto';
     const align = this.getAttribute('align') || 'center';
     const caption = this.querySelector('figcaption');
 
@@ -17,7 +18,7 @@ class ImageGallery extends HTMLElement {
           overflow: hidden;
           position: relative;
           cursor: pointer;
-          aspect-ratio: ${ratio};
+          ${isAuto ? '' : `aspect-ratio: ${ratio};`}
           border: 1px solid var(--color-border, #181818);
         }
 
@@ -34,20 +35,20 @@ class ImageGallery extends HTMLElement {
 
         .track {
           display: flex;
-          height: 100%;
+          ${isAuto ? '' : 'height: 100%;'}
           transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .slide {
           flex: 0 0 100%;
           min-width: 0;
-          height: 100%;
+          ${isAuto ? '' : 'height: 100%;'}
         }
 
         .slide img {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
+          ${isAuto ? '' : 'height: 100%;'}
+          object-fit: ${isAuto ? 'contain' : 'cover'};
           object-position: ${align};
           display: block;
         }
@@ -124,14 +125,16 @@ class ImageGallery extends HTMLElement {
       this.appendChild(caption);
     }
 
-    // Dots
-    srcs.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', `Image ${i + 1}`);
-      dot.addEventListener('click', (e) => { e.stopPropagation(); this._goTo(i); });
-      dotsContainer.appendChild(dot);
-    });
+    // Dots (only for multi-image galleries)
+    if (srcs.length > 1) {
+      srcs.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Image ${i + 1}`);
+        dot.addEventListener('click', (e) => { e.stopPropagation(); this._goTo(i); });
+        dotsContainer.appendChild(dot);
+      });
+    }
 
     this._current = 0;
     this._srcs = srcs;
@@ -317,3 +320,18 @@ class ImageGallery extends HTMLElement {
 }
 
 customElements.define('image-gallery', ImageGallery);
+
+// Wrap standalone images in work pages as single-image galleries
+document.addEventListener('DOMContentLoaded', () => {
+  if (!document.body.classList.contains('page-work')) return;
+
+  document.querySelectorAll('.prose img').forEach((img) => {
+    if (img.closest('image-gallery') || img.closest('.hero-cover')) return;
+
+    const gallery = document.createElement('image-gallery');
+    gallery.setAttribute('ratio', 'auto');
+    const clone = img.cloneNode(true);
+    gallery.appendChild(clone);
+    img.replaceWith(gallery);
+  });
+});

@@ -367,15 +367,15 @@ ul {
   }
 }
 
-/* Hide footer on mobile - sidebar nav is inline */
-.footer {
-  display: none;
+/* Hide sidebar hero on mobile for work pages */
+@media screen and (max-width: 1023px) {
+  .page-work .sidebar-hero {
+    display: none;
+  }
 }
 
-@media screen and (min-width: 768px) {
-  .footer {
-    display: block;
-  }
+.footer {
+  display: block;
 }
 
 /* Hero */

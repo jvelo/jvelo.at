@@ -31,7 +31,7 @@ export const SelectedWorks: FC = () => {
     {
       title: "BiomeOS",
       description: "An extensible controlled environment platform for agronomic research and indoor farming production",
-      image: "/images/biomeos.png",
+      image: "/images/biomeos-touchscreen.png",
       link: "/biomeos"
     },
     {

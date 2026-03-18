@@ -88,7 +88,7 @@ const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ page, tur
   const hasMeta = !!(page.technologies?.length || page.years || page.license || page.source);
 
   return (
-    <Layout title={page.title} description={page.description} turnstileSiteKey={turnstileSiteKey}>
+    <Layout title={page.title} description={page.description} turnstileSiteKey={turnstileSiteKey} bodyClass="page-work">
       <article class="project">
         <nav class="breadcrumb">
           <a href="/">selected works</a>
