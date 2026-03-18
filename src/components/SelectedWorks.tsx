@@ -36,17 +36,18 @@ export const SelectedWorks: FC = () => {
       link: "/typebar"
     },
     {
-      title: "Mayocat Shop",
-      description: "An open source e-commerce and marketplace platform on the JVM. Self-contained, multi-tenant, themeable.",
-      image: "/images/mayocat-shop.png",
-      link: "/mayocat-shop"
-    },
-    {
       title: "BiomeOS",
       description: "An extensible controlled environment platform for agronomic research and indoor farming production",
       image: "/images/biomeos.png",
       link: "/biomeos"
-    }
+    },
+    {
+      title: "Mayocat Shop",
+      description: "An open source e-commerce and marketplace platform. Self-contained," +
+          " multi-tenant, themeable.",
+      image: "/images/mayocat-card2.png",
+      link: "/mayocat-shop"
+    },
   ];
 
   return (

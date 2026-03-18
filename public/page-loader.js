@@ -70,7 +70,8 @@ class PageLoader extends HTMLElement {
         !url.protocol.startsWith('http') ||
         url.origin !== location.origin ||
         e.downloadRequest ||
-        e.hashChange
+        e.hashChange ||
+        e.navigationType === 'traverse'
       ) {
         return;
       }
@@ -84,6 +85,12 @@ class PageLoader extends HTMLElement {
       navigation.addEventListener('navigateerror', () => {
         this.finishProgress();
       }, { once: true });
+    });
+
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) {
+        this.resetProgress();
+      }
     });
   }
 
@@ -108,6 +115,15 @@ class PageLoader extends HTMLElement {
       this.progressInterval = null;
     }
     this.bar.style.width = '100%';
+  }
+
+  resetProgress() {
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval);
+      this.progressInterval = null;
+    }
+    this.progress = 0;
+    this.showInitialLoad();
   }
 }
 
