@@ -29,17 +29,17 @@ const ProjectCard: FC<Project> = ({ title, description, image, badge, link }) =>
 export const SelectedWorks: FC = () => {
   const projects: Project[] = [
     {
+      title: "BiomeOS",
+      description: "An extensible controlled environment platform for agronomic research and indoor farming production",
+      image: "/images/biomeos.png",
+      link: "/biomeos"
+    },
+    {
       title: "Typebar",
       description: "A rich-text editor framework for building delightful writing experiences. Built on the HTML canvas element, written in TypeScript with zero dependencies.",
       image: "/images/typebar.png",
       badge: "private beta",
       link: "/typebar"
-    },
-    {
-      title: "BiomeOS",
-      description: "An extensible controlled environment platform for agronomic research and indoor farming production",
-      image: "/images/biomeos.png",
-      link: "/biomeos"
     },
     {
       title: "Mayocat Shop",
