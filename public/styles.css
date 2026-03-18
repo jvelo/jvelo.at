@@ -865,10 +865,9 @@ ul {
 }
 
 .hero-cover {
-  margin: 1rem 0 3rem;
-  overflow: hidden;
+  margin: 1.5rem 0 3rem 0.5rem;
   aspect-ratio: 21 / 10;
-  max-width: 100%;
+  max-width: calc(100% - 0.5rem);
 }
 
 .hero-cover img {
@@ -907,6 +906,12 @@ ul {
     min-width: 12.5rem;
     align-self: flex-start;
     text-align: right;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .content-with-aside > .content-primary {
+    max-width: 62ch;
   }
 }
 
