@@ -75,8 +75,6 @@ export const Footer: FC = () => {
       </a>
       <nav class="nav-menu">
         <a href="/">Home</a>
-        <a href="/works">Works</a>
-        <a href="/services">Services</a>
         <a href="/about">About</a>
         <a href="/connect">Contact</a>
       </nav>

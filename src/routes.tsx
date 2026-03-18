@@ -91,7 +91,7 @@ const WorkPage: FC<{ page: PageData }> = ({ page }) => {
     <Layout title={page.title} description={page.description}>
       <article class="project">
         <nav class="breadcrumb">
-          <a href="/works">selected works</a>
+          <a href="/">selected works</a>
           <span class="breadcrumb-sep">&gt;</span>
           <span>{page.slug}</span>
         </nav>
