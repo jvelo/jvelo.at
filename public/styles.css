@@ -1282,9 +1282,6 @@ ul {
 }
 
 .contact-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   background: none;
   border: none;
   color: var(--color-text);
@@ -1294,17 +1291,26 @@ ul {
   opacity: 0.7;
   transition: opacity 0.2s;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .contact-close:hover {
   opacity: 1;
 }
 
+.contact-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
 .contact-title {
   font-family: var(--font-heading);
   font-size: 1.35rem;
+  line-height: 1;
   text-transform: uppercase;
-  margin: 0 0 1.5rem;
+  margin: 0;
 }
 
 .contact-field {
@@ -1384,5 +1390,16 @@ ul {
 }
 
 .contact-status.success {
+  color: var(--color-accent);
+}
+
+.contact-success {
+  padding: 1.5rem 0;
+}
+
+.contact-success p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
   color: var(--color-accent);
 }

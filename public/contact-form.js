@@ -1,12 +1,15 @@
 class ContactForm extends HTMLElement {
   connectedCallback() {
     const sitekey = this.getAttribute('sitekey') || '';
+    this._isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
     this.innerHTML = `
       <div class="contact-overlay" aria-hidden="true">
         <div class="contact-modal" role="dialog" aria-label="Contact form">
-          <button class="contact-close" aria-label="Close">&times;</button>
-          <h2 class="contact-title">Get in touch</h2>
+          <div class="contact-modal-header">
+            <h2 class="contact-title">Get in touch</h2>
+            <button class="contact-close" aria-label="Close">&times;</button>
+          </div>
           <form class="contact-form" novalidate>
             <div class="contact-field">
               <label for="contact-name">Your Name</label>
@@ -20,7 +23,7 @@ class ContactForm extends HTMLElement {
               <label for="contact-message">Message</label>
               <textarea id="contact-message" name="message" required rows="5"></textarea>
             </div>
-            <div class="cf-turnstile" data-sitekey="${sitekey}" data-size="compact" data-theme="auto"></div>
+            ${sitekey && !this._isDev ? `<div class="cf-turnstile" data-sitekey="${sitekey}" data-size="flexible"></div>` : ''}
             <div class="contact-status" aria-live="polite"></div>
             <button type="submit" class="contact-submit">Send message</button>
           </form>
@@ -52,6 +55,7 @@ class ContactForm extends HTMLElement {
   }
 
   open() {
+    this._resetForm();
     this._overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => this._overlay.classList.add('open'));
@@ -79,7 +83,7 @@ class ContactForm extends HTMLElement {
 
     const turnstileInput = this._form.querySelector('[name="cf-turnstile-response"]');
     const token = turnstileInput ? turnstileInput.value : '';
-    if (!token) {
+    if (!token && !this._isDev) {
       this._showStatus('Please wait for the verification to complete.', true);
       return;
     }
@@ -96,12 +100,8 @@ class ContactForm extends HTMLElement {
       });
 
       if (res.ok) {
-        this._showStatus('Message sent — thank you!', false);
-        this._form.reset();
-        if (typeof turnstile !== 'undefined') {
-          turnstile.reset();
-        }
-        setTimeout(() => this.close(), 2000);
+        this._form.style.display = 'none';
+        this._showSuccess();
       } else {
         const data = await res.json().catch(() => ({}));
         this._showStatus(data.error || 'Something went wrong. Please try again.', true);
@@ -117,6 +117,30 @@ class ContactForm extends HTMLElement {
   _showStatus(msg, isError) {
     this._status.textContent = msg;
     this._status.className = 'contact-status' + (isError ? ' error' : ' success');
+  }
+
+  _showSuccess() {
+    const modal = this.querySelector('.contact-modal');
+    let msg = modal.querySelector('.contact-success');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.className = 'contact-success';
+      msg.innerHTML = '<p>Message sent — I\'ll get back to you soon.</p>';
+      modal.appendChild(msg);
+    }
+    msg.style.display = '';
+  }
+
+  _resetForm() {
+    this._form.style.display = '';
+    this._form.reset();
+    this._status.textContent = '';
+    this._status.className = 'contact-status';
+    const msg = this.querySelector('.contact-success');
+    if (msg) msg.style.display = 'none';
+    if (typeof turnstile !== 'undefined' && !this._isDev) {
+      turnstile.reset();
+    }
   }
 }
 

@@ -161,10 +161,11 @@ async function sendEmail(name: string, email: string, message: string, config: E
       'X-Auth-Token': config.scwSecretKey,
     },
     body: JSON.stringify({
-      from: { email: config.fromEmail, name: 'Contact Form' },
+      from: { email: config.fromEmail, name: `${name} (via jvelo.at)` },
       to: [{ email: config.toEmail }],
+      reply_to: { email, name },
       subject: `Contact from ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
+      text: message,
       project_id: config.scwProjectId,
     }),
   });

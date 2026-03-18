@@ -6,5 +6,8 @@ compatibility_flags = ["nodejs_compat"]
 [assets]
 directory = "public"
 
+[vars]
+TURNSTILE_SITE_KEY = "0x4AAAAAACsq9y4begav6jOv"
+
 [observability]
 enabled = true
