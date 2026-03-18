@@ -17,6 +17,8 @@ interface PageData {
   badge?: string;
   technologies?: string[];
   years?: string;
+  license?: string;
+  source?: string;
   content: string;
   html: string;
 }
@@ -44,8 +46,8 @@ function addHeadingIds(html: string): string {
   });
 }
 
-const ProjectMeta: FC<{ technologies?: string[]; years?: string }> = ({ technologies, years }) => {
-  if (!technologies?.length && !years) return null;
+const ProjectMeta: FC<{ technologies?: string[]; years?: string; license?: string; source?: string }> = ({ technologies, years, license, source }) => {
+  if (!technologies?.length && !years && !license && !source) return null;
   return (
     <>
       {technologies && technologies.length > 0 && (
@@ -64,6 +66,18 @@ const ProjectMeta: FC<{ technologies?: string[]; years?: string }> = ({ technolo
           <p class="aside-meta">{years}</p>
         </section>
       )}
+      {license && (
+        <section class="aside-section">
+          <h2 class="aside-heading">License</h2>
+          <p class="aside-meta">{license}</p>
+        </section>
+      )}
+      {source && (
+        <section class="aside-section">
+          <h2 class="aside-heading">Source</h2>
+          <p class="aside-meta"><a href={source} class="aside-link">GitHub</a></p>
+        </section>
+      )}
     </>
   );
 };
@@ -71,7 +85,7 @@ const ProjectMeta: FC<{ technologies?: string[]; years?: string }> = ({ technolo
 const WorkPage: FC<{ page: PageData }> = ({ page }) => {
   const html = addHeadingIds(page.html);
   const toc = extractToc(html);
-  const hasMeta = !!(page.technologies?.length || page.years);
+  const hasMeta = !!(page.technologies?.length || page.years || page.license || page.source);
 
   return (
     <Layout title={page.title} description={page.description}>
@@ -92,7 +106,7 @@ const WorkPage: FC<{ page: PageData }> = ({ page }) => {
             )}
             {hasMeta && (
               <div class="project-meta-mobile">
-                <ProjectMeta technologies={page.technologies} years={page.years} />
+                <ProjectMeta technologies={page.technologies} years={page.years} license={page.license} source={page.source} />
               </div>
             )}
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
@@ -109,7 +123,7 @@ const WorkPage: FC<{ page: PageData }> = ({ page }) => {
               </section>
             )}
             {hasMeta && <hr class="aside-divider" />}
-            <ProjectMeta technologies={page.technologies} years={page.years} />
+            <ProjectMeta technologies={page.technologies} years={page.years} license={page.license} source={page.source} />
           </aside>
         </div>
       </article>

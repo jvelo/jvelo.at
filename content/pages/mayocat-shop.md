@@ -6,11 +6,12 @@ description: A self-contained e-commerce platform with multi-tenancy, theming, a
 image: /images/mayocat-shop.png
 technologies:
   - Java
-  - Dropwizard
   - PostgreSQL
+  - Angular
   - Elasticsearch
-  - AngularJS
 years: 2012–2017
+license: MPL 2.0
+source: https://github.com/jvelo/mayocat-shop
 ---
 
 ## Motivation
@@ -42,12 +43,12 @@ Multi-tenancy is structural, not a filter on queries. It runs through configurat
 
 A few storefronts that ran on the platform — each with its own theme, branding, and content:
 
-<figure class="figure-gallery" data-ratio="16/10">
+<image-gallery ratio="16/10" align="top">
 <img src="/images/mayocat-doolishop.png" alt="Doolittle — children's magazine and shop" />
 <img src="/images/mayocat-thisisnotamap.png" alt="This is not a map — travel photography books" />
 <img src="/images/mayocat-aristide.png" alt="Aristide — cat hotel in Paris" />
 <figcaption><strong>Doolittle</strong> (children's magazine), <strong>This is not a map</strong> (travel photography books), <strong>Aristide</strong> (cat hotel in Paris)</figcaption>
-</figure>
+</image-gallery>
 
 ## Status
 

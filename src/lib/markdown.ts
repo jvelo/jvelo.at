@@ -18,6 +18,8 @@ export interface PageData {
   badge?: string;
   technologies?: string[];
   years?: string;
+  license?: string;
+  source?: string;
   content: string;
   html: string;
 }
@@ -53,6 +55,8 @@ export function getPageBySlug(slug: string): PageData | null {
       badge: data.badge,
       technologies: data.technologies,
       years: data.years,
+      license: data.license,
+      source: data.source,
       content,
       html: marked(content) as string,
     };

@@ -21,6 +21,8 @@ interface PageData {
   badge?: string;
   technologies?: string[];
   years?: string;
+  license?: string;
+  source?: string;
   content: string;
   html: string;
 }
@@ -40,6 +42,8 @@ function processMarkdownFile(filePath: string, slug: string): PageData {
     badge: data.badge || undefined,
     technologies: data.technologies || undefined,
     years: data.years || undefined,
+    license: data.license || undefined,
+    source: data.source || undefined,
     content,
     html: marked(content) as string,
   };
@@ -81,6 +85,8 @@ export interface PageData {
   badge?: string;
   technologies?: string[];
   years?: string;
+  license?: string;
+  source?: string;
   content: string;
   html: string;
 }

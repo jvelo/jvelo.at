@@ -9,6 +9,7 @@ technologies:
   - TypeScript
   - Canvas API
 years: 2025–present
+license: Commercial
 ---
 
 ## Philosophy
