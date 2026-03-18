@@ -328,10 +328,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.prose img').forEach((img) => {
     if (img.closest('image-gallery') || img.closest('.hero-cover')) return;
 
+    const figure = img.closest('figure');
     const gallery = document.createElement('image-gallery');
     gallery.setAttribute('ratio', 'auto');
-    const clone = img.cloneNode(true);
-    gallery.appendChild(clone);
-    img.replaceWith(gallery);
+    gallery.appendChild(img.cloneNode(true));
+
+    if (figure) {
+      const caption = figure.querySelector('figcaption');
+      if (caption) {
+        gallery.appendChild(caption.cloneNode(true));
+      }
+      figure.replaceWith(gallery);
+    } else {
+      img.replaceWith(gallery);
+    }
   });
 });
