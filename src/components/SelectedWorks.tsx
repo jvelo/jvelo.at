@@ -4,15 +4,16 @@ interface Project {
   title: string;
   description: string;
   image: string;
+  imagePosition?: string;
   badge?: string;
   link: string;
 }
 
-const ProjectCard: FC<Project> = ({ title, description, image, badge, link }) => {
+const ProjectCard: FC<Project> = ({ title, description, image, imagePosition, badge, link }) => {
   return (
     <a href={link} class="work-card">
       <div class="project-image border-backdrop">
-        <img src={image} alt={title} />
+        <img src={image} alt={title} style={imagePosition ? `object-position: ${imagePosition}` : ''} />
       </div>
       <div class="project-content">
         <div class="project-header">
@@ -38,6 +39,7 @@ export const SelectedWorks: FC = () => {
       title: "Typebar",
       description: "A rich-text editor framework for building delightful writing experiences. Built on the HTML canvas element, written in TypeScript with zero dependencies.",
       image: "/images/typebar.png",
+      imagePosition: "top",
       badge: "private beta",
       link: "/typebar"
     },

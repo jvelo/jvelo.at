@@ -50,6 +50,5 @@ A few storefronts that ran on the platform — each with its own theme, branding
 <figcaption><strong>Doolittle</strong> (children's magazine), <strong>This is not a map</strong> (travel photography books), <strong>Aristide</strong> (cat hotel in Paris)</figcaption>
 </image-gallery>
 
-## Status
-
-Retired as of 2017. No longer actively developed, though production sites ran on it for years after. The codebase remains as a reference — roughly 1,700 commits, primarily authored by me with contributions from Louis Béziau (back-office UX design), Johann Pardanaud (localization system), and Vincent Velociter.
+While Mayocat Shop is no longer actively developed, there are production websites that still run on 
+the platform today.

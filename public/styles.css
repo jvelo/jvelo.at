@@ -411,7 +411,13 @@ ul {
 
 /* Content */
 .content {
-  max-width: 800px;
+  max-width: min(52ch, 100%);
+}
+
+@media screen and (min-width: 1440px) {
+  .content {
+    max-width: 62ch;
+  }
 }
 
 .sidebar a {
@@ -1203,6 +1209,21 @@ ul {
   line-height: 5rem;
   text-decoration: none;
   display: block;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.footer-social a {
+  color: var(--color-footer-text);
+  box-shadow: none;
+}
+
+.footer-social a:hover {
+  background: none;
 }
 
 @media screen and (min-width: 576px) {

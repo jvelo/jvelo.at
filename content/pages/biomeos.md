@@ -75,9 +75,7 @@ and photobiologically meaningful properties like PAR and red-to-blue ratio.
 
 ## Architecture
 
-The platform is built as a plugin-based async Python server exposing a GraphQL API. Sensor data 
-flows through reactive streams (ReactiveX), making it straightforward to compose real-time 
-transformations, safety checks, and persistence in a single pipeline. Extensions plug in at 
+The platform is built as a plugin-based async Python server exposing a GraphQL API. The server interfaces with industrial field devices over Modbus — temperature probes, solenoid valves, PLCs, LED drivers — and feeds readings into reactive streams (ReactiveX), where real-time transformations, safety checks, and persistence compose into a single pipeline. Extensions plug in at 
 runtime via Python entry points — an LED calibration library that uses R-tree spatial indexing 
 to find optimal light setpoints, Prometheus instrumentation for metrics export — each discovered 
 and loaded automatically.

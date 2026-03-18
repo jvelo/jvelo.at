@@ -167,10 +167,12 @@ async function sendEmail(name: string, email: string, message: string, config: E
     body: JSON.stringify({
       from: { email: config.fromEmail, name: `${name} (via jvelo.at)` },
       to: [{ email: config.toEmail }],
-      reply_to: { email, name },
       subject: `Contact from ${name}`,
       text: message,
       project_id: config.scwProjectId,
+      additional_headers: [
+        { key: 'Reply-To', value: `${name} <${email}>` },
+      ],
     }),
   });
 
