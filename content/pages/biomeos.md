@@ -6,9 +6,10 @@ description: Software platform for operating indoor farms — environment contro
 image: /images/biomeos.png
 technologies:
   - Python
+  - React
   - GraphQL
-  - Lit
   - PostgreSQL
+  - Ansible
   - Modbus
 years: 2021–present
 ---

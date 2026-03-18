@@ -671,6 +671,39 @@ ul {
   box-shadow: none;
 }
 
+.work-cta {
+  margin-top: 4.5rem;
+  padding: 2.25rem 0;
+  border-top: 2px solid var(--color-accent);
+}
+
+.work-cta-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--color-accent);
+  margin: 0 0 1rem;
+}
+
+.work-cta-link {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  text-decoration: none;
+  box-shadow: none;
+  transition: transform 0.15s;
+  display: inline-block;
+}
+
+.work-cta-link:hover {
+  background: none;
+  color: var(--color-text);
+  transform: translateX(0.25rem);
+}
+
 /* Selected Works */
 .selected-works .section-title {
   margin-bottom: 2.5rem;

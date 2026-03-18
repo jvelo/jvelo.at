@@ -110,6 +110,10 @@ const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ page, tur
               </div>
             )}
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
+            <section class="work-cta">
+              <p class="work-cta-text">Working on an ambitious product?</p>
+              <a href="#contact" class="work-cta-link" onclick="event.preventDefault(); document.querySelector('contact-form').open();">Let's talk →</a>
+            </section>
           </div>
           <aside class="content-aside">
             {toc.length > 0 && (
