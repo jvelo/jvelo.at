@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Departure Mono';
+  src: url('/fonts/DepartureMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Global Styles */
 *,
 *::before,
@@ -28,6 +36,7 @@ html {
   --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: 'IBM Plex Sans Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-accent-mono: 'Departure Mono', 'Courier New', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -143,6 +152,7 @@ img {
 
 code {
   font-family: var(--font-mono);
+  font-size: 0.85em;
   background-color: var(--color-code-bg);
   padding: 2px 6px;
   border-radius: 3px;
@@ -802,7 +812,7 @@ ul {
   font-weight: normal;
   text-transform: lowercase;
   letter-spacing: 0.02em;
-  font-family: var(--font-mono);
+  font-family: var(--font-accent-mono);
   line-height: 1;
 }
 
@@ -1073,7 +1083,7 @@ ul {
 }
 
 .aside-tags li {
-  font-family: var(--font-mono);
+  font-family: var(--font-accent-mono);
   font-size: 0.7rem;
   line-height: 1;
   padding: 0.3rem 0.5rem;
@@ -1205,8 +1215,10 @@ ul {
 }
 
 .nav-menu a {
+  font-family: var(--font-accent-mono);
   font-size: 3rem;
   line-height: 5rem;
+  letter-spacing: -3px;
   text-decoration: none;
   display: block;
 }
@@ -1255,9 +1267,9 @@ ul {
   border: 2px solid var(--color-footer-text);
   color: var(--color-footer-text);
   padding: 0.5rem 1rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-accent-mono);
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: normal;
   cursor: pointer;
   text-transform: uppercase;
   appearance: none;

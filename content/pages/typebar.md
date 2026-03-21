@@ -52,3 +52,26 @@ several million words</figcaption>
   captures keystrokes and IME composition, then the editor translates those into document 
   mutations. Full composition support for non-Latin input methods.
 
+## API
+
+The API offered allows for customization while providing sensible defaults
+
+```typescript
+const editor = new Typebar<T>(this._canvas, this.document, {
+  debugOptions: this.options?.debugOptions,
+  listeners: {
+    debug: this._boundDebugListener,
+    stateChange: this._handleStateChange.bind(this),
+    documentUpdate: this._handleDocumentUpdate.bind(this),
+    changes: this._handleChanges.bind(this),
+    findChange: this._handleFindChange.bind(this),
+  },
+  requests: {
+    find: (args) => this._handleFindRequest(args),
+  },
+  meta: this.options?.meta,
+  stylesheet: this.options?.stylesheet,
+  stage: this.options?.stage,
+  readOnly: this.options?.readOnly,
+});
+```
