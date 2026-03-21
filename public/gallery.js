@@ -5,6 +5,7 @@ class ImageGallery extends HTMLElement {
 
     const ratio = this.getAttribute('ratio') || '16/9';
     const isAuto = ratio === 'auto';
+    const isMulti = images.length > 1;
     const align = this.getAttribute('align') || 'center';
     const caption = this.querySelector('figcaption');
 
@@ -22,7 +23,7 @@ class ImageGallery extends HTMLElement {
           border: 1px solid var(--color-border, #181818);
         }
 
-        .viewport::after {
+        ${isMulti ? `.viewport::after {
           content: '';
           position: absolute;
           bottom: 0;
@@ -31,7 +32,7 @@ class ImageGallery extends HTMLElement {
           height: 3rem;
           background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
           pointer-events: none;
-        }
+        }` : ''}
 
         .track {
           display: flex;
@@ -193,7 +194,7 @@ class ImageGallery extends HTMLElement {
         .lightbox {
           position: fixed;
           inset: 0;
-          z-index: 10000;
+          z-index: 10002;
           background: rgba(0, 0, 0, 0.92);
           display: flex;
           align-items: center;
@@ -323,9 +324,7 @@ customElements.define('image-gallery', ImageGallery);
 
 // Wrap standalone images in work pages as single-image galleries
 document.addEventListener('DOMContentLoaded', () => {
-  if (!document.body.classList.contains('page-work')) return;
-
-  document.querySelectorAll('.prose img').forEach((img) => {
+  document.querySelectorAll('.prose img, .content img').forEach((img) => {
     if (img.closest('image-gallery') || img.closest('.hero-cover')) return;
 
     const figure = img.closest('figure');
