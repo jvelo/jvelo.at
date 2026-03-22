@@ -1,16 +1,14 @@
 import type { Context, Next } from 'hono';
 import { getCookie, setCookie, deleteCookie } from 'hono/cookie';
+import { createContext, useContext } from 'hono/jsx';
+import type { D1Database } from './types';
 
-// -- D1 types (minimal) --
+// -- Auth context (for JSX components) --
 
-interface D1Database {
-  prepare(query: string): D1PreparedStatement;
-}
-interface D1PreparedStatement {
-  bind(...values: unknown[]): D1PreparedStatement;
-  all(): Promise<{ results: Record<string, unknown>[] }>;
-  first(): Promise<Record<string, unknown> | null>;
-  run(): Promise<void>;
+export const AuthContext = createContext<AuthUser | null>(null);
+
+export function useAuth(): AuthUser | null {
+  return useContext(AuthContext);
 }
 
 // -- Types --
@@ -23,10 +21,6 @@ export interface AuthUser {
 }
 
 // -- Helpers --
-
-function getDb(c: Context): D1Database {
-  return (c.env as Record<string, unknown>).DB as D1Database;
-}
 
 function getSecret(c: Context): string {
   return (c.env as Record<string, string>).JWT_SECRET || '';

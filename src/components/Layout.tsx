@@ -1,5 +1,6 @@
 import type { FC } from 'hono/jsx';
 import { Sidebar, SidebarNav } from './Sidebar';
+import { useAuth } from '../auth';
 
 interface LayoutProps {
   title: string;
@@ -71,6 +72,8 @@ export const Header: FC = () => {
 };
 
 export const Footer: FC = () => {
+  const user = useAuth();
+
   return (
     <footer id="navigation" class="footer">
       <div class="anchor"></div>
@@ -81,6 +84,7 @@ export const Footer: FC = () => {
         <a href="/">Home</a>
         {/*<a href="/about">About</a>*/}
         <a href="/connect">Contact</a>
+        {user && <a href="/logout">Sign out</a>}
       </nav>
       <div class="footer-social">
         <a href="https://github.com/jvelo" rel="noopener noreferrer" aria-label="GitHub">
