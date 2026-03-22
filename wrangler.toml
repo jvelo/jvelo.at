@@ -9,5 +9,10 @@ directory = "public"
 [vars]
 TURNSTILE_SITE_KEY = "0x4AAAAAACsq9y4begav6jOv"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "jvelo-at-db"
+database_id = "a11a154b-9d2f-418d-8bb2-17cb003dda9a"
+
 [observability]
 enabled = true

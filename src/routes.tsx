@@ -1,10 +1,28 @@
 import type { Hono } from 'hono';
 import type { FC } from 'hono/jsx';
-import { Layout, Hero, PageTitle } from './components/Layout';
+import { Layout, PageTitle } from './components/Layout';
 import { SelectedWorks } from './components/SelectedWorks';
 import { Expertise } from './components/Expertise';
 import { ReachOut } from './components/ReachOut';
 import { Sink } from './components/KitchenSink';
+import {
+  generateCode, formatCode, signToken, verifyToken,
+  isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
+  setSession, clearSession, getSession, sendSigninEmail,
+  requireAuth,
+} from './auth';
+
+export { requireAuth };
+
+interface D1Database {
+  prepare(query: string): D1PreparedStatement;
+}
+interface D1PreparedStatement {
+  bind(...values: unknown[]): D1PreparedStatement;
+  all(): Promise<{ results: Record<string, unknown>[] }>;
+  first(): Promise<Record<string, unknown> | null>;
+  run(): Promise<void>;
+}
 
 interface PageData {
   slug: string;
@@ -239,6 +257,186 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     }
 
     return c.json({ ok: true });
+  });
+
+  app.get('/api/starred-media', requireAuth('member'), async (c) => {
+    const db = (c.env as Record<string, unknown>).DB as D1Database;
+    const seed = parseInt(c.req.query('seed') || '0', 10) || 1;
+    const offset = parseInt(c.req.query('offset') || '0', 10) || 0;
+    const { results } = await db.prepare(
+      'SELECT id, media_url, media_width, media_height FROM starred_media ORDER BY (CAST(substr(id, -8) AS INTEGER) * ?) % 2147483647 LIMIT 25 OFFSET ?'
+    ).bind(seed, offset).all();
+    return c.json({ items: results, hasMore: results.length === 25 });
+  });
+
+  app.get('/starred-media', requireAuth('member'), async (c) => {
+    const db = (c.env as Record<string, unknown>).DB as D1Database;
+    const seed = Math.floor(Math.random() * 2147483646) + 1;
+    const { results } = await db.prepare(
+      'SELECT id, media_url, media_width, media_height FROM starred_media ORDER BY (CAST(substr(id, -8) AS INTEGER) * ?) % 2147483647 LIMIT 25'
+    ).bind(seed).all();
+    const tsKey = getTurnstileKey(c);
+
+    return c.html(
+      <Layout title="Starred media" turnstileSiteKey={tsKey} sidebar={false}>
+        <div class="starred-media-page">
+          <h1 class="page-title">starred media</h1>
+          <div class="masonry" id="masonry-grid">
+            {results.map((item: any) => (
+              <div class="masonry-item">
+                <img
+                  src={item.media_url}
+                  width={item.media_width}
+                  height={item.media_height}
+                  loading="lazy"
+                  alt=""
+                />
+              </div>
+            ))}
+          </div>
+          <button id="load-more" class="load-more" data-seed={String(seed)} data-offset="25">
+            Load more
+          </button>
+        </div>
+        <script src="/starred-media.js" defer></script>
+      </Layout>
+    );
+  });
+
+  // -- Auth routes --
+
+  app.get('/login', async (c) => {
+    const tsKey = getTurnstileKey(c);
+    const redirect = c.req.query('redirect') || '/';
+    const error = c.req.query('error') || '';
+
+    return c.html(
+      <Layout title="Sign in" turnstileSiteKey={tsKey} sidebar={false}>
+        <div class="auth-page">
+          <h1 class="page-title">Sign in</h1>
+          {error && <p class="auth-error">{error}</p>}
+          <form method="post" action="/login" class="auth-form">
+            <input type="hidden" name="redirect" value={redirect} />
+            <label for="email" class="auth-label">Email address</label>
+            <input type="email" id="email" name="email" required class="auth-input" placeholder="you@example.com" autocomplete="email" />
+            <button type="submit" class="auth-button">Send sign-in code</button>
+          </form>
+        </div>
+      </Layout>
+    );
+  });
+
+  app.post('/login', async (c) => {
+    const body = await c.req.parseBody();
+    const email = (body.email as string || '').trim().toLowerCase();
+    const redirect = (body.redirect as string) || '/';
+
+    if (!email || !/^[\w.+\-]+@[\w.-]+\.\w+$/.test(email)) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Please enter a valid email address.')}`);
+    }
+
+    const db = (c.env as Record<string, unknown>).DB as D1Database;
+    const env = c.env as Record<string, string>;
+
+    // Cleanup expired codes opportunistically
+    await cleanupExpiredCodes(db);
+
+    // Always redirect to verify page (silent success for unregistered emails)
+    const registered = await isRegistered(db, email);
+    if (registered) {
+      const code = generateCode();
+      await storeCode(db, email, code);
+
+      const secret = env.JWT_SECRET || '';
+      const token = await signToken(code, secret);
+      const origin = new URL(c.req.url).origin;
+      const magicLinkUrl = `${origin}/auth/verify?token=${token}&redirect=${encodeURIComponent(redirect)}`;
+
+      await sendSigninEmail(email, code, magicLinkUrl, {
+        scwSecretKey: env.SCW_TEM_SECRET_KEY,
+        scwProjectId: env.SCW_PROJECT_ID,
+        fromEmail: env.CONTACT_FROM_EMAIL,
+      });
+    }
+
+    return c.html(
+      <Layout title="Enter your code" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
+        <div class="auth-page">
+          <h1 class="page-title">Check your email</h1>
+          <p class="auth-subtitle">We sent a 6-digit code to <strong>{email}</strong></p>
+          <form method="post" action="/auth/verify" class="auth-form" id="code-form">
+            <input type="hidden" name="redirect" value={redirect} />
+            <div class="code-inputs" id="code-inputs">
+              <input type="text" maxLength={1} class="code-digit" data-index="0" autocomplete="one-time-code" inputMode="text" />
+              <input type="text" maxLength={1} class="code-digit" data-index="1" inputMode="text" />
+              <input type="text" maxLength={1} class="code-digit" data-index="2" inputMode="text" />
+              <span class="code-separator">-</span>
+              <input type="text" maxLength={1} class="code-digit" data-index="3" inputMode="text" />
+              <input type="text" maxLength={1} class="code-digit" data-index="4" inputMode="text" />
+              <input type="text" maxLength={1} class="code-digit" data-index="5" inputMode="text" />
+            </div>
+            <input type="hidden" name="code" id="code-hidden" />
+            <button type="submit" class="auth-button">Verify</button>
+          </form>
+          <p class="auth-hint">Or click the link in the email.</p>
+        </div>
+        <script src="/auth.js" defer></script>
+      </Layout>
+    );
+  });
+
+  app.get('/auth/verify', async (c) => {
+    const tokenParam = c.req.query('token') || '';
+    const redirect = c.req.query('redirect') || '/';
+    const db = (c.env as Record<string, unknown>).DB as D1Database;
+    const env = c.env as Record<string, string>;
+
+    const code = await verifyToken(tokenParam, env.JWT_SECRET || '');
+    if (!code) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Code or link has expired. Please request a new one.')}`);
+    }
+
+    const email = await verifyCode(db, code);
+    if (!email) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Code or link has expired. Please request a new one.')}`);
+    }
+
+    const role = await getUserRole(db, email);
+    if (!role) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Invalid or expired code. Please try again.')}`);
+    }
+
+    await setSession(c, { email, role });
+    return c.redirect(redirect);
+  });
+
+  app.post('/auth/verify', async (c) => {
+    const body = await c.req.parseBody();
+    const code = (body.code as string || '').trim().toUpperCase();
+    const redirect = (body.redirect as string) || '/';
+    const db = (c.env as Record<string, unknown>).DB as D1Database;
+
+    if (!code || !/^[A-Z0-9]{6}$/.test(code)) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Please enter a valid 6-character code.')}`);
+    }
+
+    const email = await verifyCode(db, code);
+    if (!email) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Invalid or expired code. Please try again.')}`);
+    }
+
+    const role = await getUserRole(db, email);
+    if (!role) {
+      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Invalid or expired code. Please try again.')}`);
+    }
+
+    await setSession(c, { email, role });
+    return c.redirect(redirect);
+  });
+
+  app.get('/logout', async (c) => {
+    clearSession(c);
+    return c.redirect('/');
   });
 
   app.get('/:slug', async (c) => {
