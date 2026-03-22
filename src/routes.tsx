@@ -111,16 +111,20 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
       <Layout title="Starred media" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
         <div class="starred-media-page">
           <h1 class="page-title">starred media</h1>
-          <div class="masonry" id="masonry-grid">
-            {results.map((item: any) => (
-              <div class="masonry-item">
-                <img
-                  src={item.media_url}
-                  width={item.media_width}
-                  height={item.media_height}
-                  loading="lazy"
-                  alt=""
-                />
+          <div class="masonry" id="masonry-grid" data-cols="3">
+            {[0, 1, 2].map((colIdx) => (
+              <div class="masonry-col">
+                {results.filter((_: any, i: number) => i % 3 === colIdx).map((item: any) => (
+                  <div class="masonry-item">
+                    <img
+                      src={item.media_url}
+                      width={item.media_width}
+                      height={item.media_height}
+                      loading="lazy"
+                      alt=""
+                    />
+                  </div>
+                ))}
               </div>
             ))}
           </div>

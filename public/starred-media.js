@@ -3,10 +3,25 @@
   const btn = document.getElementById('load-more');
   if (!grid || !btn) return;
 
-  btn.addEventListener('click', async () => {
+  const cols = Array.from(grid.querySelectorAll('.masonry-col'));
+  let loading = false;
+
+  function shortestCol() {
+    let min = Infinity;
+    let target = cols[0];
+    for (const col of cols) {
+      const h = col.offsetHeight;
+      if (h < min) { min = h; target = col; }
+    }
+    return target;
+  }
+
+  async function loadMore() {
+    if (loading) return;
     const seed = btn.dataset.seed;
     const offset = btn.dataset.offset;
 
+    loading = true;
     btn.disabled = true;
     btn.textContent = 'Loading…';
 
@@ -23,7 +38,7 @@
       img.loading = 'lazy';
       img.alt = '';
       div.appendChild(img);
-      grid.appendChild(div);
+      shortestCol().appendChild(div);
     }
 
     if (data.hasMore) {
@@ -32,6 +47,17 @@
       btn.textContent = 'Load more';
     } else {
       btn.remove();
+      observer.disconnect();
     }
-  });
+
+    loading = false;
+  }
+
+  btn.addEventListener('click', loadMore);
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) loadMore();
+  }, { rootMargin: '200px' });
+
+  observer.observe(btn);
 })();

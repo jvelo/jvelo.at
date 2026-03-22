@@ -73,6 +73,7 @@ export const Header: FC = () => {
 
 export const Footer: FC = () => {
   const user = useAuth();
+  const isAdmin = user?.role === 'admin';
 
   return (
     <footer id="navigation" class="footer">
@@ -84,7 +85,19 @@ export const Footer: FC = () => {
         <a href="/">Home</a>
         {/*<a href="/about">About</a>*/}
         <a href="/connect">Contact</a>
-        {user && <a href="/logout">Sign out</a>}
+      </nav>
+      <nav class="nav-secondary">
+        {user ? (
+          <>
+            <a href="/starred-media">Starred media</a>
+            {isAdmin && <a href="/kitchen-sink">Kitchen sink</a>}
+            {isAdmin && <a href="/admin">Admin</a>}
+            <span class="nav-secondary-sep" />
+            <a href="/logout">Sign out</a>
+          </>
+        ) : (
+          <a href="/login">Members space</a>
+        )}
       </nav>
       <div class="footer-social">
         <a href="https://github.com/jvelo" rel="noopener noreferrer" aria-label="GitHub">
