@@ -37,7 +37,7 @@ export async function rowDetailRoute(c: Context) {
         submitLabel="save"
       />
       <form method="post" action={`/admin/${table}/${pkParam}/delete`} style="margin-top: 1.8rem;">
-        <confirm-button>
+        <confirm-button data-message={`delete row ${pkParam}?`}>
           <button type="submit" class="admin-btn admin-btn-danger">delete row</button>
         </confirm-button>
       </form>

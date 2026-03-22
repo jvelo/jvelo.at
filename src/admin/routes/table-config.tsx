@@ -26,20 +26,20 @@ const ConfigForm: FC<{ table: string; columns: { name: string; type: string }[];
             const cc: ColumnConfig = config.columns?.[col.name] || {};
             return (
               <tr>
-                <td style="font-weight: bold;">{col.name}</td>
-                <td style="opacity: 0.4;">{col.type || 'TEXT'}</td>
-                <td>
-                  <select name={`${col.name}__display`} style="font-family: inherit; font-size: inherit; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.18rem;">
+                <td>{col.name}</td>
+                <td class="row-count">{col.type || 'TEXT'}</td>
+                <td class="admin-field">
+                  <select name={`${col.name}__display`}>
                     {DISPLAY_OPTIONS.map((opt) => (
                       <option value={opt} selected={cc.display === opt}>{opt}</option>
                     ))}
                   </select>
                 </td>
-                <td>
-                  <input name={`${col.name}__label`} value={cc.label || ''} placeholder={col.name} style="font-family: inherit; font-size: inherit; width: 6rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.18rem 0.27rem;" />
+                <td class="admin-field">
+                  <input name={`${col.name}__label`} value={cc.label || ''} placeholder={col.name} style="width: 6rem;" />
                 </td>
-                <td>
-                  <input name={`${col.name}__width`} type="number" value={cc.width ? String(cc.width) : ''} placeholder="px" style="font-family: inherit; font-size: inherit; width: 3.6rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.18rem 0.27rem;" />
+                <td class="admin-field">
+                  <input name={`${col.name}__width`} type="number" value={cc.width ? String(cc.width) : ''} placeholder="px" style="width: 3.6rem;" />
                 </td>
                 <td style="text-align: center;">
                   <input name={`${col.name}__hidden`} type="checkbox" checked={!!cc.hidden} value="1" />
@@ -50,7 +50,7 @@ const ConfigForm: FC<{ table: string; columns: { name: string; type: string }[];
         </tbody>
       </table>
       <div class="admin-actions">
-        <button type="submit" class="admin-btn">save config</button>
+        <button type="submit" class="admin-btn admin-btn-primary">save config</button>
         <a href={`/admin/${table}`} class="admin-btn">cancel</a>
       </div>
     </form>

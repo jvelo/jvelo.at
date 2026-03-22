@@ -1,16 +1,29 @@
 // <confirm-button> — wraps a submit button, intercepts click to show confirmation
+// Use data-message attribute for custom confirm text
 class ConfirmButton extends HTMLElement {
   connectedCallback() {
     const btn = this.querySelector('button');
     if (!btn) return;
+    const message = this.getAttribute('data-message') || 'are you sure?';
     btn.addEventListener('click', (e) => {
-      if (!confirm('are you sure?')) {
+      if (!confirm(message)) {
         e.preventDefault();
       }
     });
   }
 }
 customElements.define('confirm-button', ConfirmButton);
+
+// Flash auto-dismiss
+(() => {
+  const flash = document.getElementById('admin-flash');
+  if (!flash) return;
+  setTimeout(() => {
+    flash.style.transition = 'opacity 0.3s';
+    flash.style.opacity = '0';
+    setTimeout(() => flash.remove(), 300);
+  }, 5000);
+})();
 
 // Bulk select / delete
 (() => {

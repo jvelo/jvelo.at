@@ -63,7 +63,7 @@ export const RowForm: FC<RowFormProps> = ({ columns, pkColumns, values, action, 
         );
       })}
       <div class="admin-actions">
-        <button type="submit" class="admin-btn">{submitLabel}</button>
+        <button type="submit" class="admin-btn admin-btn-primary">{submitLabel}</button>
       </div>
     </form>
   );

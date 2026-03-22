@@ -30,18 +30,19 @@ export const adminStyles = `
 
   .admin-body { padding: 0.9rem; max-width: 1200px; }
 
-  .admin-section-title { font-size: 0.9rem; margin: 0 0 0.72rem 0; letter-spacing: -0.5px; }
+  .admin-section-title { font-size: 1.08rem; margin: 0 0 0.72rem 0; letter-spacing: -0.5px; }
 
   /* Tables */
   .admin table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
-  .admin th { text-align: left; padding: 0.27rem 0.45rem; border-bottom: 1px solid var(--color-border); font-weight: normal; opacity: 0.5; font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .admin th { text-align: left; padding: 0.27rem 0.45rem; border-bottom: 1px solid var(--color-border); font-weight: normal; opacity: 0.7; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; }
   .admin td { padding: 0.27rem 0.45rem; border-bottom: 1px solid var(--color-border); max-width: 18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; }
   .admin td:has(.cell-image) { overflow: visible; }
   .admin tr:hover td { background: var(--color-code-bg); }
   .admin tr:hover td a { color: var(--color-accent); }
   .admin td a { text-decoration: none; display: block; color: inherit; }
-  .admin .pk-col { opacity: 0.5; }
-  .admin .cell-null { opacity: 0.25; font-style: italic; }
+  .admin .pk-col { opacity: 0.7; }
+  .admin .cell-null { opacity: 0.3; font-style: italic; }
+  .admin .cell-empty { opacity: 0.2; }
   .admin td img { border: 1px solid var(--color-border); }
   .admin .cell-image { position: relative; display: inline-block; }
   .admin .cell-image-preview { display: none; position: absolute; bottom: 100%; left: 0; z-index: 100; max-height: 240px; width: auto; max-width: 360px; margin-bottom: 0.27rem; border: 1px solid var(--color-border); background: var(--color-bg); }
@@ -58,7 +59,7 @@ export const adminStyles = `
   /* Forms */
   .admin-form { display: flex; flex-direction: column; gap: 0.54rem; max-width: 36rem; }
   .admin-field { display: flex; flex-direction: column; gap: 0.18rem; }
-  .admin-field label { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.5; }
+  .admin-field label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; }
   .admin-field input, .admin-field textarea, .admin-field select { font-family: inherit; font-size: 0.81rem; padding: 0.27rem 0.36rem; border: 1px solid #555; background: var(--color-bg); color: #bbb; }
   .admin-field input:focus, .admin-field textarea:focus, .admin-field select:focus { color: #ffffff; border-color: #ffffff; outline: none; }
   .admin-field textarea { min-height: 4.5rem; resize: vertical; }
@@ -69,6 +70,8 @@ export const adminStyles = `
   .admin-actions { display: flex; gap: 0.45rem; margin-top: 0.45rem; }
   .admin-btn { font-family: inherit; font-size: 0.72rem; padding: 0.27rem 0.54rem; border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); cursor: pointer; text-decoration: none; display: inline-block; }
   .admin-btn:hover { background: var(--color-text); color: var(--color-bg); }
+  .admin-btn-primary { background: #ffffff; color: #181818; }
+  .admin-btn-primary:hover { background: var(--color-accent); color: #181818; }
   .admin-btn-danger { border-color: #c44; color: #c44; }
   .admin-btn-danger:hover { background: #c44; color: #fff; }
 
@@ -79,4 +82,23 @@ export const adminStyles = `
 
   /* Toolbar */
   .admin-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.72rem; }
+
+  /* Table footer (pagination + bulk actions) */
+  .admin-table-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0.72rem; }
+
+  /* Responsive */
+  .admin table { table-layout: fixed; }
+  .admin td, .admin th { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  @media (max-width: 768px) {
+    .admin { font-size: 0.72rem; }
+    .admin table { font-size: 0.63rem; }
+    .admin th { font-size: 0.54rem; }
+    .admin td { max-width: 8rem; padding: 0.18rem 0.27rem; }
+    .admin th { padding: 0.18rem 0.27rem; }
+    .admin-body { padding: 0.45rem; }
+    .admin-toolbar { flex-direction: column; align-items: flex-start; gap: 0.36rem; }
+    .admin-table-footer { flex-direction: column; align-items: flex-start; gap: 0.36rem; }
+    .admin-section-title { font-size: 0.9rem; }
+  }
 `;

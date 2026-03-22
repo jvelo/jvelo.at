@@ -15,6 +15,7 @@ export async function rowsRoute(c: Context) {
   const info = await getTableInfo(db, table);
   const { rows, total } = await getRows(db, table, { page, pageSize });
   const tableConfig = await getTableConfig(db, table);
+  const hasPk = info.pkColumns.length > 0;
 
   const flash = c.req.query('flash');
   const msg = c.req.query('msg');
@@ -26,8 +27,8 @@ export async function rowsRoute(c: Context) {
         <h2 class="admin-section-title">{table} <span class="row-count">({total})</span></h2>
         <div class="admin-actions">
           <a href={`/admin/${table}/_config`} class="admin-btn">config</a>
-          {info.pkColumns.length > 0 && (
-            <a href={`/admin/${table}/new`} class="admin-btn">+ new row</a>
+          {hasPk && (
+            <a href={`/admin/${table}/new`} class="admin-btn admin-btn-primary">+ new row</a>
           )}
         </div>
       </div>
@@ -40,7 +41,14 @@ export async function rowsRoute(c: Context) {
         tableConfig={tableConfig}
         page={page}
       />
-      <Pagination page={page} pageSize={pageSize} total={total} baseUrl={`/admin/${table}`} />
+      <div class="admin-table-footer">
+        <Pagination page={page} pageSize={pageSize} total={total} baseUrl={`/admin/${table}`} />
+        {hasPk && (
+          <confirm-button data-message="delete selected rows?">
+            <button type="submit" form="bulk-form" class="admin-btn admin-btn-danger" id="bulk-delete-btn" disabled>delete selected</button>
+          </confirm-button>
+        )}
+      </div>
     </AdminLayout>
   );
 }

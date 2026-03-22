@@ -22,6 +22,9 @@ const CellContent: FC<{ value: unknown; config: ColumnConfig }> = ({ value, conf
   if (value === null || value === undefined) {
     return <span class="cell-null">null</span>;
   }
+  if (value === '') {
+    return <span class="cell-empty">(empty)</span>;
+  }
 
   const display = config.display || 'text';
   const str = String(value);
@@ -68,7 +71,6 @@ export const DataTable: FC<DataTableProps> = ({ columns, pkColumns, rows, linkBa
       <table>
         <thead>
           <tr>
-            {hasPk && <th><input type="checkbox" class="row-select" id="select-all" /></th>}
             {visibleColumns.map((col) => {
               const cc = getColumnConfig(tableConfig, col.name);
               return (
@@ -78,6 +80,7 @@ export const DataTable: FC<DataTableProps> = ({ columns, pkColumns, rows, linkBa
                 </th>
               );
             })}
+            {hasPk && <th style="width: 1.8rem; text-align: center;"><input type="checkbox" class="row-select" id="select-all" /></th>}
           </tr>
         </thead>
         <tbody>
@@ -85,11 +88,6 @@ export const DataTable: FC<DataTableProps> = ({ columns, pkColumns, rows, linkBa
             const pk = encodePk(row);
             return (
               <tr>
-                {hasPk && (
-                  <td style="width: 1.8rem;">
-                    <input type="checkbox" name="pk" value={pk} class="row-select" />
-                  </td>
-                )}
                 {visibleColumns.map((col) => {
                   const val = row[col.name];
                   const cc = getColumnConfig(tableConfig, col.name);
@@ -101,18 +99,16 @@ export const DataTable: FC<DataTableProps> = ({ columns, pkColumns, rows, linkBa
                     </td>
                   );
                 })}
+                {hasPk && (
+                  <td style="width: 1.8rem; text-align: center;">
+                    <input type="checkbox" name="pk" value={pk} class="row-select" />
+                  </td>
+                )}
               </tr>
             );
           })}
         </tbody>
       </table>
-      {hasPk && (
-        <div class="admin-actions" style="margin-top: 0.45rem;">
-          <confirm-button>
-            <button type="submit" class="admin-btn admin-btn-danger" id="bulk-delete-btn" disabled>delete selected</button>
-          </confirm-button>
-        </div>
-      )}
     </form>
   );
 };
