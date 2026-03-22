@@ -7,7 +7,7 @@ import { ReachOut } from './components/ReachOut';
 import { Sink } from './components/KitchenSink';
 import { verifyTurnstile, sendContactEmail } from './lib/contact';
 import {
-  generateCode, signToken, verifyToken,
+  generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
   isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
   setSession, clearSession, getSession, sendSigninEmail,
   requireAuth, AuthContext, type AuthUser,
@@ -166,6 +166,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
 
     const db = getDb(c);
     const env = c.env as Record<string, string>;
+    const secret = env.JWT_SECRET;
 
     await cleanupExpiredCodes(db);
 
@@ -175,9 +176,9 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
       const code = generateCode();
       await storeCode(db, email, code);
 
-      const token = await signToken(code, env.JWT_SECRET || '');
+      const token = await signToken(code, redirect, secret);
       const origin = new URL(c.req.url).origin;
-      const magicLinkUrl = `${origin}/auth/verify?token=${token}&redirect=${encodeURIComponent(redirect)}`;
+      const magicLinkUrl = `${origin}/auth/verify?token=${token}`;
 
       await sendSigninEmail(email, code, magicLinkUrl, {
         scwSecretKey: env.SCW_TEM_SECRET_KEY,
@@ -186,6 +187,9 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
       });
     }
 
+    // Sign redirect so the code-entry form can't be tampered with
+    const redirectSig = await signRedirect(redirect, secret);
+
     return c.html(withAuth(c,
       <Layout title="Enter your code" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
         <div class="auth-page">
@@ -193,6 +197,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
           <p class="auth-subtitle">We sent a 6-digit code to <strong>{email}</strong></p>
           <form method="post" action="/auth/verify" class="auth-form" id="code-form">
             <input type="hidden" name="redirect" value={redirect} />
+            <input type="hidden" name="redirect_sig" value={redirectSig} />
             <div class="code-inputs" id="code-inputs">
               <input type="text" maxLength={1} class="code-digit" data-index="0" autocomplete="one-time-code" inputMode="text" />
               <input type="text" maxLength={1} class="code-digit" data-index="1" inputMode="text" />
@@ -214,34 +219,42 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
 
   app.get('/auth/verify', async (c) => {
     const tokenParam = c.req.query('token') || '';
-    const redirect = c.req.query('redirect') || '/';
     const db = getDb(c);
     const env = c.env as Record<string, string>;
 
-    const code = await verifyToken(tokenParam, env.JWT_SECRET || '');
-    if (!code) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Code or link has expired. Please request a new one.')}`);
+    // Redirect is inside the signed token — no separate HMAC needed
+    const result = await verifyToken(tokenParam, env.JWT_SECRET);
+    if (!result) {
+      return c.redirect('/login?error=' + encodeURIComponent('Code or link has expired. Please request a new one.'));
     }
 
-    const email = await verifyCode(db, code);
+    const email = await verifyCode(db, result.code);
     if (!email) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Code or link has expired. Please request a new one.')}`);
+      return c.redirect('/login?error=' + encodeURIComponent('Code or link has expired. Please request a new one.'));
     }
 
     const role = await getUserRole(db, email);
     if (!role) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Invalid or expired code. Please try again.')}`);
+      return c.redirect('/login?error=' + encodeURIComponent('Invalid or expired code. Please try again.'));
     }
 
     await setSession(c, { email, role });
-    return c.redirect(redirect);
+    return c.redirect(result.redirect);
   });
 
   app.post('/auth/verify', async (c) => {
     const body = await c.req.parseBody();
     const code = (body.code as string || '').trim().toUpperCase();
     const redirect = (body.redirect as string) || '/';
+    const redirectSig = (body.redirect_sig as string) || '';
     const db = getDb(c);
+    const env = c.env as Record<string, string>;
+
+    // Verify redirect HMAC to prevent open redirect
+    const validRedirect = await verifyRedirect(redirect, redirectSig, env.JWT_SECRET);
+    if (!validRedirect) {
+      return c.redirect('/login?error=' + encodeURIComponent('Invalid request.'));
+    }
 
     if (!code || !/^[A-Z0-9]{6}$/.test(code)) {
       return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Please enter a valid 6-character code.')}`);

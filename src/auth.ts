@@ -23,19 +23,31 @@ export interface AuthUser {
 // -- Helpers --
 
 function getSecret(c: Context): string {
-  return (c.env as Record<string, string>).JWT_SECRET || '';
+  const secret = (c.env as Record<string, string>).JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET is not configured');
+  return secret;
 }
 
-// -- Code generation (6 alphanumeric chars, like orius-auth) --
+// -- Code generation (6 alphanumeric chars, rejection sampling to avoid modulo bias) --
 
 const CODE_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const CODE_LENGTH = 6;
 const CODE_TTL_MINUTES = 15;
+// Largest multiple of 36 that fits in a byte (252 = 36 * 7)
+const CODE_CHAR_LIMIT = 252;
 
 export function generateCode(): string {
-  const array = new Uint8Array(CODE_LENGTH);
-  crypto.getRandomValues(array);
-  return Array.from(array, (b) => CODE_CHARS[b % CODE_CHARS.length]).join('');
+  const result: string[] = [];
+  while (result.length < CODE_LENGTH) {
+    const array = new Uint8Array(CODE_LENGTH - result.length);
+    crypto.getRandomValues(array);
+    for (const b of array) {
+      if (b < CODE_CHAR_LIMIT && result.length < CODE_LENGTH) {
+        result.push(CODE_CHARS[b % CODE_CHARS.length]);
+      }
+    }
+  }
+  return result.join('');
 }
 
 export function formatCode(code: string): string {
@@ -90,16 +102,31 @@ export async function verifyJwt(token: string, secret: string): Promise<Record<s
   return payload;
 }
 
-// -- Magic link token (signed code, like orius-auth) --
+// -- HMAC for redirect URLs --
 
-export async function signToken(code: string, secret: string): Promise<string> {
-  return signJwt({ code, purpose: 'signin' }, secret, 1);
+export async function signRedirect(redirect: string, secret: string): Promise<string> {
+  const key = await hmacKey(secret);
+  const enc = new TextEncoder();
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(redirect));
+  return base64url(sig);
 }
 
-export async function verifyToken(token: string, secret: string): Promise<string | null> {
+export async function verifyRedirect(redirect: string, sig: string, secret: string): Promise<boolean> {
+  const key = await hmacKey(secret);
+  const enc = new TextEncoder();
+  return crypto.subtle.verify('HMAC', key, base64urlDecode(sig).buffer as ArrayBuffer, enc.encode(redirect));
+}
+
+// -- Magic link token (signed code + redirect, like orius-auth) --
+
+export async function signToken(code: string, redirect: string, secret: string): Promise<string> {
+  return signJwt({ code, redirect, purpose: 'signin' }, secret, 1);
+}
+
+export async function verifyToken(token: string, secret: string): Promise<{ code: string; redirect: string } | null> {
   const payload = await verifyJwt(token, secret);
   if (!payload || payload.purpose !== 'signin') return null;
-  return payload.code as string;
+  return { code: payload.code as string, redirect: (payload.redirect as string) || '/' };
 }
 
 // -- Database operations --
@@ -115,19 +142,17 @@ export async function getUserRole(db: D1Database, email: string): Promise<Role |
 }
 
 export async function storeCode(db: D1Database, email: string, code: string): Promise<void> {
-  // Delete old codes for this email first
   await db.prepare('DELETE FROM signin_codes WHERE email = ?').bind(email).run();
   const expiresAt = new Date(Date.now() + CODE_TTL_MINUTES * 60 * 1000).toISOString();
   await db.prepare('INSERT INTO signin_codes (code, email, expires_at) VALUES (?, ?, ?)').bind(code, email, expiresAt).run();
 }
 
 export async function verifyCode(db: D1Database, code: string): Promise<string | null> {
+  // Atomic: DELETE RETURNING ensures one-use even under concurrent requests
   const row = await db.prepare(
-    "SELECT email FROM signin_codes WHERE code = ? AND expires_at > datetime('now')"
+    "DELETE FROM signin_codes WHERE code = ? AND expires_at > datetime('now') RETURNING email"
   ).bind(code).first();
-  if (!row) return null;
-  await db.prepare('DELETE FROM signin_codes WHERE code = ?').bind(code).run();
-  return row.email as string;
+  return row ? (row.email as string) : null;
 }
 
 export async function cleanupExpiredCodes(db: D1Database): Promise<void> {
