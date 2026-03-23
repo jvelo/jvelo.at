@@ -20,6 +20,11 @@ export const adminStyles = `
 
   .admin { font-family: 'Departure Mono', 'IBM Plex Mono', monospace; font-size: 0.81rem; line-height: 1.35; color: #ffffff; background: #181818; min-height: 100vh; }
   .admin * { color: inherit; }
+  .admin .admin-btn { color: var(--color-text); }
+  .admin .admin-btn:hover { color: #ffffff; }
+  .admin .admin-btn-primary, .admin .admin-btn-primary:hover { color: #181818; }
+  .admin .admin-btn-danger { color: #c44; }
+  .admin .admin-btn-danger:hover { color: #fff; }
   .admin a { text-decoration: none; }
   .admin a:hover { color: var(--color-accent); }
 
@@ -53,7 +58,7 @@ export const adminStyles = `
   /* Pagination */
   .admin-pager { display: flex; gap: 0.45rem; align-items: center; margin-top: 0.72rem; font-size: 0.72rem; }
   .admin-pager a { padding: 0.18rem 0.36rem; border: 1px solid var(--color-border); }
-  .admin-pager a:hover { background: var(--color-code-bg); }
+  .admin-pager a:hover { background: #333; }
   .admin-pager .current { opacity: 0.5; }
 
   /* Forms */
@@ -69,11 +74,13 @@ export const adminStyles = `
   /* Buttons */
   .admin-actions { display: flex; gap: 0.45rem; margin-top: 0.45rem; }
   .admin-btn { font-family: inherit; font-size: 0.72rem; padding: 0.27rem 0.54rem; border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); cursor: pointer; text-decoration: none; display: inline-block; }
-  .admin-btn:hover { background: var(--color-text); color: var(--color-bg); }
-  .admin-btn-primary { background: #ffffff; color: #181818; }
-  .admin-btn-primary:hover { background: var(--color-accent); color: #181818; }
+  .admin-btn:hover { background: #333; color: #ffffff; }
+  .admin-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .admin-btn:disabled:hover { background: var(--color-bg); color: var(--color-text); }
+  .admin-btn-primary { background: #ffffff; color: #181818; border-color: #ffffff; }
+  .admin-btn-primary:hover { background: var(--color-accent); border-color: var(--color-accent); color: #000000; }
   .admin-btn-danger { border-color: #c44; color: #c44; }
-  .admin-btn-danger:hover { background: #c44; color: #fff; }
+  .admin-btn-danger:hover { background: #c44; border-color: #c44; color: #fff; }
 
   /* Flash messages */
   .admin-flash { padding: 0.36rem 0.54rem; margin-bottom: 0.72rem; font-size: 0.72rem; border: 1px solid var(--color-border); }
@@ -85,6 +92,11 @@ export const adminStyles = `
 
   /* Table footer (pagination + bulk actions) */
   .admin-table-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0.72rem; }
+
+  /* Config table */
+  .admin-form table { table-layout: auto; }
+  .admin-form table input, .admin-form table select { font-family: inherit; font-size: inherit; padding: 0.18rem 0.27rem; border: 1px solid #555; background: var(--color-bg); color: #bbb; width: 100%; }
+  .admin-form table input:focus, .admin-form table select:focus { color: #ffffff; border-color: #ffffff; outline: none; }
 
   /* Responsive */
   .admin table { table-layout: fixed; }

@@ -28,18 +28,18 @@ const ConfigForm: FC<{ table: string; columns: { name: string; type: string }[];
               <tr>
                 <td>{col.name}</td>
                 <td class="row-count">{col.type || 'TEXT'}</td>
-                <td class="admin-field">
+                <td>
                   <select name={`${col.name}__display`}>
                     {DISPLAY_OPTIONS.map((opt) => (
                       <option value={opt} selected={cc.display === opt}>{opt}</option>
                     ))}
                   </select>
                 </td>
-                <td class="admin-field">
-                  <input name={`${col.name}__label`} value={cc.label || ''} placeholder={col.name} style="width: 6rem;" />
+                <td>
+                  <input name={`${col.name}__label`} value={cc.label || ''} placeholder={col.name} />
                 </td>
-                <td class="admin-field">
-                  <input name={`${col.name}__width`} type="number" value={cc.width ? String(cc.width) : ''} placeholder="px" style="width: 3.6rem;" />
+                <td>
+                  <input name={`${col.name}__width`} type="number" value={cc.width ? String(cc.width) : ''} placeholder="px" />
                 </td>
                 <td style="text-align: center;">
                   <input name={`${col.name}__hidden`} type="checkbox" checked={!!cc.hidden} value="1" />
