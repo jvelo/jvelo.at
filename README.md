@@ -1,30 +1,33 @@
-Source code for my personal website living at [jvelo.at](https://jvelo.at).
+Source code for my personal website at [jvelo.at](https://jvelo.at).
 
-If I have built it, it is by standing on the shoulders of Giants:
+## Stack
 
-- [React](https://github.com/facebook/react)
-- [Next.js](https://nextjs.org/)
-- [styled-components](https://github.com/styled-components)
-- [Rebass](https://github.com/rebassjs/rebass)
+- **Runtime**: [Hono](https://hono.dev/) with JSX on [Cloudflare Workers](https://workers.cloudflare.com/)
+- **Database**: [Cloudflare D1](https://developers.cloudflare.com/d1/) (SQLite)
+- **Styles**: Plain CSS with CSS variables for theming
+- **Fonts**: IBM Plex Sans, IBM Plex Sans Condensed, IBM Plex Mono, Crimson Text, Departure Mono
+- **Admin**: [Tapemark](src/admin/) (D1 database admin panel)
+
+## Development
+
+```bash
+pnpm install
+pnpm run dev
+```
+
+Opens at [http://localhost:8787](http://localhost:8787).
+
+## Build & Deploy
+
+```bash
+pnpm run build
+pnpm run deploy
+```
+
+## Database
+
+See [ADMIN.md](ADMIN.md) for D1 database commands (execute SQL, export, manage users, apply migrations).
+
+## License
 
 The code for the site is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/).
-
-![build status](https://github.com/jvelo/jvelo.at/workflows/build/badge.svg)
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Storybook
-
-You can start the storybook server with:
-
-```bash
-yarn storybook
-```
