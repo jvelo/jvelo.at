@@ -13,7 +13,11 @@ Personal website for Jérôme Velociter. Built with Hono (JSX) + TypeScript.
 
 ## Stack
 
-- Runtime: Hono with JSX
+- Runtime: Hono with JSX on Cloudflare Workers
+- Database: Cloudflare D1 (SQLite)
 - Styles: plain CSS (`public/styles.css`), CSS variables for theming
-- Build: `npm run build` (runs `tsc`)
+- Package manager: pnpm (enforced via `packageManager` field and `preinstall` guard)
+- Build: `pnpm run build` (runs `tsc`)
+- Deploy: `pnpm run deploy` (runs `wrangler deploy`)
 - Content: Markdown bundled via `scripts/bundle-content.ts`
+- Admin: [Tapemark](https://github.com/jvelo/tapemark) (`@jvelo/tapemark-hono` + `@jvelo/tapemark-d1`)

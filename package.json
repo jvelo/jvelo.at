@@ -6,7 +6,9 @@
   "engines": {
     "node": ">=20.x"
   },
+  "packageManager": "pnpm@9.15.2",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "wrangler dev src/index.tsx",
     "dev:node": "tsx watch src/server.tsx",
     "prebuild": "tsx scripts/bundle-content.ts",

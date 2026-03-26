@@ -12,11 +12,11 @@ importers:
         specifier: ^1.19.6
         version: 1.19.11(hono@4.12.9)
       '@jvelo/tapemark-d1':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@jvelo/tapemark-hono':
-        specifier: ^0.2.0
-        version: 0.2.0(hono@4.12.9)
+        specifier: ^0.3.0
+        version: 0.3.0(hono@4.12.9)
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -557,16 +557,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@jvelo/tapemark-d1@0.2.0':
-    resolution: {integrity: sha512-OJ7WetjjaDD8uBM8hS2YY5q+va5rpGNUY6lDjeKVQhaI3DvaXUCyVUhriCXEVTvas0Kv68soFlta7MNuyXlXBg==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark-d1/0.2.0/041065e719a73d978ccb280512571ccc179c928d}
+  '@jvelo/tapemark-d1@0.3.0':
+    resolution: {integrity: sha512-WE0nqGO19bjUpTbnGBMkR/qPStLOciz342CZeIyjxtKYlT9Y+ITETM8TQkFHz3yREmV3KewtZEGLgLTVz0rPzQ==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark-d1/0.3.0/ae200b5a86b27c22f513ee26b5fbc1f8d1fd4d67}
 
-  '@jvelo/tapemark-hono@0.2.0':
-    resolution: {integrity: sha512-HGDCIzZvxk/SmhXBMe8lVuMONCiMwOkN+yJddICa4fTF0K0o2MrnbFFlpduX/ZDKUahSlDEDjDia61TX612kIQ==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark-hono/0.2.0/5a099f25f3df287c02284651350fc405368d7dcc}
+  '@jvelo/tapemark-hono@0.3.0':
+    resolution: {integrity: sha512-K+iukV1CEXQksj345Gy/PUaHJTFhgdIYrcYGrwrohx5tfd/oNuSs7M0SpESIoONlC2Yu/udfnJ2cUMeRk37tIQ==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark-hono/0.3.0/7136c07f40178a2899e93a7d6a42cbc86124afff}
     peerDependencies:
       hono: '>=4.0.0'
 
-  '@jvelo/tapemark@0.2.0':
-    resolution: {integrity: sha512-3LKoF19PVkv1Fy2PxEtxNKBB7wFtj0636qfgPO6uX1YJ3yEc3pkwSl2oOT+JArw8JCADsLjjwKMFQZyBp1cEZg==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark/0.2.0/f6f443ba5da49fb96348c942a6e1efc5d9e9c520}
+  '@jvelo/tapemark@0.3.0':
+    resolution: {integrity: sha512-aun/HV0AX/ZMvDBqA6Y4U7AgIOHDU+zByBAYUr2szb/JFcD0v6kEHUlzUIpdnPUGHguUbRbQud1CPAcZ18c17w==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark/0.3.0/d5848b61f1f2c6884306a21a751c80da1eae6b2e}
 
   '@poppinss/colors@4.1.6':
     resolution: {integrity: sha512-H9xkIdFswbS8n1d6vmRd8+c10t2Qe+rZITbbDHHkQixH5+2x1FDGmi/0K+WgWiqQFKPSlIYB7jlH6Kpfn6Fleg==}
@@ -1061,16 +1061,16 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jvelo/tapemark-d1@0.2.0':
+  '@jvelo/tapemark-d1@0.3.0':
     dependencies:
-      '@jvelo/tapemark': 0.2.0
+      '@jvelo/tapemark': 0.3.0
 
-  '@jvelo/tapemark-hono@0.2.0(hono@4.12.9)':
+  '@jvelo/tapemark-hono@0.3.0(hono@4.12.9)':
     dependencies:
-      '@jvelo/tapemark': 0.2.0
+      '@jvelo/tapemark': 0.3.0
       hono: 4.12.9
 
-  '@jvelo/tapemark@0.2.0':
+  '@jvelo/tapemark@0.3.0':
     dependencies:
       preact: 10.29.0
       preact-render-to-string: 6.6.6(preact@10.29.0)
