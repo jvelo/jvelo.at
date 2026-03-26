@@ -9,6 +9,8 @@ export const adminApp = tapemark({
   name: 'admin',
   siteUrl: '/',
   siteName: 'jvelo.at',
+  theme: 'depart',
+  fonts: false,
   authorize: async (c) => {
     const user = await getSession(c);
     if (!user) {

@@ -120,6 +120,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
                       src={item.media_url}
                       width={item.media_width}
                       height={item.media_height}
+                      style={`aspect-ratio: ${item.media_width} / ${item.media_height};`}
                       loading="lazy"
                       alt=""
                     />

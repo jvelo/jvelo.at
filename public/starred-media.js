@@ -4,16 +4,16 @@
   if (!grid || !btn) return;
 
   const cols = Array.from(grid.querySelectorAll('.masonry-col'));
+  const colHeights = cols.map((col) => col.offsetHeight);
   let loading = false;
 
-  function shortestCol() {
+  function shortestColIndex() {
     let min = Infinity;
-    let target = cols[0];
-    for (const col of cols) {
-      const h = col.offsetHeight;
-      if (h < min) { min = h; target = col; }
+    let idx = 0;
+    for (let i = 0; i < colHeights.length; i++) {
+      if (colHeights[i] < min) { min = colHeights[i]; idx = i; }
     }
-    return target;
+    return idx;
   }
 
   async function loadMore() {
@@ -28,17 +28,25 @@
     const res = await fetch(`/api/starred-media?seed=${seed}&offset=${offset}`);
     const data = await res.json();
 
+    const colWidth = cols[0].offsetWidth;
+
     for (const item of data.items) {
+      const idx = shortestColIndex();
       const div = document.createElement('div');
       div.className = 'masonry-item';
       const img = document.createElement('img');
       img.src = item.media_url;
       img.width = item.media_width;
       img.height = item.media_height;
+      img.style.aspectRatio = `${item.media_width} / ${item.media_height}`;
       img.loading = 'lazy';
       img.alt = '';
       div.appendChild(img);
-      shortestCol().appendChild(div);
+      cols[idx].appendChild(div);
+
+      // Track height using aspect ratio (image scales to column width)
+      const imgHeight = colWidth * (item.media_height / item.media_width);
+      colHeights[idx] += imgHeight;
     }
 
     if (data.hasMore) {
