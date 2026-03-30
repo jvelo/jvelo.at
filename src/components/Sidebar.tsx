@@ -22,16 +22,15 @@ export const Sidebar: FC = () => {
     <section class="sidebar-hero">
       <div class="sidebar-header">
         <h1 class="sidebar-name">Jérôme Velociter</h1>
-        <p class="sidebar-subtitle sidebar-subtitle--light">Product engineer</p>
+        <p class="sidebar-subtitle sidebar-subtitle--light">Freelance product engineer</p>
         <p class="sidebar-subtitle sidebar-subtitle--dark">Software creative</p>
       </div>
       <div class="sidebar-photo">
         <img src="/images/jvelo.png" alt="Jérôme Velociter" class="border-backdrop" />
       </div>
       <div class="sidebar-text">
-        <p>I design and build software products.</p>
-        <p>I'm available for freelance and consulting work.</p>
-        <p class="sidebar-cta"><a class="link" href="#contact" onclick="event.preventDefault(); document.querySelector('contact-form').open();">Work with me</a></p>
+        <p>I help startups and engineering teams build and ship complex software products.</p>
+        <p class="sidebar-cta"><a class="link" href="#contact" onclick="event.preventDefault(); document.querySelector('contact-form').open();">Let's talk</a></p>
       </div>
     </section>
   );

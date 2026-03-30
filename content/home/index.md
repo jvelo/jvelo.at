@@ -1,6 +1,7 @@
 ---
-title: Jérôme Velociter – Software Product Engineer
-description: I design and build software products. Product engineer and tech lead based in 
-  Toulouse, France. Available for freelance and consulting work.
+title: Jérôme Velociter – Freelance Product Engineer and Tech Lead
+description: I help startups and product teams design, build, and ship complex software
+  products. Hands-on product engineering and technical leadership from prototype to
+  production.
 hero_title: 
 ---

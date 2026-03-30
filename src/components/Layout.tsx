@@ -64,7 +64,7 @@ export const Header: FC = () => {
       </a>
       <div class="header-info">
         <h1 class="header-name">Jérôme Velociter</h1>
-        <p class="header-subtitle header-subtitle--light">Product engineer</p>
+        <p class="header-subtitle header-subtitle--light">Freelance product engineer</p>
         <p class="header-subtitle header-subtitle--dark">Software creative</p>
       </div>
     </header>

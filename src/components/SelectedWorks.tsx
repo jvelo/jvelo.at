@@ -31,13 +31,13 @@ export const SelectedWorks: FC = () => {
   const projects: Project[] = [
     {
       title: "BiomeOS",
-      description: "An extensible controlled environment platform for agronomic research and indoor farming production",
+      description: "A mission-critical platform for controlled-environment research and indoor farming at scale.",
       image: "/images/biomeos-touchscreen.png",
       link: "/biomeos"
     },
     {
       title: "Typebar",
-      description: "A rich-text editor framework for building delightful writing experiences. Built on the HTML canvas element, written in TypeScript with zero dependencies.",
+      description: "A custom canvas-based editor framework with deep frontend systems work and performance-sensitive UI architecture.",
       image: "/images/typebar.png",
       imagePosition: "top",
       badge: "private beta",
@@ -45,8 +45,7 @@ export const SelectedWorks: FC = () => {
     },
     {
       title: "Mayocat Shop",
-      description: "An open source e-commerce and marketplace platform. Self-contained," +
-          " multi-tenant, themeable.",
+      description: "A self-contained multi-tenant commerce platform covering storefront, back-office, and marketplace concerns in one product.",
       image: "/images/mayocat-card2.png",
       link: "/mayocat-shop"
     },

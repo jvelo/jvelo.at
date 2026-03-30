@@ -22,19 +22,19 @@ const ExpertiseCard: FC<ExpertiseItem> = ({ title, description }) => {
 export const Expertise: FC = () => {
   const items: ExpertiseItem[] = [
     {
-      title: "Product engineering",
+      title: "End-to-end product engineering",
       description: [
-        "I design, build, and ship software products — from early prototypes to production systems.",
-        "Frontend, backend, infrastructure.",
-        "I work across the full stack and own the outcome.",
+        "I design, build, and ship software products from first implementation to production.",
+        "Frontend, backend, infrastructure, and the glue in between.",
+        "From product shape to technical execution, I help turn direction into working software.",
       ],
     },
     {
-      title: "Tech leadership",
+      title: "Technical leadership for teams and products",
       description: [
-        "I help engineering teams deliver better.",
-        "Architecture decisions, development practices, team structure.",
-        "I can step in as a hands-on lead or advise from the side.",
+        "I help teams make better technical decisions and work together more effectively.",
+        "Architecture matters, but so do clarity, ownership, and the way a team works together.",
+        "I can step in as a lead, a senior individual contributor, or a close technical partner.",
       ],
     },
   ];
