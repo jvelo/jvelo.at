@@ -26,14 +26,14 @@ export const Expertise: FC = () => {
       description: [
         "I design, build, and ship software products from first implementation to production.",
         "Frontend, backend, infrastructure, and the glue in between.",
-        "From product shape to technical execution, I help turn direction into working software.",
+        "I help turn product and technical direction into working software.",
       ],
     },
     {
       title: "Technical leadership for teams and products",
       description: [
         "I help teams make better technical decisions and work together more effectively.",
-        "Architecture matters, but so do clarity, ownership, and the way a team works together.",
+        "Architecture matters, as do clarity, ownership, and the way a team works together.",
         "I can step in as a lead, a senior individual contributor, or a close technical partner.",
       ],
     },
