@@ -12,6 +12,14 @@ years: 2025–present
 license: Commercial
 ---
 
+## Problem space
+
+How do you build a rich-text editor that can handle editing large, novel-sized documents
+without dropping frames, and run in native desktop or mobile apps as well as a web browser?
+Typebar grows out of this need and addresses the challenge by providing a fully-featured,
+extensible rich-text editor framework, built from scratch on top of the Canvas API, free of any
+third-party dependencies.
+
 ## Philosophy
 
 Most rich-text editors for the web are built on top of the browser's own text rendering. That
