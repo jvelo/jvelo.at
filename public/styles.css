@@ -1668,3 +1668,236 @@ ul {
   margin-top: 1.35rem;
   text-align: center;
 }
+
+.elsewhere-page {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 1.8rem 1.35rem 4rem;
+}
+
+.elsewhere-page .page-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0.45rem 0 1.8rem;
+}
+
+.elsewhere-flash {
+  font-family: var(--font-accent-mono);
+  font-size: 0.81rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-code-bg);
+  padding: 0.63rem 0.9rem;
+  margin-bottom: 1.35rem;
+  border-left: 3px solid var(--color-accent);
+}
+
+.elsewhere-add {
+  margin-bottom: 2.25rem;
+  border: 1px dashed var(--color-border);
+  padding: 0.9rem 1.08rem;
+}
+
+.elsewhere-add > summary {
+  cursor: pointer;
+  font-family: var(--font-accent-mono);
+  font-size: 0.81rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.elsewhere-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 1.08rem;
+}
+
+.elsewhere-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.36rem;
+}
+
+.elsewhere-field > span {
+  font-family: var(--font-accent-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.elsewhere-field input,
+.elsewhere-field textarea {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  padding: 0.54rem 0.72rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.elsewhere-add-form button,
+.elsewhere-actions button {
+  font-family: var(--font-accent-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.elsewhere-add-form button:hover,
+.elsewhere-actions button:hover {
+  background: var(--color-border);
+  color: var(--color-bg);
+}
+
+.elsewhere-actions button.danger:hover {
+  background: #c33;
+  border-color: #c33;
+  color: #fff;
+}
+
+.elsewhere-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.elsewhere-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.63rem;
+}
+
+.elsewhere-link {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 1.35rem;
+  color: inherit;
+  text-decoration: none;
+  align-items: start;
+}
+
+@media (max-width: 576px) {
+  .elsewhere-link {
+    grid-template-columns: 1fr;
+  }
+}
+
+.elsewhere-visual {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-code-bg);
+}
+
+.elsewhere-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.elsewhere-visual-placeholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-code-bg),
+    var(--color-code-bg) 10px,
+    var(--color-bg) 10px,
+    var(--color-bg) 20px
+  );
+}
+
+.elsewhere-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.27rem;
+}
+
+.elsewhere-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.54rem;
+}
+
+.elsewhere-favicon {
+  width: 1.08rem;
+  height: 1.08rem;
+  object-fit: contain;
+}
+
+.elsewhere-title {
+  font-family: var(--font-heading);
+  font-size: 1.26rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-heading);
+}
+
+.elsewhere-link:hover .elsewhere-title {
+  color: var(--color-accent);
+}
+
+.elsewhere-host {
+  font-family: var(--font-accent-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.55;
+}
+
+.elsewhere-blurb {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.36rem 0 0;
+}
+
+.elsewhere-description {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0.36rem 0 0;
+  opacity: 0.75;
+}
+
+.elsewhere-error {
+  font-family: var(--font-accent-mono);
+  font-size: 0.72rem;
+  color: #c33;
+  margin: 0.45rem 0 0;
+}
+
+.elsewhere-actions {
+  display: flex;
+  gap: 0.54rem;
+  flex-wrap: wrap;
+  padding-left: 16.35rem;
+}
+
+@media (max-width: 576px) {
+  .elsewhere-actions {
+    padding-left: 0;
+  }
+}
+
+.elsewhere-empty {
+  font-family: var(--font-serif);
+  font-style: italic;
+  opacity: 0.6;
+  padding: 2.25rem 0;
+  text-align: center;
+}

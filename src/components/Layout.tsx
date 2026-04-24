@@ -90,6 +90,7 @@ export const Footer: FC = () => {
         {user ? (
           <>
             <a href="/starred-media">Starred media</a>
+            <a href="/elsewhere">Elsewhere</a>
             {isAdmin && <a href="/kitchen-sink">Kitchen sink</a>}
             {isAdmin && <a href="/admin">Admin</a>}
             <span class="nav-secondary-sep" />

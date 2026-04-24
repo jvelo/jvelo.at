@@ -5,14 +5,17 @@ import { SelectedWorks } from './components/SelectedWorks';
 import { Expertise } from './components/Expertise';
 import { ReachOut } from './components/ReachOut';
 import { Sink } from './components/KitchenSink';
+import { ElsewherePage } from './components/ElsewherePage';
 import { verifyTurnstile, sendContactEmail } from './lib/contact';
+import { getUrlMetadata } from './lib/url-metadata';
+import { generateBlurb } from './lib/ai-blurb';
 import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
   isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
   setSession, clearSession, getSession, sendSigninEmail,
   requireAuth, AuthContext, type AuthUser,
 } from './auth';
-import type { D1Database, PageProvider } from './types';
+import type { D1Database, PageProvider, SiteWithMetadata } from './types';
 
 export { requireAuth };
 
@@ -282,6 +285,114 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   app.get('/logout', async (c) => {
     clearSession(c);
     return c.redirect('/');
+  });
+
+  // -- Elsewhere (curated sites) --
+
+  app.get('/elsewhere', requireAuth('member'), async (c) => {
+    const db = getDb(c);
+    const { results } = await db.prepare(
+      `SELECT s.id, s.url, s.note, s.ai_blurb, s.display_order, s.created_at, s.updated_at,
+              m.title, m.description, m.favicon_url, m.og_image_url, m.screenshot_url, m.fetch_error
+         FROM sites s
+         LEFT JOIN url_metadata m ON s.url = m.url
+         ORDER BY s.display_order DESC, s.created_at DESC`
+    ).all();
+
+    const flash = c.req.query('flash') || '';
+    return c.html(withAuth(c,
+      <ElsewherePage sites={results as unknown as SiteWithMetadata[]} flashMessage={flash} turnstileSiteKey={getTurnstileKey(c)} />
+    ));
+  });
+
+  app.post('/elsewhere', requireAuth('admin'), async (c) => {
+    const body = await c.req.parseBody();
+    const url = ((body.url as string) || '').trim();
+    const note = ((body.note as string) || '').trim() || null;
+    const env = c.env as Record<string, string>;
+
+    if (!url || !/^https?:\/\//i.test(url)) {
+      return c.redirect('/elsewhere?flash=' + encodeURIComponent('Please enter a valid URL.'));
+    }
+
+    const db = getDb(c);
+    const existing = await db.prepare('SELECT id FROM sites WHERE url = ?').bind(url).first();
+    if (existing) {
+      return c.redirect('/elsewhere?flash=' + encodeURIComponent('Already in the list.'));
+    }
+
+    const metadata = await getUrlMetadata(db, url, { apiKey: env.MICROLINK_API_KEY });
+
+    let blurb: string | null = null;
+    if (env.ANTHROPIC_API_KEY) {
+      try {
+        blurb = await generateBlurb({
+          title: metadata.title,
+          description: metadata.description,
+          note,
+          apiKey: env.ANTHROPIC_API_KEY,
+        });
+      } catch (err) {
+        console.error('Blurb generation failed:', err);
+      }
+    }
+
+    await db.prepare('INSERT INTO sites (url, note, ai_blurb) VALUES (?, ?, ?)').bind(url, note, blurb).run();
+    return c.redirect('/elsewhere?flash=' + encodeURIComponent('Added.'));
+  });
+
+  app.post('/elsewhere/:id/refetch', requireAuth('admin'), async (c) => {
+    const id = parseInt(c.req.param('id') || '', 10);
+    if (!id) return c.redirect('/elsewhere?flash=' + encodeURIComponent('Invalid id.'));
+    const db = getDb(c);
+    const env = c.env as Record<string, string>;
+
+    const row = await db.prepare('SELECT url FROM sites WHERE id = ?').bind(id).first();
+    if (!row) return c.redirect('/elsewhere?flash=' + encodeURIComponent('Not found.'));
+
+    const metadata = await getUrlMetadata(db, row.url as string, { force: true, apiKey: env.MICROLINK_API_KEY });
+    await db.prepare("UPDATE sites SET updated_at = datetime('now') WHERE id = ?").bind(id).run();
+    const msg = metadata.fetch_error ? `Re-fetched with error: ${metadata.fetch_error}` : 'Metadata refreshed.';
+    return c.redirect('/elsewhere?flash=' + encodeURIComponent(msg));
+  });
+
+  app.post('/elsewhere/:id/regenerate', requireAuth('admin'), async (c) => {
+    const id = parseInt(c.req.param('id') || '', 10);
+    if (!id) return c.redirect('/elsewhere?flash=' + encodeURIComponent('Invalid id.'));
+    const db = getDb(c);
+    const env = c.env as Record<string, string>;
+
+    if (!env.ANTHROPIC_API_KEY) {
+      return c.redirect('/elsewhere?flash=' + encodeURIComponent('ANTHROPIC_API_KEY not configured.'));
+    }
+
+    const row = await db.prepare(
+      `SELECT s.note, m.title, m.description
+         FROM sites s LEFT JOIN url_metadata m ON s.url = m.url
+         WHERE s.id = ?`
+    ).bind(id).first();
+    if (!row) return c.redirect('/elsewhere?flash=' + encodeURIComponent('Not found.'));
+
+    try {
+      const blurb = await generateBlurb({
+        title: (row.title as string | null) ?? null,
+        description: (row.description as string | null) ?? null,
+        note: (row.note as string | null) ?? null,
+        apiKey: env.ANTHROPIC_API_KEY,
+      });
+      await db.prepare("UPDATE sites SET ai_blurb = ?, updated_at = datetime('now') WHERE id = ?").bind(blurb, id).run();
+      return c.redirect('/elsewhere?flash=' + encodeURIComponent('Blurb regenerated.'));
+    } catch (err) {
+      return c.redirect('/elsewhere?flash=' + encodeURIComponent('Blurb generation failed: ' + (err as Error).message));
+    }
+  });
+
+  app.post('/elsewhere/:id/delete', requireAuth('admin'), async (c) => {
+    const id = parseInt(c.req.param('id') || '', 10);
+    if (!id) return c.redirect('/elsewhere?flash=' + encodeURIComponent('Invalid id.'));
+    const db = getDb(c);
+    await db.prepare('DELETE FROM sites WHERE id = ?').bind(id).run();
+    return c.redirect('/elsewhere?flash=' + encodeURIComponent('Deleted.'));
   });
 
   // -- Content pages (catch-all, must be last) --
