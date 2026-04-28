@@ -1669,13 +1669,13 @@ ul {
   text-align: center;
 }
 
-.elsewhere-page {
+.atlas-page {
   max-width: 62rem;
   margin: 0 auto;
   padding: 1.8rem 1.35rem 4rem;
 }
 
-.elsewhere-page .page-subtitle {
+.atlas-page .page-subtitle {
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.08rem;
@@ -1684,7 +1684,7 @@ ul {
   margin: 0.45rem 0 1.8rem;
 }
 
-.elsewhere-flash {
+.atlas-flash {
   font-family: var(--font-accent-mono);
   font-size: 0.81rem;
   text-transform: uppercase;
@@ -1695,13 +1695,13 @@ ul {
   border-left: 3px solid var(--color-accent);
 }
 
-.elsewhere-add {
+.atlas-add {
   margin-bottom: 2.25rem;
   border: 1px dashed var(--color-border);
   padding: 0.9rem 1.08rem;
 }
 
-.elsewhere-add > summary {
+.atlas-add > summary {
   cursor: pointer;
   font-family: var(--font-accent-mono);
   font-size: 0.81rem;
@@ -1709,20 +1709,20 @@ ul {
   letter-spacing: 0.05em;
 }
 
-.elsewhere-add-form {
+.atlas-add-form {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
   margin-top: 1.08rem;
 }
 
-.elsewhere-field {
+.atlas-field {
   display: flex;
   flex-direction: column;
   gap: 0.36rem;
 }
 
-.elsewhere-field > span {
+.atlas-field > span {
   font-family: var(--font-accent-mono);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -1730,8 +1730,8 @@ ul {
   opacity: 0.7;
 }
 
-.elsewhere-field input,
-.elsewhere-field textarea {
+.atlas-field input,
+.atlas-field textarea {
   font-family: var(--font-sans);
   font-size: 0.9rem;
   padding: 0.54rem 0.72rem;
@@ -1740,8 +1740,8 @@ ul {
   color: var(--color-text);
 }
 
-.elsewhere-add-form button,
-.elsewhere-actions button {
+.atlas-add-form button,
+.atlas-actions button {
   font-family: var(--font-accent-mono);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -1753,19 +1753,19 @@ ul {
   cursor: pointer;
 }
 
-.elsewhere-add-form button:hover,
-.elsewhere-actions button:hover {
+.atlas-add-form button:hover,
+.atlas-actions button:hover {
   background: var(--color-border);
   color: var(--color-bg);
 }
 
-.elsewhere-actions button.danger:hover {
+.atlas-actions button.danger:hover {
   background: #c33;
   border-color: #c33;
   color: #fff;
 }
 
-.elsewhere-list {
+.atlas-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -1774,13 +1774,13 @@ ul {
   gap: 2.25rem;
 }
 
-.elsewhere-item {
+.atlas-item {
   display: flex;
   flex-direction: column;
   gap: 0.63rem;
 }
 
-.elsewhere-link {
+.atlas-link {
   display: grid;
   grid-template-columns: 15rem 1fr;
   gap: 1.35rem;
@@ -1790,26 +1790,26 @@ ul {
 }
 
 @media (max-width: 576px) {
-  .elsewhere-link {
+  .atlas-link {
     grid-template-columns: 1fr;
   }
 }
 
-.elsewhere-visual {
+.atlas-visual {
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 1px solid var(--color-border);
   background: var(--color-code-bg);
 }
 
-.elsewhere-visual img {
+.atlas-visual img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.elsewhere-visual-placeholder {
+.atlas-visual-placeholder {
   width: 100%;
   height: 100%;
   background: repeating-linear-gradient(
@@ -1821,25 +1821,25 @@ ul {
   );
 }
 
-.elsewhere-meta {
+.atlas-meta {
   display: flex;
   flex-direction: column;
   gap: 0.27rem;
 }
 
-.elsewhere-heading {
+.atlas-heading {
   display: flex;
   align-items: center;
   gap: 0.54rem;
 }
 
-.elsewhere-favicon {
+.atlas-favicon {
   width: 1.08rem;
   height: 1.08rem;
   object-fit: contain;
 }
 
-.elsewhere-title {
+.atlas-title {
   font-family: var(--font-heading);
   font-size: 1.26rem;
   font-weight: 700;
@@ -1847,11 +1847,11 @@ ul {
   color: var(--color-heading);
 }
 
-.elsewhere-link:hover .elsewhere-title {
+.atlas-link:hover .atlas-title {
   color: var(--color-accent);
 }
 
-.elsewhere-host {
+.atlas-host {
   font-family: var(--font-accent-mono);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -1859,14 +1859,14 @@ ul {
   opacity: 0.55;
 }
 
-.elsewhere-blurb {
+.atlas-blurb {
   font-family: var(--font-serif);
   font-size: 1rem;
   line-height: 1.5;
   margin: 0.36rem 0 0;
 }
 
-.elsewhere-description {
+.atlas-description {
   font-family: var(--font-sans);
   font-size: 0.9rem;
   line-height: 1.5;
@@ -1874,14 +1874,14 @@ ul {
   opacity: 0.75;
 }
 
-.elsewhere-error {
+.atlas-error {
   font-family: var(--font-accent-mono);
   font-size: 0.72rem;
   color: #c33;
   margin: 0.45rem 0 0;
 }
 
-.elsewhere-actions {
+.atlas-actions {
   display: flex;
   gap: 0.54rem;
   flex-wrap: wrap;
@@ -1889,12 +1889,12 @@ ul {
 }
 
 @media (max-width: 576px) {
-  .elsewhere-actions {
+  .atlas-actions {
     padding-left: 0;
   }
 }
 
-.elsewhere-empty {
+.atlas-empty {
   font-family: var(--font-serif);
   font-style: italic;
   opacity: 0.6;

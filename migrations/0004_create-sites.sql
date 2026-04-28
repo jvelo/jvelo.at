@@ -1,4 +1,4 @@
--- Migration number: 0004 	 2026-04-23T00:00:00.000Z
+-- Migration number: 0004 	 2026-04-24T00:00:00.000Z
 
 CREATE TABLE url_metadata (
   url TEXT PRIMARY KEY,
