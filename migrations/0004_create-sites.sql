@@ -13,6 +13,10 @@ CREATE TABLE url_metadata (
   raw_response TEXT
 );
 
+-- `url` is intentionally NOT a foreign key into url_metadata: sites are
+-- inserted first, the afterInsert hook populates url_metadata afterwards
+-- (or in the background). The two are joined by url at read time via LEFT
+-- JOIN, which gracefully handles "metadata not yet fetched".
 CREATE TABLE sites (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   url TEXT NOT NULL UNIQUE,
@@ -20,8 +24,7 @@ CREATE TABLE sites (
   ai_blurb TEXT,
   display_order INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (url) REFERENCES url_metadata(url)
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE INDEX idx_sites_order ON sites(display_order DESC, created_at DESC);

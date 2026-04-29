@@ -16,15 +16,25 @@ function buildPrompt({ title, description, note }: Omit<BlurbInput, 'apiKey'>): 
   const titleLine = `Title: ${title || '(unknown)'}`;
   const descLine = `Site's own description: ${description || '(none)'}`;
 
+  // Style rules: no em dashes anywhere in the output. Use commas, periods,
+  // colons, or restructured sentences. En dashes for ranges (e.g. "1990–2020")
+  // are fine.
+  const styleRules =
+    'Style rules: 1–2 sentences, max ~40 words. Neutral-literary voice. Do not restate the site\'s tagline verbatim. Do not start with "This site" or "A website that". Do not use em dashes (—) anywhere in the output; use commas, periods, or rewrite the sentence. Return only the blurb text, no quotes, no preamble.';
+
   if (note && note.trim()) {
-    return `You are writing a one-line blurb for a personal webpage that lists interesting websites someone finds worth visiting. The curator has left a short note on why this site stands out — use it as the seed, polish it into a crisp, specific 1–2 sentence blurb (max ~40 words). Neutral-literary voice. Don't restate the site's tagline verbatim. Don't start with "This site" or "A website that". Return only the blurb text — no quotes, no preamble.
+    return `You are writing a one-line blurb for a personal webpage that lists interesting websites someone finds worth visiting. The curator has left a short note on why this site stands out. Use it as the seed and polish it into a crisp, specific blurb.
+
+${styleRules}
 
 ${titleLine}
 ${descLine}
 Curator's note: ${note.trim()}`;
   }
 
-  return `You are writing a one-line blurb for a personal webpage that lists interesting websites someone finds worth visiting. Based on the title and description, write a crisp, specific 1–2 sentence blurb (max ~40 words) capturing what the site is and why a curious visitor might enjoy it. Neutral-literary voice. Don't restate the tagline verbatim. Don't start with "This site" or "A website that". Return only the blurb text — no quotes, no preamble.
+  return `You are writing a one-line blurb for a personal webpage that lists interesting websites someone finds worth visiting. Based on the title and description, write a crisp, specific blurb capturing what the site is and why a curious visitor might enjoy it.
+
+${styleRules}
 
 ${titleLine}
 ${descLine}`;

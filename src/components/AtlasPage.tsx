@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx';
-import { Layout } from './Layout';
+import { Layout, PageTitle } from './Layout';
 import { useAuth } from '../auth';
 import type { SiteWithMetadata } from '../types';
 
@@ -16,6 +16,14 @@ function hostname(url: string): string {
   }
 }
 
+// WordPress's free mshots service — used as a last-resort visual when the
+// site exposes neither an og:image nor a microlink screenshot. First load
+// for a given URL returns a placeholder while mshots renders the page in
+// the background; subsequent loads get the cached screenshot.
+function mshotsUrl(url: string): string {
+  return `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=600&h=375`;
+}
+
 export const AtlasPage: FC<AtlasPageProps> = ({ entries, turnstileSiteKey = '' }) => {
   const user = useAuth();
   const isAdmin = user?.role === 'admin';
@@ -23,30 +31,51 @@ export const AtlasPage: FC<AtlasPageProps> = ({ entries, turnstileSiteKey = '' }
   return (
     <Layout title="Atlas" description="A collection of websites worth visiting" turnstileSiteKey={turnstileSiteKey} sidebar={false}>
       <div class="atlas-page">
-        <h1 class="page-title">atlas</h1>
-        <p class="page-subtitle">Corners of the web worth wandering into.</p>
+        <PageTitle title="Atlas" subtitle="Corners of the web worth wandering into." />
 
         {entries.length === 0 ? (
           <p class="atlas-empty">Nothing here yet.</p>
         ) : (
           <ul class="atlas-list">
             {entries.map((entry) => {
-              const visual = entry.og_image_url || entry.screenshot_url;
+              const mshots = mshotsUrl(entry.url);
+              const visual = entry.og_image_url || entry.screenshot_url || mshots;
+              // If we picked og:image or a microlink screenshot and it 404s
+              // at load time, fall back to mshots; if mshots also fails,
+              // hide the broken icon and let the bordered frame stand alone.
+              const fallback = visual === mshots ? '' : mshots;
               const host = hostname(entry.url);
+              const title = entry.title || host;
               return (
-                <li class="atlas-item">
-                  <a href={entry.url} target="_blank" rel="noopener noreferrer" class="atlas-link">
+                <li>
+                  <a
+                    href={entry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="atlas-link"
+                    aria-label={`Visit ${title} (${host})`}
+                  >
                     <div class="atlas-visual">
-                      {visual ? (
-                        <img src={visual} alt="" loading="lazy" />
-                      ) : (
-                        <div class="atlas-visual-placeholder" />
-                      )}
+                      <img
+                        src={visual}
+                        data-fallback={fallback}
+                        onerror="if(this.dataset.fallback&&this.src!==this.dataset.fallback){this.src=this.dataset.fallback;}else{this.style.display='none';}"
+                        alt=""
+                        loading="lazy"
+                      />
                     </div>
                     <div class="atlas-meta">
                       <div class="atlas-heading">
-                        {entry.favicon_url && <img src={entry.favicon_url} alt="" class="atlas-favicon" loading="lazy" />}
-                        <h3 class="atlas-title">{entry.title || host}</h3>
+                        {entry.favicon_url && (
+                          <img
+                            src={entry.favicon_url}
+                            alt=""
+                            class="atlas-favicon"
+                            loading="lazy"
+                            referrerpolicy="no-referrer"
+                          />
+                        )}
+                        <h3 class="atlas-title">{title}</h3>
                       </div>
                       <span class="atlas-host">{host}</span>
                       {entry.ai_blurb ? (
