@@ -8,7 +8,7 @@ import type { D1Database } from '../types';
 interface Env {
   DB: D1Database;
   ANTHROPIC_API_KEY?: string;
-  MICROLINK_API_KEY?: string;
+  OPENGRAPH_API_KEY?: string;
 }
 
 async function fetchAndStoreMetadata(
@@ -18,7 +18,7 @@ async function fetchAndStoreMetadata(
   note: string | null,
   env: Env,
 ): Promise<void> {
-  const metadata = await getUrlMetadata(db, url, { apiKey: env.MICROLINK_API_KEY });
+  const metadata = await getUrlMetadata(db, url, { apiKey: env.OPENGRAPH_API_KEY });
   if (!env.ANTHROPIC_API_KEY) return;
   try {
     const blurb = await generateBlurb({
@@ -73,7 +73,7 @@ export const adminApp = tapemark<Env>({
             if (!row) return { success: false, message: 'site not found' };
             const meta = await getUrlMetadata(env.DB, (row as { url: string }).url, {
               force: true,
-              apiKey: env.MICROLINK_API_KEY,
+              apiKey: env.OPENGRAPH_API_KEY,
             });
             await env.DB.prepare("UPDATE sites SET updated_at = datetime('now') WHERE id = ?")
               .bind(pk.id)

@@ -20,7 +20,7 @@ function buildPrompt({ title, description, note }: Omit<BlurbInput, 'apiKey'>): 
   // colons, or restructured sentences. En dashes for ranges (e.g. "1990–2020")
   // are fine.
   const styleRules =
-    'Style rules: 1–2 sentences, max ~40 words. Neutral-literary voice. Do not restate the site\'s tagline verbatim. Do not start with "This site" or "A website that". Do not use em dashes (—) anywhere in the output; use commas, periods, or rewrite the sentence. Return only the blurb text, no quotes, no preamble.';
+    'Style rules: one short sentence, max ~20 words. Neutral-literary voice. Do not restate the site\'s tagline verbatim. Do not start with "This site" or "A website that". Do not use em dashes (—) anywhere in the output; use commas, periods, or rewrite the sentence. Return only the blurb text, no quotes, no preamble.';
 
   if (note && note.trim()) {
     return `You are writing a one-line blurb for a personal webpage that lists interesting websites someone finds worth visiting. The curator has left a short note on why this site stands out. Use it as the seed and polish it into a crisp, specific blurb.

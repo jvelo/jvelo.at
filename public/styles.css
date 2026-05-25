@@ -1684,16 +1684,15 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16.8rem, 1fr));
   gap: 3.5rem;
 }
 
 .atlas-link {
-  display: grid;
-  grid-template-columns: 15rem 1fr;
-  gap: 1.5rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   color: var(--color-text);
   text-decoration: none;
   box-shadow: none;
@@ -1703,13 +1702,6 @@ ul {
 .atlas-link:hover {
   background: none;
   color: var(--color-text);
-}
-
-@media (max-width: 576px) {
-  .atlas-link {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
 }
 
 .atlas-visual {
@@ -1736,6 +1728,7 @@ ul {
   flex-direction: column;
   gap: 0.25rem;
   min-width: 0;
+  margin-top: 1rem;
 }
 
 .atlas-heading {
@@ -1754,13 +1747,14 @@ ul {
 }
 
 .atlas-title {
-  font-size: 1.3rem;
+  font-size: 1.125rem;
   font-weight: bold;
   line-height: 1.25;
-  text-wrap: balance;
   margin: 0;
   min-width: 0;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .atlas-host {

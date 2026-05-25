@@ -290,11 +290,10 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   app.get('/atlas', requireAuth('member'), async (c) => {
     const db = getDb(c);
     const { results } = await db.prepare(
-      `SELECT s.id, s.url, s.note, s.ai_blurb, s.display_order, s.created_at, s.updated_at,
-              m.title, m.description, m.favicon_url, m.og_image_url, m.screenshot_url, m.fetch_error
-         FROM sites s
-         LEFT JOIN url_metadata m ON s.url = m.url
-         ORDER BY s.display_order DESC, s.created_at DESC`
+      `SELECT id, url, note, ai_blurb, display_order, created_at, updated_at,
+              title, description, favicon_url, og_image_url, screenshot_url, fetch_error
+         FROM sites_with_metadata
+         ORDER BY display_order DESC, created_at DESC`
     ).all();
 
     return c.html(withAuth(c,
