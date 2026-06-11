@@ -17,7 +17,7 @@ function hostname(url: string): string {
 }
 
 // WordPress's free mshots service — used as a last-resort visual when the
-// site exposes neither an og:image nor a microlink screenshot. First load
+// site exposes neither an og:image nor a stored screenshot. First load
 // for a given URL returns a placeholder while mshots renders the page in
 // the background; subsequent loads get the cached screenshot.
 function mshotsUrl(url: string): string {
@@ -40,7 +40,7 @@ export const AtlasPage: FC<AtlasPageProps> = ({ entries, turnstileSiteKey = '' }
             {entries.map((entry) => {
               const mshots = mshotsUrl(entry.url);
               const visual = entry.og_image_url || entry.screenshot_url || mshots;
-              // If we picked og:image or a microlink screenshot and it 404s
+              // If we picked og:image or a stored screenshot and it 404s
               // at load time, fall back to mshots; if mshots also fails,
               // hide the broken icon and let the bordered frame stand alone.
               const fallback = visual === mshots ? '' : mshots;
