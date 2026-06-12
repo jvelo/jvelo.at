@@ -5,10 +5,11 @@ import type { D1Database, UrlMetadata } from '../types';
 // rate-limited per account (not shared egress IP), so it works correctly from
 // Cloudflare Workers' shared outbound pool.
 
-interface OpenGraphHybridGraph {
+interface OpenGraphFields {
   title?: string;
   description?: string;
   image?: string;
+  images?: string[];
   favicon?: string;
   url?: string;
   site_name?: string;
@@ -16,10 +17,10 @@ interface OpenGraphHybridGraph {
 }
 
 interface OpenGraphResponse {
-  hybridGraph?: OpenGraphHybridGraph;
+  hybridGraph?: OpenGraphFields;
   openGraph?: Record<string, unknown>;
-  htmlInferred?: Record<string, unknown>;
-  requestInfo?: { responseCode?: number; redirects?: number };
+  htmlInferred?: OpenGraphFields;
+  requestInfo?: { responseCode?: number; redirects?: number; responseLength?: string };
   error?: { message?: string; code?: string | number };
 }
 
@@ -85,13 +86,33 @@ export async function getUrlMetadata(
   }
 
   const hg = result.data?.hybridGraph ?? {};
+  const inf = result.data?.htmlInferred ?? {};
+  const title = hg.title ?? inf.title ?? null;
+  const description = hg.description ?? inf.description ?? null;
+  const image = hg.image ?? inf.image ?? inf.images?.[0] ?? null;
+  const favicon = hg.favicon ?? inf.favicon ?? null;
+  const canonical = hg.url ?? inf.url ?? null;
+
+  // opengraph.io returns 200 OK even when the upstream site served a tiny
+  // bot-challenge / JS-required page that yields no real metadata. Demote
+  // those to a fetch failure so they don't cache as success and so cleanup
+  // tooling can spot them.
+  if (result.ok && !title && !description && !image) {
+    const length = result.data?.requestInfo?.responseLength;
+    result = {
+      ok: false,
+      message: `No metadata extracted${length ? ` (upstream returned ${length} bytes)` : ''}`,
+      data: result.data,
+    };
+  }
+
   const metadata: UrlMetadata = {
     url,
-    canonical_url: result.ok ? (hg.url ?? null) : null,
-    title: result.ok ? (hg.title ?? null) : null,
-    description: result.ok ? (hg.description ?? null) : null,
-    favicon_url: result.ok ? (hg.favicon ?? null) : null,
-    og_image_url: result.ok ? (hg.image ?? null) : null,
+    canonical_url: result.ok ? canonical : null,
+    title: result.ok ? title : null,
+    description: result.ok ? description : null,
+    favicon_url: result.ok ? favicon : null,
+    og_image_url: result.ok ? image : null,
     // opengraph.io has a separate /screenshot endpoint that counts against
     // the same daily quota; we leave screenshot_url null and let the
     // page-level mshots fallback handle missing visuals.
