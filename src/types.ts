@@ -61,4 +61,5 @@ export interface SiteWithMetadata extends Site {
   og_image_url: string | null;
   screenshot_url: string | null;
   fetch_error: string | null;
+  image_source: 'og:image' | 'screenshot' | 'mshots';
 }
