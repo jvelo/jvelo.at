@@ -291,7 +291,8 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const db = getDb(c);
     const { results } = await db.prepare(
       `SELECT id, url, note, ai_blurb, display_order, created_at, updated_at,
-              title, description, favicon_url, og_image_url, screenshot_url, fetch_error
+              title, description, favicon_url, og_image_url, screenshot_url, fetch_error,
+              prefer_screenshot, image_source
          FROM sites_with_metadata
          ORDER BY display_order DESC, created_at DESC`
     ).all();
@@ -299,6 +300,24 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     return c.html(withAuth(c,
       <AtlasPage entries={results as unknown as SiteWithMetadata[]} turnstileSiteKey={getTurnstileKey(c)} />
     ));
+  });
+
+  // R2-backed screenshot proxy. Captures populate keys like
+  // <source>/<host>/<slug>.png; see src/lib/screenshot.ts.
+  app.get('/screenshots/*', async (c) => {
+    const key = c.req.path.replace(/^\/screenshots\//, '');
+    if (!key || key.includes('..')) return c.notFound();
+    const r2 = (c.env as Record<string, unknown>).SCREENSHOTS as
+      | { get: (k: string) => Promise<{ body: ReadableStream; httpMetadata?: { contentType?: string }; writeHttpMetadata: (h: Headers) => void; httpEtag: string } | null> }
+      | undefined;
+    if (!r2) return c.notFound();
+    const obj = await r2.get(key);
+    if (!obj) return c.notFound();
+    const headers = new Headers();
+    obj.writeHttpMetadata(headers);
+    headers.set('etag', obj.httpEtag);
+    headers.set('cache-control', 'public, max-age=86400, immutable');
+    return new Response(obj.body, { headers });
   });
 
   // -- Content pages (catch-all, must be last) --

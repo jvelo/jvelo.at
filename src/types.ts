@@ -9,6 +9,21 @@ export interface D1PreparedStatement {
   run(): Promise<void>;
 }
 
+export interface R2Object {
+  body: ReadableStream;
+  httpEtag: string;
+  httpMetadata?: { contentType?: string };
+  size: number;
+  writeHttpMetadata(headers: Headers): void;
+}
+
+export interface R2Bucket {
+  put(key: string, value: ArrayBuffer | ReadableStream, options?: { httpMetadata?: { contentType?: string } }): Promise<void>;
+  get(key: string): Promise<R2Object | null>;
+  head(key: string): Promise<R2Object | null>;
+  delete(key: string): Promise<void>;
+}
+
 export interface PageData {
   slug: string;
   type?: 'page' | 'work';
@@ -61,5 +76,6 @@ export interface SiteWithMetadata extends Site {
   og_image_url: string | null;
   screenshot_url: string | null;
   fetch_error: string | null;
+  prefer_screenshot: number;
   image_source: 'og:image' | 'screenshot' | 'mshots';
 }

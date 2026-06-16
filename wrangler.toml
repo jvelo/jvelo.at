@@ -14,5 +14,13 @@ binding = "DB"
 database_name = "jvelo-at-db"
 database_id = "a11a154b-9d2f-418d-8bb2-17cb003dda9a"
 
+# Atlas screenshot storage. Create with:
+#   npx wrangler r2 bucket create jvelo-at-screenshots
+# Served back through the Worker at /screenshots/:key, so no public R2 access
+# or custom domain needed.
+[[r2_buckets]]
+binding = "SCREENSHOTS"
+bucket_name = "jvelo-at-screenshots"
+
 [observability]
 enabled = true

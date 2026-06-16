@@ -3,10 +3,12 @@ import { createD1Adapter } from '@jvelo/tapemark-d1';
 import { getSession } from '../auth';
 import { getUrlMetadata } from '../lib/url-metadata';
 import { generateBlurb } from '../lib/ai-blurb';
-import type { D1Database } from '../types';
+import { captureScreenshot } from '../lib/screenshot';
+import type { D1Database, R2Bucket } from '../types';
 
 interface Env {
   DB: D1Database;
+  SCREENSHOTS: R2Bucket;
   ANTHROPIC_API_KEY?: string;
   OPENGRAPH_API_KEY?: string;
 }
@@ -81,6 +83,39 @@ export const adminApp = tapemark<Env>({
             return meta.fetch_error
               ? { success: false, message: `re-fetch failed: ${meta.fetch_error}` }
               : { success: true, message: 'metadata refreshed' };
+          },
+        },
+        capture_screenshot_mshots: {
+          label: 'capture screenshot (mshots, free)',
+          handler: async (pk, ctx) => {
+            const env = ctx.env as Env;
+            const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
+              .bind(pk.id)
+              .first();
+            if (!row) return { success: false, message: 'site not found' };
+            const result = await captureScreenshot(env.DB, env.SCREENSHOTS, (row as { url: string }).url, {
+              source: 'mshots',
+            });
+            return result.ok
+              ? { success: true, message: `stored at ${result.storedUrl}` }
+              : { success: false, message: result.message || 'capture failed' };
+          },
+        },
+        capture_screenshot_opengraph: {
+          label: 'capture screenshot (opengraph, ~10 req)',
+          handler: async (pk, ctx) => {
+            const env = ctx.env as Env;
+            const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
+              .bind(pk.id)
+              .first();
+            if (!row) return { success: false, message: 'site not found' };
+            const result = await captureScreenshot(env.DB, env.SCREENSHOTS, (row as { url: string }).url, {
+              source: 'opengraph',
+              apiKey: env.OPENGRAPH_API_KEY,
+            });
+            return result.ok
+              ? { success: true, message: `stored at ${result.storedUrl}` }
+              : { success: false, message: result.message || 'capture failed' };
           },
         },
         regenerate_blurb: {

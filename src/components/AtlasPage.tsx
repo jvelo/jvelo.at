@@ -39,10 +39,17 @@ export const AtlasPage: FC<AtlasPageProps> = ({ entries, turnstileSiteKey = '' }
           <ul class="atlas-list">
             {entries.map((entry) => {
               const mshots = mshotsUrl(entry.url);
-              const visual = entry.og_image_url || entry.screenshot_url || mshots;
-              // If we picked og:image or a stored screenshot and it 404s
-              // at load time, fall back to mshots; if mshots also fails,
-              // hide the broken icon and let the bordered frame stand alone.
+              // image_source comes from the sites_with_metadata view and
+              // already reflects prefer_screenshot. We just dereference.
+              const visual =
+                entry.image_source === 'screenshot' && entry.screenshot_url
+                  ? entry.screenshot_url
+                  : entry.image_source === 'og:image' && entry.og_image_url
+                    ? entry.og_image_url
+                    : mshots;
+              // If og:image or a stored screenshot 404s at load time, fall
+              // back to mshots; if mshots also fails, hide the broken icon
+              // and let the bordered frame stand alone.
               const fallback = visual === mshots ? '' : mshots;
               const host = hostname(entry.url);
               const title = entry.title || host;
