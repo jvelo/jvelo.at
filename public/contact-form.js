@@ -60,6 +60,7 @@ class ContactForm extends HTMLElement {
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => this._overlay.classList.add('open'));
     this._form.querySelector('input').focus();
+    this._renderOrResetTurnstile();
   }
 
   close() {
@@ -138,8 +139,27 @@ class ContactForm extends HTMLElement {
     this._status.className = 'contact-status';
     const msg = this.querySelector('.contact-success');
     if (msg) msg.style.display = 'none';
-    if (typeof turnstile !== 'undefined' && !this._isDev) {
-      turnstile.reset();
+  }
+
+  _renderOrResetTurnstile() {
+    if (this._isDev) return;
+    const container = this.querySelector('.cf-turnstile');
+    if (!container) return;
+    if (typeof turnstile === 'undefined') {
+      window.addEventListener('load', () => this._renderOrResetTurnstile(), { once: true });
+      return;
+    }
+    try {
+      if (this._turnstileWidgetId === undefined) {
+        this._turnstileWidgetId = turnstile.render(container, {
+          sitekey: container.dataset.sitekey,
+          size: 'flexible',
+        });
+      } else {
+        turnstile.reset(this._turnstileWidgetId);
+      }
+    } catch (err) {
+      console.error('Turnstile render/reset failed', err);
     }
   }
 }
