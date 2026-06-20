@@ -86,7 +86,8 @@ export const adminApp = tapemark<Env>({
           },
         },
         capture_screenshot_mshots: {
-          label: 'capture screenshot (mshots, free)',
+          label: 'mshots (free)',
+          group: 'capture screenshot',
           handler: async (pk, ctx) => {
             const env = ctx.env as Env;
             const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
@@ -102,7 +103,8 @@ export const adminApp = tapemark<Env>({
           },
         },
         capture_screenshot_opengraph: {
-          label: 'capture screenshot (opengraph, ~10 req)',
+          label: 'opengraph (~10 req)',
+          group: 'capture screenshot',
           handler: async (pk, ctx) => {
             const env = ctx.env as Env;
             const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
