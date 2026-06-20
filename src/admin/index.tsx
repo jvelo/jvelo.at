@@ -65,61 +65,6 @@ export const adminApp = tapemark<Env>({
         },
       },
       actions: {
-        refetch_metadata: {
-          label: 're-fetch metadata',
-          handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
-            const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
-              .bind(pk.id)
-              .first();
-            if (!row) return { success: false, message: 'site not found' };
-            const meta = await getUrlMetadata(env.DB, (row as { url: string }).url, {
-              force: true,
-              apiKey: env.OPENGRAPH_API_KEY,
-            });
-            await env.DB.prepare("UPDATE sites SET updated_at = datetime('now') WHERE id = ?")
-              .bind(pk.id)
-              .run();
-            return meta.fetch_error
-              ? { success: false, message: `re-fetch failed: ${meta.fetch_error}` }
-              : { success: true, message: 'metadata refreshed' };
-          },
-        },
-        capture_screenshot_mshots: {
-          label: 'mshots (free)',
-          group: 'capture screenshot',
-          handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
-            const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
-              .bind(pk.id)
-              .first();
-            if (!row) return { success: false, message: 'site not found' };
-            const result = await captureScreenshot(env.DB, env.SCREENSHOTS, (row as { url: string }).url, {
-              source: 'mshots',
-            });
-            return result.ok
-              ? { success: true, message: `stored at ${result.storedUrl}` }
-              : { success: false, message: result.message || 'capture failed' };
-          },
-        },
-        capture_screenshot_opengraph: {
-          label: 'opengraph (~10 req)',
-          group: 'capture screenshot',
-          handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
-            const row = await env.DB.prepare('SELECT url FROM sites WHERE id = ?')
-              .bind(pk.id)
-              .first();
-            if (!row) return { success: false, message: 'site not found' };
-            const result = await captureScreenshot(env.DB, env.SCREENSHOTS, (row as { url: string }).url, {
-              source: 'opengraph',
-              apiKey: env.OPENGRAPH_API_KEY,
-            });
-            return result.ok
-              ? { success: true, message: `stored at ${result.storedUrl}` }
-              : { success: false, message: result.message || 'capture failed' };
-          },
-        },
         regenerate_blurb: {
           label: 'regenerate blurb',
           handler: async (pk, ctx) => {
@@ -153,6 +98,50 @@ export const adminApp = tapemark<Env>({
             } catch (err) {
               return { success: false, message: (err as Error).message };
             }
+          },
+        },
+      },
+    },
+    url_metadata: {
+      actions: {
+        refetch: {
+          label: 're-fetch metadata',
+          handler: async (pk, ctx) => {
+            const env = ctx.env as Env;
+            const meta = await getUrlMetadata(env.DB, String(pk.url), {
+              force: true,
+              apiKey: env.OPENGRAPH_API_KEY,
+            });
+            return meta.fetch_error
+              ? { success: false, message: `re-fetch failed: ${meta.fetch_error}` }
+              : { success: true, message: 'metadata refreshed' };
+          },
+        },
+        capture_screenshot_mshots: {
+          label: 'mshots (free)',
+          group: 'capture screenshot',
+          handler: async (pk, ctx) => {
+            const env = ctx.env as Env;
+            const result = await captureScreenshot(env.DB, env.SCREENSHOTS, String(pk.url), {
+              source: 'mshots',
+            });
+            return result.ok
+              ? { success: true, message: `stored at ${result.storedUrl}` }
+              : { success: false, message: result.message || 'capture failed' };
+          },
+        },
+        capture_screenshot_opengraph: {
+          label: 'opengraph (~10 req)',
+          group: 'capture screenshot',
+          handler: async (pk, ctx) => {
+            const env = ctx.env as Env;
+            const result = await captureScreenshot(env.DB, env.SCREENSHOTS, String(pk.url), {
+              source: 'opengraph',
+              apiKey: env.OPENGRAPH_API_KEY,
+            });
+            return result.ok
+              ? { success: true, message: `stored at ${result.storedUrl}` }
+              : { success: false, message: result.message || 'capture failed' };
           },
         },
       },
