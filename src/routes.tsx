@@ -13,7 +13,7 @@ import {
   setSession, clearSession, getSession, sendSigninEmail,
   requireAuth, AuthContext, type AuthUser,
 } from './auth';
-import type { D1Database, PageProvider, SiteWithMetadata } from './types';
+import type { D1Database, PageProvider, R2Bucket, SiteWithMetadata } from './types';
 
 export { requireAuth };
 
@@ -303,20 +303,34 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   });
 
   // R2-backed screenshot proxy. Captures populate keys like
-  // <source>/<host>/<slug>.png; see src/lib/screenshot.ts.
+  // <source>/<host>/<slug>.png; see src/lib/screenshot.ts. R2 keys are
+  // deterministic per (url, source), so re-captures overwrite the same key —
+  // we rely on ETag revalidation (not immutable caching) to surface updates.
   app.get('/screenshots/*', async (c) => {
     const key = c.req.path.replace(/^\/screenshots\//, '');
     if (!key || key.includes('..')) return c.notFound();
-    const r2 = (c.env as Record<string, unknown>).SCREENSHOTS as
-      | { get: (k: string) => Promise<{ body: ReadableStream; httpMetadata?: { contentType?: string }; writeHttpMetadata: (h: Headers) => void; httpEtag: string } | null> }
-      | undefined;
+    const r2 = (c.env as Record<string, unknown>).SCREENSHOTS as R2Bucket | undefined;
     if (!r2) return c.notFound();
+
+    const cacheControl = 'public, max-age=300, must-revalidate';
+
+    const ifNoneMatch = c.req.header('if-none-match');
+    if (ifNoneMatch) {
+      const head = await r2.head(key);
+      if (head && head.httpEtag === ifNoneMatch) {
+        return new Response(null, {
+          status: 304,
+          headers: { etag: head.httpEtag, 'cache-control': cacheControl },
+        });
+      }
+    }
+
     const obj = await r2.get(key);
     if (!obj) return c.notFound();
     const headers = new Headers();
     obj.writeHttpMetadata(headers);
     headers.set('etag', obj.httpEtag);
-    headers.set('cache-control', 'public, max-age=86400, immutable');
+    headers.set('cache-control', cacheControl);
     return new Response(obj.body, { headers });
   });
 

@@ -67,6 +67,7 @@ export const adminApp = tapemark<Env>({
       actions: {
         regenerate_blurb: {
           label: 'regenerate blurb',
+          writes: ['ai_blurb', 'updated_at'],
           handler: async (pk, ctx) => {
             const env = ctx.env as Env;
             if (!env.ANTHROPIC_API_KEY) {
@@ -89,11 +90,9 @@ export const adminApp = tapemark<Env>({
                 note: row.note,
                 apiKey: env.ANTHROPIC_API_KEY,
               });
-              await env.DB.prepare(
-                "UPDATE sites SET ai_blurb = ?, updated_at = datetime('now') WHERE id = ?",
-              )
-                .bind(blurb, pk.id)
-                .run();
+              // match SQLite datetime('now') format: "YYYY-MM-DD HH:MM:SS" UTC
+              const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+              await ctx.update({ ai_blurb: blurb, updated_at: now });
               return { success: true, message: 'blurb regenerated' };
             } catch (err) {
               return { success: false, message: (err as Error).message };

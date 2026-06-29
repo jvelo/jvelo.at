@@ -106,50 +106,62 @@ export async function getUrlMetadata(
     };
   }
 
-  const metadata: UrlMetadata = {
+  const fetchedAt = new Date().toISOString();
+  const rawResponse = JSON.stringify(result.data ?? { error: result.message });
+
+  // screenshot_url is owned by the capture flow (lib/screenshot.ts); never
+  // touch it here. On failure, preserve previously-fetched fields so a
+  // transient error doesn't wipe a working row — only the fetch bookkeeping
+  // (fetched_at, fetch_error, raw_response) changes.
+  if (result.ok) {
+    await db
+      .prepare(
+        `INSERT INTO url_metadata (url, canonical_url, title, description, favicon_url, og_image_url, fetched_at, fetch_error, raw_response)
+         VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)
+         ON CONFLICT(url) DO UPDATE SET
+           canonical_url = excluded.canonical_url,
+           title = excluded.title,
+           description = excluded.description,
+           favicon_url = excluded.favicon_url,
+           og_image_url = excluded.og_image_url,
+           fetched_at = excluded.fetched_at,
+           fetch_error = NULL,
+           raw_response = excluded.raw_response`,
+      )
+      .bind(url, canonical, title, description, favicon, image, fetchedAt, rawResponse)
+      .run();
+  } else {
+    await db
+      .prepare(
+        `INSERT INTO url_metadata (url, fetched_at, fetch_error, raw_response)
+         VALUES (?, ?, ?, ?)
+         ON CONFLICT(url) DO UPDATE SET
+           fetched_at = excluded.fetched_at,
+           fetch_error = excluded.fetch_error,
+           raw_response = excluded.raw_response`,
+      )
+      .bind(url, fetchedAt, result.message || 'unknown error', rawResponse)
+      .run();
+  }
+
+  // Re-read so the return reflects what was persisted: on failure this carries
+  // the preserved existing fields rather than the nulls of the failed fetch.
+  const row = (await db
+    .prepare('SELECT * FROM url_metadata WHERE url = ?')
+    .bind(url)
+    .first()) as unknown as UrlMetadata | null;
+  if (row) return row;
+
+  return {
     url,
     canonical_url: result.ok ? canonical : null,
     title: result.ok ? title : null,
     description: result.ok ? description : null,
     favicon_url: result.ok ? favicon : null,
     og_image_url: result.ok ? image : null,
-    // opengraph.io has a separate /screenshot endpoint that counts against
-    // the same daily quota; we leave screenshot_url null and let the
-    // page-level mshots fallback handle missing visuals.
     screenshot_url: null,
-    fetched_at: new Date().toISOString(),
+    fetched_at: fetchedAt,
     fetch_error: result.ok ? null : (result.message || 'unknown error'),
-    raw_response: JSON.stringify(result.data ?? { error: result.message }),
+    raw_response: rawResponse,
   };
-
-  await db
-    .prepare(
-      `INSERT INTO url_metadata (url, canonical_url, title, description, favicon_url, og_image_url, screenshot_url, fetched_at, fetch_error, raw_response)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(url) DO UPDATE SET
-         canonical_url = excluded.canonical_url,
-         title = excluded.title,
-         description = excluded.description,
-         favicon_url = excluded.favicon_url,
-         og_image_url = excluded.og_image_url,
-         screenshot_url = excluded.screenshot_url,
-         fetched_at = excluded.fetched_at,
-         fetch_error = excluded.fetch_error,
-         raw_response = excluded.raw_response`,
-    )
-    .bind(
-      metadata.url,
-      metadata.canonical_url,
-      metadata.title,
-      metadata.description,
-      metadata.favicon_url,
-      metadata.og_image_url,
-      metadata.screenshot_url,
-      metadata.fetched_at,
-      metadata.fetch_error,
-      metadata.raw_response,
-    )
-    .run();
-
-  return metadata;
 }

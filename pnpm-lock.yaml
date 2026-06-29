@@ -12,11 +12,11 @@ importers:
         specifier: ^1.19.6
         version: 1.19.11(hono@4.12.9)
       '@jvelo/tapemark-d1':
-        specifier: ^0.8.0
-        version: 0.8.0(hono@4.12.9)
+        specifier: ^0.9.0
+        version: 0.9.0(hono@4.12.9)
       '@jvelo/tapemark-hono':
-        specifier: ^0.8.0
-        version: 0.8.0(hono@4.12.9)
+        specifier: ^0.9.0
+        version: 0.9.0(hono@4.12.9)
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -557,16 +557,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@jvelo/tapemark-d1@0.8.0':
-    resolution: {integrity: sha512-hCjIY0NvzkNQTymMjjWybNJCH2xKy2yNSYEkHQd0I6C0z8WOnQaDEU66BeZXLhUejiKgS13hh0BgSYZb0CMpfA==}
+  '@jvelo/tapemark-d1@0.9.0':
+    resolution: {integrity: sha512-yJfLA8ynbApptQKkQpCa+us5EF4giXl97OBJRay3M368dqEovSxiJW3q9CvtnbtVs7Cm9+6nGs/a+0xNsBFZ/w==}
 
-  '@jvelo/tapemark-hono@0.8.0':
-    resolution: {integrity: sha512-AEUObYUHEgdlI8atfkLw/W87sz/ajm75nDZ9DycceuEIC+I4nIPHYAht5PN0NpvRcSYiBwlbvjJf51Qd/oWz+g==}
+  '@jvelo/tapemark-hono@0.9.0':
+    resolution: {integrity: sha512-B0vQMQL/+V2Roc72oFeF4XnP1k4j4k3WofrQn2HYEZqZ0kjzY+r1YoQp4vs9M2Eco7ZVvrB60TEF4ke1oaRzAQ==}
     peerDependencies:
       hono: '>=4.0.0'
 
-  '@jvelo/tapemark@0.8.0':
-    resolution: {integrity: sha512-Pl26kJ+4+EI8uS77IaEh3gJgpUsExpGfVXrjMyH9IEE0QXEV+KnaE/TRQZeYEnQXLViA2zxezeqwulTxeiKI8A==}
+  '@jvelo/tapemark@0.9.0':
+    resolution: {integrity: sha512-Bq5lBxTZhCW9Bu/8FU0XgcDplR0MQOn/dG97FyxBMK+AEhTMVLXer7I1JPWaxLwNvRIZajohHnScVe1nSN5A5w==}
     peerDependencies:
       hono: '>=4.0.0'
 
@@ -1055,18 +1055,18 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jvelo/tapemark-d1@0.8.0(hono@4.12.9)':
+  '@jvelo/tapemark-d1@0.9.0(hono@4.12.9)':
     dependencies:
-      '@jvelo/tapemark': 0.8.0(hono@4.12.9)
+      '@jvelo/tapemark': 0.9.0(hono@4.12.9)
     transitivePeerDependencies:
       - hono
 
-  '@jvelo/tapemark-hono@0.8.0(hono@4.12.9)':
+  '@jvelo/tapemark-hono@0.9.0(hono@4.12.9)':
     dependencies:
-      '@jvelo/tapemark': 0.8.0(hono@4.12.9)
+      '@jvelo/tapemark': 0.9.0(hono@4.12.9)
       hono: 4.12.9
 
-  '@jvelo/tapemark@0.8.0(hono@4.12.9)':
+  '@jvelo/tapemark@0.9.0(hono@4.12.9)':
     dependencies:
       hono: 4.12.9
 
