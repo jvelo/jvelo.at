@@ -5,6 +5,7 @@ import { SelectedWorks } from './components/SelectedWorks';
 import { Expertise } from './components/Expertise';
 import { ReachOut } from './components/ReachOut';
 import { Sink } from './components/KitchenSink';
+import { AtlasPage } from './components/AtlasPage';
 import { verifyTurnstile, sendContactEmail } from './lib/contact';
 import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
@@ -12,7 +13,7 @@ import {
   setSession, clearSession, getSession, sendSigninEmail,
   requireAuth, AuthContext, type AuthUser,
 } from './auth';
-import type { D1Database, PageProvider } from './types';
+import type { D1Database, PageProvider, R2Bucket, SiteWithMetadata } from './types';
 
 export { requireAuth };
 
@@ -282,6 +283,55 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   app.get('/logout', async (c) => {
     clearSession(c);
     return c.redirect('/');
+  });
+
+  // -- Atlas (curated sites; managed via Tapemark admin at /admin/sites) --
+
+  app.get('/atlas', requireAuth('member'), async (c) => {
+    const db = getDb(c);
+    const { results } = await db.prepare(
+      `SELECT id, url, note, ai_blurb, display_order, created_at, updated_at,
+              title, description, favicon_url, og_image_url, screenshot_url, fetch_error,
+              prefer_screenshot, image_source
+         FROM sites_with_metadata
+         ORDER BY display_order DESC, created_at DESC`
+    ).all();
+
+    return c.html(withAuth(c,
+      <AtlasPage entries={results as unknown as SiteWithMetadata[]} turnstileSiteKey={getTurnstileKey(c)} />
+    ));
+  });
+
+  // R2-backed screenshot proxy. Captures populate keys like
+  // <source>/<host>/<slug>.png; see src/lib/screenshot.ts. R2 keys are
+  // deterministic per (url, source), so re-captures overwrite the same key —
+  // we rely on ETag revalidation (not immutable caching) to surface updates.
+  app.get('/screenshots/*', async (c) => {
+    const key = c.req.path.replace(/^\/screenshots\//, '');
+    if (!key || key.includes('..')) return c.notFound();
+    const r2 = (c.env as Record<string, unknown>).SCREENSHOTS as R2Bucket | undefined;
+    if (!r2) return c.notFound();
+
+    const cacheControl = 'public, max-age=300, must-revalidate';
+
+    const ifNoneMatch = c.req.header('if-none-match');
+    if (ifNoneMatch) {
+      const head = await r2.head(key);
+      if (head && head.httpEtag === ifNoneMatch) {
+        return new Response(null, {
+          status: 304,
+          headers: { etag: head.httpEtag, 'cache-control': cacheControl },
+        });
+      }
+    }
+
+    const obj = await r2.get(key);
+    if (!obj) return c.notFound();
+    const headers = new Headers();
+    obj.writeHttpMetadata(headers);
+    headers.set('etag', obj.httpEtag);
+    headers.set('cache-control', cacheControl);
+    return new Response(obj.body, { headers });
   });
 
   // -- Content pages (catch-all, must be last) --

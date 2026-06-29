@@ -27,7 +27,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar
         <script src="/page-loader.js"></script>
         <script src="/gallery.js" defer></script>
         <script src="/contact-form.js" defer></script>
-        {turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+        {turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>}
       </head>
       <body id="#top" class={bodyClass || ''}>
         <div class="site-layout">
@@ -90,6 +90,7 @@ export const Footer: FC = () => {
         {user ? (
           <>
             <a href="/starred-media">Starred media</a>
+            <a href="/atlas">Atlas</a>
             {isAdmin && <a href="/kitchen-sink">Kitchen sink</a>}
             {isAdmin && <a href="/admin">Admin</a>}
             <span class="nav-secondary-sep" />

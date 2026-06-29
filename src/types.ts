@@ -9,6 +9,21 @@ export interface D1PreparedStatement {
   run(): Promise<void>;
 }
 
+export interface R2Object {
+  body: ReadableStream;
+  httpEtag: string;
+  httpMetadata?: { contentType?: string };
+  size: number;
+  writeHttpMetadata(headers: Headers): void;
+}
+
+export interface R2Bucket {
+  put(key: string, value: ArrayBuffer | ReadableStream, options?: { httpMetadata?: { contentType?: string } }): Promise<void>;
+  get(key: string): Promise<R2Object | null>;
+  head(key: string): Promise<R2Object | null>;
+  delete(key: string): Promise<void>;
+}
+
 export interface PageData {
   slug: string;
   type?: 'page' | 'work';
@@ -29,4 +44,38 @@ export interface PageData {
 export interface PageProvider {
   getHome: () => PageData;
   getPage: (slug: string) => PageData | null;
+}
+
+export interface UrlMetadata {
+  url: string;
+  canonical_url: string | null;
+  title: string | null;
+  description: string | null;
+  favicon_url: string | null;
+  og_image_url: string | null;
+  screenshot_url: string | null;
+  fetched_at: string;
+  fetch_error: string | null;
+  raw_response: string | null;
+}
+
+export interface Site {
+  id: number;
+  url: string;
+  note: string | null;
+  ai_blurb: string | null;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SiteWithMetadata extends Site {
+  title: string | null;
+  description: string | null;
+  favicon_url: string | null;
+  og_image_url: string | null;
+  screenshot_url: string | null;
+  fetch_error: string | null;
+  prefer_screenshot: number;
+  image_source: 'og:image' | 'screenshot' | 'mshots';
 }

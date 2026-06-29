@@ -12,11 +12,11 @@ importers:
         specifier: ^1.19.6
         version: 1.19.11(hono@4.12.9)
       '@jvelo/tapemark-d1':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.9.0
+        version: 0.9.0(hono@4.12.9)
       '@jvelo/tapemark-hono':
-        specifier: ^0.3.0
-        version: 0.3.0(hono@4.12.9)
+        specifier: ^0.9.0
+        version: 0.9.0(hono@4.12.9)
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -557,16 +557,18 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@jvelo/tapemark-d1@0.3.0':
-    resolution: {integrity: sha512-WE0nqGO19bjUpTbnGBMkR/qPStLOciz342CZeIyjxtKYlT9Y+ITETM8TQkFHz3yREmV3KewtZEGLgLTVz0rPzQ==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark-d1/0.3.0/ae200b5a86b27c22f513ee26b5fbc1f8d1fd4d67}
+  '@jvelo/tapemark-d1@0.9.0':
+    resolution: {integrity: sha512-yJfLA8ynbApptQKkQpCa+us5EF4giXl97OBJRay3M368dqEovSxiJW3q9CvtnbtVs7Cm9+6nGs/a+0xNsBFZ/w==}
 
-  '@jvelo/tapemark-hono@0.3.0':
-    resolution: {integrity: sha512-K+iukV1CEXQksj345Gy/PUaHJTFhgdIYrcYGrwrohx5tfd/oNuSs7M0SpESIoONlC2Yu/udfnJ2cUMeRk37tIQ==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark-hono/0.3.0/7136c07f40178a2899e93a7d6a42cbc86124afff}
+  '@jvelo/tapemark-hono@0.9.0':
+    resolution: {integrity: sha512-B0vQMQL/+V2Roc72oFeF4XnP1k4j4k3WofrQn2HYEZqZ0kjzY+r1YoQp4vs9M2Eco7ZVvrB60TEF4ke1oaRzAQ==}
     peerDependencies:
       hono: '>=4.0.0'
 
-  '@jvelo/tapemark@0.3.0':
-    resolution: {integrity: sha512-aun/HV0AX/ZMvDBqA6Y4U7AgIOHDU+zByBAYUr2szb/JFcD0v6kEHUlzUIpdnPUGHguUbRbQud1CPAcZ18c17w==, tarball: https://npm.pkg.github.com/download/@jvelo/tapemark/0.3.0/d5848b61f1f2c6884306a21a751c80da1eae6b2e}
+  '@jvelo/tapemark@0.9.0':
+    resolution: {integrity: sha512-Bq5lBxTZhCW9Bu/8FU0XgcDplR0MQOn/dG97FyxBMK+AEhTMVLXer7I1JPWaxLwNvRIZajohHnScVe1nSN5A5w==}
+    peerDependencies:
+      hono: '>=4.0.0'
 
   '@poppinss/colors@4.1.6':
     resolution: {integrity: sha512-H9xkIdFswbS8n1d6vmRd8+c10t2Qe+rZITbbDHHkQixH5+2x1FDGmi/0K+WgWiqQFKPSlIYB7jlH6Kpfn6Fleg==}
@@ -670,14 +672,6 @@ packages:
 
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
-
-  preact-render-to-string@6.6.6:
-    resolution: {integrity: sha512-EfqZJytnjJldV+YaaqhthU2oXsEf5e+6rDv957p+zxAvNfFLQOPfvBOTncscQ+akzu6Wrl7s3Pa0LjUQmWJsGQ==}
-    peerDependencies:
-      preact: '>=10 || >= 11.0.0-0'
-
-  preact@10.29.0:
-    resolution: {integrity: sha512-wSAGyk2bYR1c7t3SZ3jHcM6xy0lcBcDel6lODcs9ME6Th++Dx2KU+6D3HD8wMMKGA8Wpw7OMd3/4RGzYRpzwRg==}
 
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
@@ -1061,19 +1055,20 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jvelo/tapemark-d1@0.3.0':
+  '@jvelo/tapemark-d1@0.9.0(hono@4.12.9)':
     dependencies:
-      '@jvelo/tapemark': 0.3.0
+      '@jvelo/tapemark': 0.9.0(hono@4.12.9)
+    transitivePeerDependencies:
+      - hono
 
-  '@jvelo/tapemark-hono@0.3.0(hono@4.12.9)':
+  '@jvelo/tapemark-hono@0.9.0(hono@4.12.9)':
     dependencies:
-      '@jvelo/tapemark': 0.3.0
+      '@jvelo/tapemark': 0.9.0(hono@4.12.9)
       hono: 4.12.9
 
-  '@jvelo/tapemark@0.3.0':
+  '@jvelo/tapemark@0.9.0(hono@4.12.9)':
     dependencies:
-      preact: 10.29.0
-      preact-render-to-string: 6.6.6(preact@10.29.0)
+      hono: 4.12.9
 
   '@poppinss/colors@4.1.6':
     dependencies:
@@ -1215,12 +1210,6 @@ snapshots:
   path-to-regexp@6.3.0: {}
 
   pathe@2.0.3: {}
-
-  preact-render-to-string@6.6.6(preact@10.29.0):
-    dependencies:
-      preact: 10.29.0
-
-  preact@10.29.0: {}
 
   resolve-pkg-maps@1.0.0: {}
 
