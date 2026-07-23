@@ -18,7 +18,7 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "@hono/node-server": "^1.19.6",
+    "@hono/node-server": "^2.0.10",
     "@jvelo/tapemark-d1": "^0.9.0",
     "@jvelo/tapemark-hono": "^0.9.0",
     "gray-matter": "^4.0.3",
