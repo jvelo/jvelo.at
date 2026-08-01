@@ -4,23 +4,15 @@ import { getSession } from '../auth';
 import { getUrlMetadata } from '../lib/url-metadata';
 import { generateBlurb } from '../lib/ai-blurb';
 import { captureScreenshot } from '../lib/screenshot';
-import type { D1Database, R2Bucket } from '../types';
-
-interface Env {
-  DB: D1Database;
-  SCREENSHOTS: R2Bucket;
-  ANTHROPIC_API_KEY?: string;
-  OPENGRAPH_API_KEY?: string;
-}
+import type { Bindings } from '../types';
 
 async function fetchAndStoreMetadata(
-  db: D1Database,
   id: number,
   url: string,
   note: string | null,
-  env: Env,
+  env: Bindings,
 ): Promise<void> {
-  const metadata = await getUrlMetadata(db, url, { apiKey: env.OPENGRAPH_API_KEY });
+  const metadata = await getUrlMetadata(env.DB, url, { apiKey: env.OPENGRAPH_API_KEY });
   if (!env.ANTHROPIC_API_KEY) return;
   try {
     const blurb = await generateBlurb({
@@ -29,7 +21,7 @@ async function fetchAndStoreMetadata(
       note,
       apiKey: env.ANTHROPIC_API_KEY,
     });
-    await db
+    await env.DB
       .prepare("UPDATE sites SET ai_blurb = ?, updated_at = datetime('now') WHERE id = ?")
       .bind(blurb, id)
       .run();
@@ -38,7 +30,7 @@ async function fetchAndStoreMetadata(
   }
 }
 
-export const adminApp = tapemark<Env>({
+export const adminApp = tapemark<Bindings>({
   db: (c) => createD1Adapter(c.env.DB as unknown as Parameters<typeof createD1Adapter>[0]),
   prefix: '/admin',
   name: 'admin',
@@ -57,11 +49,11 @@ export const adminApp = tapemark<Env>({
     sites: {
       hooks: {
         afterInsert: async (row, ctx) => {
-          const env = ctx.env as Env;
+          const env = ctx.env as Bindings;
           const id = Number(row.id);
           const url = String(row.url);
           const note = row.note == null ? null : String(row.note);
-          await ctx.background(fetchAndStoreMetadata(env.DB, id, url, note, env));
+          await ctx.background(fetchAndStoreMetadata(id, url, note, env));
         },
       },
       actions: {
@@ -69,7 +61,7 @@ export const adminApp = tapemark<Env>({
           label: 'regenerate blurb',
           writes: ['ai_blurb', 'updated_at'],
           handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
+            const env = ctx.env as Bindings;
             if (!env.ANTHROPIC_API_KEY) {
               return { success: false, message: 'ANTHROPIC_API_KEY not configured' };
             }
@@ -106,7 +98,7 @@ export const adminApp = tapemark<Env>({
         refetch: {
           label: 're-fetch metadata',
           handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
+            const env = ctx.env as Bindings;
             const meta = await getUrlMetadata(env.DB, String(pk.url), {
               force: true,
               apiKey: env.OPENGRAPH_API_KEY,
@@ -120,7 +112,7 @@ export const adminApp = tapemark<Env>({
           label: 'mshots (free)',
           group: 'capture screenshot',
           handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
+            const env = ctx.env as Bindings;
             const result = await captureScreenshot(env.DB, env.SCREENSHOTS, String(pk.url), {
               source: 'mshots',
             });
@@ -133,7 +125,7 @@ export const adminApp = tapemark<Env>({
           label: 'opengraph (~10 req)',
           group: 'capture screenshot',
           handler: async (pk, ctx) => {
-            const env = ctx.env as Env;
+            const env = ctx.env as Bindings;
             const result = await captureScreenshot(env.DB, env.SCREENSHOTS, String(pk.url), {
               source: 'opengraph',
               apiKey: env.OPENGRAPH_API_KEY,

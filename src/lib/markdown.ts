@@ -3,26 +3,10 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { fileURLToPath } from 'url';
+import type { PageData, PageType } from '../types';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const contentDir = path.join(__dirname, '../../content');
-
-export interface PageData {
-  slug: string;
-  type?: 'page' | 'work';
-  title: string;
-  subtitle?: string;
-  description?: string;
-  hero_title?: string;
-  image?: string;
-  badge?: string;
-  technologies?: string[];
-  years?: string;
-  license?: string;
-  source?: string;
-  content: string;
-  html: string;
-}
 
 export function getHomePage(): PageData {
   const filePath = path.join(contentDir, 'home', 'index.md');
@@ -47,7 +31,7 @@ export function getPageBySlug(slug: string): PageData | null {
 
     return {
       slug,
-      type: (data.type as 'page' | 'work') || undefined,
+      type: (data.type as PageType) || undefined,
       title: data.title || slug,
       subtitle: data.subtitle,
       description: data.description,
@@ -60,20 +44,7 @@ export function getPageBySlug(slug: string): PageData | null {
       content,
       html: marked(content) as string,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
-}
-
-export function getAllPages(): PageData[] {
-  const pagesDir = path.join(contentDir, 'pages');
-  const files = fs.readdirSync(pagesDir);
-
-  return files
-    .filter(file => file.endsWith('.md'))
-    .map(file => {
-      const slug = file.replace(/\.md$/, '');
-      return getPageBySlug(slug);
-    })
-    .filter((page): page is PageData => page !== null);
 }

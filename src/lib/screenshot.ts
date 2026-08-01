@@ -30,6 +30,14 @@ function opengraphScreenshotEndpoint(url: string, apiKey: string): string {
   return `https://opengraph.io/api/1.1/screenshot/${encodeURIComponent(url)}?app_id=${encodeURIComponent(apiKey)}&dimensions=lg`;
 }
 
+function parseScreenshotResponse(bytes: ArrayBuffer): { screenshotUrl?: string; error?: { message?: string } } | null {
+  try {
+    return JSON.parse(new TextDecoder().decode(bytes));
+  } catch {
+    return null;
+  }
+}
+
 async function fetchBytes(url: string, timeoutMs: number): Promise<{ bytes: ArrayBuffer; contentType: string } | { error: string }> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -47,17 +55,18 @@ async function fetchBytes(url: string, timeoutMs: number): Promise<{ bytes: Arra
   }
 }
 
+function hostOf(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return 'unknown';
+  }
+}
+
 function r2Key(siteUrl: string, source: ScreenshotSource): string {
   // Deterministic per-(url, source) — re-captures overwrite, no garbage to GC.
-  const host = (() => {
-    try {
-      return new URL(siteUrl).hostname.replace(/^www\./, '');
-    } catch {
-      return 'unknown';
-    }
-  })();
   const slug = siteUrl.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase().slice(0, 80);
-  return `${source}/${host}/${slug}.png`;
+  return `${source}/${hostOf(siteUrl)}/${slug}.png`;
 }
 
 export async function captureScreenshot(
@@ -75,13 +84,7 @@ export async function captureScreenshot(
     // then we fetch that to get the actual bytes.
     const apiResp = await fetchBytes(opengraphScreenshotEndpoint(siteUrl, options.apiKey), timeoutMs);
     if ('error' in apiResp) return { ok: false, message: `opengraph: ${apiResp.error}` };
-    const json = (() => {
-      try {
-        return JSON.parse(new TextDecoder().decode(apiResp.bytes)) as { screenshotUrl?: string; error?: { message?: string } };
-      } catch {
-        return null;
-      }
-    })();
+    const json = parseScreenshotResponse(apiResp.bytes);
     if (!json?.screenshotUrl) {
       return { ok: false, message: json?.error?.message || 'opengraph: no screenshotUrl in response' };
     }

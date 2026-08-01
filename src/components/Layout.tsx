@@ -1,4 +1,4 @@
-import type { FC } from 'hono/jsx';
+import type { Child, FC } from 'hono/jsx';
 import { Sidebar, SidebarNav } from './Sidebar';
 import { useAuth } from '../auth';
 
@@ -8,7 +8,7 @@ interface LayoutProps {
   bodyClass?: string;
   sidebar?: boolean;
   turnstileSiteKey?: string;
-  children?: any;
+  children?: Child;
 }
 
 export const Layout: FC<LayoutProps> = ({ title, description, bodyClass, sidebar = true, turnstileSiteKey = '', children }) => {
@@ -117,10 +117,6 @@ export const Footer: FC = () => {
       </div>
     </footer>
   );
-};
-
-export const Hero: FC<{ title: string }> = ({ title }) => {
-  return <h1 class="hero">{title}</h1>;
 };
 
 export const PageTitle: FC<{ title: string; subtitle?: string }> = ({ title, subtitle }) => {

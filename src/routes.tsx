@@ -1,4 +1,6 @@
-import type { Hono } from 'hono';
+import type { Context, Hono } from 'hono';
+import type { Child } from 'hono/jsx';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { Layout, PageTitle } from './components/Layout';
 import { WorkPage } from './components/WorkPage';
 import { SelectedWorks } from './components/SelectedWorks';
@@ -11,49 +13,69 @@ import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
   isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
   setSession, clearSession, getSession, sendSigninEmail,
-  requireAuth, AuthContext, type AuthUser,
+  requireAuth, AuthContext,
 } from './auth';
-import type { D1Database, PageProvider, R2Bucket, SiteWithMetadata } from './types';
+import type { AppEnv, PageProvider, SiteWithMetadata } from './types';
 
 export { requireAuth };
 
-function getTurnstileKey(c: { env: unknown }): string {
-  return ((c.env as Record<string, string>)?.TURNSTILE_SITE_KEY) || '';
+type AppContext = Context<AppEnv>;
+
+function getTurnstileKey(c: AppContext): string {
+  // env is absent under the Node dev server
+  return c.env?.TURNSTILE_SITE_KEY || '';
 }
 
-function getDb(c: { env: unknown }): D1Database {
-  return (c.env as Record<string, unknown>).DB as D1Database;
+function render(c: AppContext, jsx: Child, status?: ContentfulStatusCode) {
+  const user = c.get('user') || null;
+  return c.html(<AuthContext value={user}>{jsx}</AuthContext>, status);
 }
 
-function withAuth(c: { get: (key: string) => unknown }, jsx: any) {
-  const user = (c.get('user') as AuthUser | undefined) || null;
-  return <AuthContext value={user}>{jsx}</AuthContext>;
+function loginError(c: AppContext, message: string, redirect?: string) {
+  const query = redirect ? `redirect=${encodeURIComponent(redirect)}&` : '';
+  return c.redirect(`/login?${query}error=${encodeURIComponent(message)}`);
 }
 
-export function setupRoutes(app: Hono, provider: PageProvider) {
+const CODE_EXPIRED_ERROR = 'Code or link has expired. Please request a new one.';
+const CODE_INVALID_ERROR = 'Invalid or expired code. Please try again.';
+
+interface StarredMediaRow {
+  id: string;
+  media_url: string;
+  media_width: number;
+  media_height: number;
+}
+
+const STARRED_MEDIA_PAGE_SIZE = 25;
+// Deterministic per-seed shuffle: the numeric tail of each id times the seed,
+// modulo a large prime, gives a stable random order that survives pagination.
+const STARRED_MEDIA_QUERY = `SELECT id, media_url, media_width, media_height FROM starred_media
+   ORDER BY (CAST(substr(id, -8) AS INTEGER) * ?) % 2147483647 LIMIT ${STARRED_MEDIA_PAGE_SIZE} OFFSET ?`;
+
+export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
   // Read session on all requests (non-blocking)
   app.use('*', async (c, next) => {
     const user = await getSession(c);
-    if (user) (c as any).set('user', user);
+    if (user) c.set('user', user);
     return next();
   });
 
   app.get('/', async (c) => {
     const page = provider.getHome();
-    return c.html(withAuth(c,
+    return render(c,
       <Layout title={page.title} description={page.description} turnstileSiteKey={getTurnstileKey(c)}>
         <SelectedWorks />
         <Expertise />
         <ReachOut />
-      </Layout>)
+      </Layout>
     );
   });
 
   app.get('/kitchen-sink', async (c) => {
-    return c.html(withAuth(c,
+    return render(c,
       <Layout title="Kitchen Sink" turnstileSiteKey={getTurnstileKey(c)}>
         <Sink />
-      </Layout>)
+      </Layout>
     );
   });
 
@@ -65,7 +87,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
       return c.json({ error: 'All fields are required.' }, 400);
     }
 
-    const env = c.env as Record<string, string>;
+    const env = c.env;
     const turnstileSecret = env.TURNSTILE_SECRET_KEY;
     if (!turnstileSecret) {
       return c.json({ error: 'Server configuration error.' }, 500);
@@ -92,30 +114,25 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   // -- Starred media --
 
   app.get('/api/starred-media', requireAuth('member'), async (c) => {
-    const db = getDb(c);
     const seed = parseInt(c.req.query('seed') || '0', 10) || 1;
     const offset = parseInt(c.req.query('offset') || '0', 10) || 0;
-    const { results } = await db.prepare(
-      'SELECT id, media_url, media_width, media_height FROM starred_media ORDER BY (CAST(substr(id, -8) AS INTEGER) * ?) % 2147483647 LIMIT 25 OFFSET ?'
-    ).bind(seed, offset).all();
-    return c.json({ items: results, hasMore: results.length === 25 });
+    const { results } = await c.env.DB.prepare(STARRED_MEDIA_QUERY).bind(seed, offset).all();
+    return c.json({ items: results, hasMore: results.length === STARRED_MEDIA_PAGE_SIZE });
   });
 
   app.get('/starred-media', requireAuth('member'), async (c) => {
-    const db = getDb(c);
     const seed = Math.floor(Math.random() * 2147483646) + 1;
-    const { results } = await db.prepare(
-      'SELECT id, media_url, media_width, media_height FROM starred_media ORDER BY (CAST(substr(id, -8) AS INTEGER) * ?) % 2147483647 LIMIT 25'
-    ).bind(seed).all();
+    const { results } = await c.env.DB.prepare(STARRED_MEDIA_QUERY).bind(seed, 0).all();
+    const items = results as unknown as StarredMediaRow[];
 
-    return c.html(withAuth(c,
+    return render(c,
       <Layout title="Starred media" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
         <div class="starred-media-page">
           <h1 class="page-title">starred media</h1>
           <div class="masonry" id="masonry-grid" data-cols="3">
             {[0, 1, 2].map((colIdx) => (
               <div class="masonry-col">
-                {results.filter((_: any, i: number) => i % 3 === colIdx).map((item: any) => (
+                {items.filter((_, i) => i % 3 === colIdx).map((item) => (
                   <div class="masonry-item">
                     <img
                       src={item.media_url}
@@ -130,12 +147,12 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
               </div>
             ))}
           </div>
-          <button id="load-more" class="load-more" data-seed={String(seed)} data-offset="25">
+          <button id="load-more" class="load-more" data-seed={String(seed)} data-offset={String(STARRED_MEDIA_PAGE_SIZE)}>
             Load more
           </button>
         </div>
         <script src="/starred-media.js" defer></script>
-      </Layout>)
+      </Layout>
     );
   });
 
@@ -145,7 +162,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const redirect = c.req.query('redirect') || '/';
     const error = c.req.query('error') || '';
 
-    return c.html(withAuth(c,
+    return render(c,
       <Layout title="Sign in" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
         <div class="auth-page">
           <h1 class="page-title">Sign in</h1>
@@ -157,7 +174,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
             <button type="submit" class="auth-button">Send sign-in code</button>
           </form>
         </div>
-      </Layout>)
+      </Layout>
     );
   });
 
@@ -167,11 +184,11 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const redirect = (body.redirect as string) || '/';
 
     if (!email || !/^[\w.+\-]+@[\w.-]+\.\w+$/.test(email)) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Please enter a valid email address.')}`);
+      return loginError(c, 'Please enter a valid email address.', redirect);
     }
 
-    const db = getDb(c);
-    const env = c.env as Record<string, string>;
+    const env = c.env;
+    const db = env.DB;
     const secret = env.JWT_SECRET;
 
     await cleanupExpiredCodes(db);
@@ -196,7 +213,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     // Sign redirect so the code-entry form can't be tampered with
     const redirectSig = await signRedirect(redirect, secret);
 
-    return c.html(withAuth(c,
+    return render(c,
       <Layout title="Enter your code" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
         <div class="auth-page">
           <h1 class="page-title">Check your email</h1>
@@ -219,29 +236,28 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
           <p class="auth-hint">Or click the link in the email.</p>
         </div>
         <script src="/auth.js" defer></script>
-      </Layout>)
+      </Layout>
     );
   });
 
   app.get('/auth/verify', async (c) => {
     const tokenParam = c.req.query('token') || '';
-    const db = getDb(c);
-    const env = c.env as Record<string, string>;
+    const db = c.env.DB;
 
     // Redirect is inside the signed token — no separate HMAC needed
-    const result = await verifyToken(tokenParam, env.JWT_SECRET);
+    const result = await verifyToken(tokenParam, c.env.JWT_SECRET);
     if (!result) {
-      return c.redirect('/login?error=' + encodeURIComponent('Code or link has expired. Please request a new one.'));
+      return loginError(c, CODE_EXPIRED_ERROR);
     }
 
     const email = await verifyCode(db, result.code);
     if (!email) {
-      return c.redirect('/login?error=' + encodeURIComponent('Code or link has expired. Please request a new one.'));
+      return loginError(c, CODE_EXPIRED_ERROR);
     }
 
     const role = await getUserRole(db, email);
     if (!role) {
-      return c.redirect('/login?error=' + encodeURIComponent('Invalid or expired code. Please try again.'));
+      return loginError(c, CODE_INVALID_ERROR);
     }
 
     await setSession(c, { email, role });
@@ -253,27 +269,26 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const code = (body.code as string || '').trim().toUpperCase();
     const redirect = (body.redirect as string) || '/';
     const redirectSig = (body.redirect_sig as string) || '';
-    const db = getDb(c);
-    const env = c.env as Record<string, string>;
+    const db = c.env.DB;
 
     // Verify redirect HMAC to prevent open redirect
-    const validRedirect = await verifyRedirect(redirect, redirectSig, env.JWT_SECRET);
+    const validRedirect = await verifyRedirect(redirect, redirectSig, c.env.JWT_SECRET);
     if (!validRedirect) {
-      return c.redirect('/login?error=' + encodeURIComponent('Invalid request.'));
+      return loginError(c, 'Invalid request.');
     }
 
     if (!code || !/^[A-Z0-9]{6}$/.test(code)) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Please enter a valid 6-character code.')}`);
+      return loginError(c, 'Please enter a valid 6-character code.', redirect);
     }
 
     const email = await verifyCode(db, code);
     if (!email) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Invalid or expired code. Please try again.')}`);
+      return loginError(c, CODE_INVALID_ERROR, redirect);
     }
 
     const role = await getUserRole(db, email);
     if (!role) {
-      return c.redirect(`/login?redirect=${encodeURIComponent(redirect)}&error=${encodeURIComponent('Invalid or expired code. Please try again.')}`);
+      return loginError(c, CODE_INVALID_ERROR, redirect);
     }
 
     await setSession(c, { email, role });
@@ -288,8 +303,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   // -- Atlas (curated sites; managed via Tapemark admin at /admin/sites) --
 
   app.get('/atlas', requireAuth('member'), async (c) => {
-    const db = getDb(c);
-    const { results } = await db.prepare(
+    const { results } = await c.env.DB.prepare(
       `SELECT id, url, note, ai_blurb, display_order, created_at, updated_at,
               title, description, favicon_url, og_image_url, screenshot_url, fetch_error,
               prefer_screenshot, image_source
@@ -297,9 +311,9 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
          ORDER BY display_order DESC, created_at DESC`
     ).all();
 
-    return c.html(withAuth(c,
+    return render(c,
       <AtlasPage entries={results as unknown as SiteWithMetadata[]} turnstileSiteKey={getTurnstileKey(c)} />
-    ));
+    );
   });
 
   // R2-backed screenshot proxy. Captures populate keys like
@@ -309,7 +323,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
   app.get('/screenshots/*', async (c) => {
     const key = c.req.path.replace(/^\/screenshots\//, '');
     if (!key || key.includes('..')) return c.notFound();
-    const r2 = (c.env as Record<string, unknown>).SCREENSHOTS as R2Bucket | undefined;
+    const r2 = c.env.SCREENSHOTS;
     if (!r2) return c.notFound();
 
     const cacheControl = 'public, max-age=300, must-revalidate';
@@ -342,7 +356,7 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
     const tsKey = getTurnstileKey(c);
 
     if (!page) {
-      return c.html(withAuth(c,
+      return render(c,
         <Layout title="Page Not Found" turnstileSiteKey={tsKey}>
           <div class="page-title">
             <h1>404 - Page Not Found</h1>
@@ -351,20 +365,20 @@ export function setupRoutes(app: Hono, provider: PageProvider) {
           <div class="content">
             <p><a href="/">Return to home</a></p>
           </div>
-        </Layout>),
+        </Layout>,
         404
       );
     }
 
     if (page.type === 'work') {
-      return c.html(withAuth(c, <WorkPage page={page} turnstileSiteKey={tsKey} />));
+      return render(c, <WorkPage page={page} turnstileSiteKey={tsKey} />);
     }
 
-    return c.html(withAuth(c,
+    return render(c,
       <Layout title={page.title} description={page.subtitle} turnstileSiteKey={tsKey}>
         <PageTitle title={page.title} subtitle={page.subtitle} />
         <div class="content" dangerouslySetInnerHTML={{ __html: page.html }}></div>
-      </Layout>)
+      </Layout>
     );
   });
 }

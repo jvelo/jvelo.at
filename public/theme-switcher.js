@@ -1,7 +1,8 @@
-(function() {
-  const THEME_KEY = 'theme-preference';
-  const DEFAULT_THEME = 'light';
+const THEME_KEY = 'theme-preference';
+const DEFAULT_THEME = 'light';
 
+// Applied at script load (before first paint) to avoid a flash of the wrong theme
+(() => {
   const theme = localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
   if (theme !== 'system') {
     document.documentElement.setAttribute('data-theme', theme);
@@ -9,16 +10,10 @@
 })();
 
 class ThemeSwitcher extends HTMLElement {
-  constructor() {
-    super();
-    this.THEME_KEY = 'theme-preference';
-    this.DEFAULT_THEME = 'light';
-  }
-
   connectedCallback() {
     this.render();
     this.setupEventListeners();
-    this.applyStoredTheme();
+    this.applyTheme(this.getTheme());
   }
 
   render() {
@@ -39,11 +34,11 @@ class ThemeSwitcher extends HTMLElement {
   }
 
   getTheme() {
-    return localStorage.getItem(this.THEME_KEY) || this.DEFAULT_THEME;
+    return localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
   }
 
   setTheme(theme) {
-    localStorage.setItem(this.THEME_KEY, theme);
+    localStorage.setItem(THEME_KEY, theme);
     this.applyTheme(theme);
     document.getElementById('#top')?.scrollIntoView();
   }
@@ -61,11 +56,6 @@ class ThemeSwitcher extends HTMLElement {
     if (select) {
       select.value = theme;
     }
-  }
-
-  applyStoredTheme() {
-    const theme = this.getTheme();
-    this.applyTheme(theme);
   }
 }
 

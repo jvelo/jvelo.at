@@ -1,7 +1,7 @@
 import type { Context, Next } from 'hono';
 import { getCookie, setCookie, deleteCookie } from 'hono/cookie';
 import { createContext, useContext } from 'hono/jsx';
-import type { D1Database } from './types';
+import type { AuthUser, Bindings, D1Database, Role } from './types';
 
 // -- Auth context (for JSX components) --
 
@@ -11,19 +11,10 @@ export function useAuth(): AuthUser | null {
   return useContext(AuthContext);
 }
 
-// -- Types --
-
-export type Role = 'admin' | 'member';
-
-export interface AuthUser {
-  email: string;
-  role: Role;
-}
-
 // -- Helpers --
 
 function getSecret(c: Context): string {
-  const secret = (c.env as Record<string, string>).JWT_SECRET;
+  const secret = (c.env as Partial<Bindings>).JWT_SECRET;
   if (!secret) throw new Error('JWT_SECRET is not configured');
   return secret;
 }
@@ -50,20 +41,20 @@ export function generateCode(): string {
   return result.join('');
 }
 
-export function formatCode(code: string): string {
+function formatCode(code: string): string {
   return `${code.slice(0, 3)}-${code.slice(3)}`;
 }
 
 // -- JWT (HMAC-SHA256, minimal, no dependency) --
 
-function base64url(buffer: ArrayBuffer): string {
-  const bytes = new Uint8Array(buffer);
+function base64url(data: ArrayBuffer | Uint8Array): string {
+  const bytes = data instanceof Uint8Array ? data : new Uint8Array(data);
   let binary = '';
   for (const b of bytes) binary += String.fromCharCode(b);
   return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
-function base64urlDecode(s: string): Uint8Array {
+function base64urlDecode(s: string): Uint8Array<ArrayBuffer> {
   const padded = s.replace(/-/g, '+').replace(/_/g, '/') + '=='.slice(0, (4 - (s.length % 4)) % 4);
   const binary = atob(padded);
   const bytes = new Uint8Array(binary.length);
@@ -76,26 +67,26 @@ async function hmacKey(secret: string): Promise<CryptoKey> {
   return crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
 }
 
-export async function signJwt(payload: Record<string, unknown>, secret: string, expiresInDays = 30): Promise<string> {
+async function signJwt(payload: Record<string, unknown>, secret: string, expiresInDays = 30): Promise<string> {
   const header = { alg: 'HS256', typ: 'JWT' };
   const now = Math.floor(Date.now() / 1000);
   const body = { ...payload, iat: now, exp: now + expiresInDays * 86400 };
   const enc = new TextEncoder();
-  const headerB64 = base64url(enc.encode(JSON.stringify(header)).buffer as ArrayBuffer);
-  const bodyB64 = base64url(enc.encode(JSON.stringify(body)).buffer as ArrayBuffer);
+  const headerB64 = base64url(enc.encode(JSON.stringify(header)));
+  const bodyB64 = base64url(enc.encode(JSON.stringify(body)));
   const data = `${headerB64}.${bodyB64}`;
   const key = await hmacKey(secret);
   const sig = await crypto.subtle.sign('HMAC', key, enc.encode(data));
   return `${data}.${base64url(sig)}`;
 }
 
-export async function verifyJwt(token: string, secret: string): Promise<Record<string, unknown> | null> {
+async function verifyJwt(token: string, secret: string): Promise<Record<string, unknown> | null> {
   const parts = token.split('.');
   if (parts.length !== 3) return null;
   const [headerB64, bodyB64, sigB64] = parts;
   const key = await hmacKey(secret);
   const enc = new TextEncoder();
-  const valid = await crypto.subtle.verify('HMAC', key, base64urlDecode(sigB64).buffer as ArrayBuffer, enc.encode(`${headerB64}.${bodyB64}`));
+  const valid = await crypto.subtle.verify('HMAC', key, base64urlDecode(sigB64), enc.encode(`${headerB64}.${bodyB64}`));
   if (!valid) return null;
   const payload = JSON.parse(new TextDecoder().decode(base64urlDecode(bodyB64)));
   if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return null;
@@ -114,7 +105,7 @@ export async function signRedirect(redirect: string, secret: string): Promise<st
 export async function verifyRedirect(redirect: string, sig: string, secret: string): Promise<boolean> {
   const key = await hmacKey(secret);
   const enc = new TextEncoder();
-  return crypto.subtle.verify('HMAC', key, base64urlDecode(sig).buffer as ArrayBuffer, enc.encode(redirect));
+  return crypto.subtle.verify('HMAC', key, base64urlDecode(sig), enc.encode(redirect));
 }
 
 // -- Magic link token (signed code + redirect, like orius-auth) --

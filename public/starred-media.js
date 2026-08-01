@@ -50,7 +50,7 @@
     }
 
     if (data.hasMore) {
-      btn.dataset.offset = String(parseInt(offset, 10) + 25);
+      btn.dataset.offset = String(parseInt(offset, 10) + data.items.length);
       btn.disabled = false;
       btn.textContent = 'Load more';
     } else {

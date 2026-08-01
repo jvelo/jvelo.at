@@ -24,9 +24,37 @@ export interface R2Bucket {
   delete(key: string): Promise<void>;
 }
 
+export interface Bindings {
+  DB: D1Database;
+  SCREENSHOTS: R2Bucket;
+  JWT_SECRET: string;
+  TURNSTILE_SITE_KEY: string;
+  TURNSTILE_SECRET_KEY: string;
+  SCW_TEM_SECRET_KEY: string;
+  SCW_PROJECT_ID: string;
+  CONTACT_TO_EMAIL: string;
+  CONTACT_FROM_EMAIL: string;
+  ANTHROPIC_API_KEY?: string;
+  OPENGRAPH_API_KEY?: string;
+}
+
+export type Role = 'admin' | 'member';
+
+export interface AuthUser {
+  email: string;
+  role: Role;
+}
+
+export interface AppEnv {
+  Bindings: Bindings;
+  Variables: { user?: AuthUser };
+}
+
+export type PageType = 'page' | 'work';
+
 export interface PageData {
   slug: string;
-  type?: 'page' | 'work';
+  type?: PageType;
   title: string;
   subtitle?: string;
   description?: string;

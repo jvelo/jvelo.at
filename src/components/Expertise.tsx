@@ -19,26 +19,26 @@ const ExpertiseCard: FC<ExpertiseItem> = ({ title, description }) => {
   );
 };
 
-export const Expertise: FC = () => {
-  const items: ExpertiseItem[] = [
-    {
-      title: "End-to-end product engineering",
-      description: [
-        "I design, build, and ship software products from first implementation to production.",
-        "Frontend, backend, infrastructure, and the glue in between.",
-        "I help turn product and technical direction into working software.",
-      ],
-    },
-    {
-      title: "Technical leadership for teams and products",
-      description: [
-        "I help teams make better technical decisions and work together more effectively.",
-        "Architecture matters, as do clarity, ownership, and the way a team works together.",
-        "I can step in as a lead, a senior individual contributor, or a close technical partner.",
-      ],
-    },
-  ];
+const items: ExpertiseItem[] = [
+  {
+    title: "End-to-end product engineering",
+    description: [
+      "I design, build, and ship software products from first implementation to production.",
+      "Frontend, backend, infrastructure, and the glue in between.",
+      "I help turn product and technical direction into working software.",
+    ],
+  },
+  {
+    title: "Technical leadership for teams and products",
+    description: [
+      "I help teams make better technical decisions and work together more effectively.",
+      "Architecture matters, as do clarity, ownership, and the way a team works together.",
+      "I can step in as a lead, a senior individual contributor, or a close technical partner.",
+    ],
+  },
+];
 
+export const Expertise: FC = () => {
   return (
     <section class="expertise">
       <h2 class="section-title">EXPERTISE</h2>

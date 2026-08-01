@@ -2,8 +2,9 @@ import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { getHomePage, getPageBySlug } from './lib/markdown.js';
 import { setupRoutes } from './routes.js';
+import type { AppEnv } from './types.js';
 
-const app = new Hono();
+const app = new Hono<AppEnv>();
 
 app.use('/*', serveStatic({ root: './public' }));
 

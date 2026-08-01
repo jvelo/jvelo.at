@@ -17,7 +17,7 @@
   }
 
   inputs.forEach((input, idx) => {
-    input.addEventListener('input', (e) => {
+    input.addEventListener('input', () => {
       const val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
       input.value = val.slice(0, 1);
       if (val && idx < inputs.length - 1) {
