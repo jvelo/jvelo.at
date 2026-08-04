@@ -10,19 +10,19 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^1.19.6
-        version: 1.19.11(hono@4.12.9)
+        version: 1.19.11(hono@4.12.34)
       '@jvelo/tapemark-d1':
         specifier: ^0.9.0
-        version: 0.9.0(hono@4.12.9)
+        version: 0.9.0(hono@4.12.34)
       '@jvelo/tapemark-hono':
         specifier: ^0.9.0
-        version: 0.9.0(hono@4.12.9)
+        version: 0.9.0(hono@4.12.34)
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
       hono:
-        specifier: ^4.0.0
-        version: 4.12.9
+        specifier: ^4.12.34
+        version: 4.12.34
       marked:
         specifier: ^12.0.0
         version: 12.0.2
@@ -637,8 +637,8 @@ packages:
     resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
     engines: {node: '>=6.0'}
 
-  hono@4.12.9:
-    resolution: {integrity: sha512-wy3T8Zm2bsEvxKZM5w21VdHDDcwVS1yUFFY6i8UobSsKfFceT7TOwhbhfKsDyx7tYQlmRM5FLpIuYvNFyjctiA==}
+  hono@4.12.34:
+    resolution: {integrity: sha512-GqXJqY/xJkJmuloTrnV1ZEXG3fqte+VjkUqoRNZXcrUidiUOP4fMSIHHY4tsqZBK++kVyWmt/AAfSUuy57/eSA==}
     engines: {node: '>=16.9.0'}
 
   is-extendable@0.1.1:
@@ -946,9 +946,9 @@ snapshots:
   '@esbuild/win32-x64@0.27.4':
     optional: true
 
-  '@hono/node-server@1.19.11(hono@4.12.9)':
+  '@hono/node-server@1.19.11(hono@4.12.34)':
     dependencies:
-      hono: 4.12.9
+      hono: 4.12.34
 
   '@img/colour@1.1.0': {}
 
@@ -1055,20 +1055,20 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jvelo/tapemark-d1@0.9.0(hono@4.12.9)':
+  '@jvelo/tapemark-d1@0.9.0(hono@4.12.34)':
     dependencies:
-      '@jvelo/tapemark': 0.9.0(hono@4.12.9)
+      '@jvelo/tapemark': 0.9.0(hono@4.12.34)
     transitivePeerDependencies:
       - hono
 
-  '@jvelo/tapemark-hono@0.9.0(hono@4.12.9)':
+  '@jvelo/tapemark-hono@0.9.0(hono@4.12.34)':
     dependencies:
-      '@jvelo/tapemark': 0.9.0(hono@4.12.9)
-      hono: 4.12.9
+      '@jvelo/tapemark': 0.9.0(hono@4.12.34)
+      hono: 4.12.34
 
-  '@jvelo/tapemark@0.9.0(hono@4.12.9)':
+  '@jvelo/tapemark@0.9.0(hono@4.12.34)':
     dependencies:
-      hono: 4.12.9
+      hono: 4.12.34
 
   '@poppinss/colors@4.1.6':
     dependencies:
@@ -1180,7 +1180,7 @@ snapshots:
       section-matter: 1.0.0
       strip-bom-string: 1.0.0
 
-  hono@4.12.9: {}
+  hono@4.12.34: {}
 
   is-extendable@0.1.1: {}
 
