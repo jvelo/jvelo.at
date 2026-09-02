@@ -10,6 +10,7 @@ Personal website for Jérôme Velociter. Built with Hono (JSX) + TypeScript.
 - **Units**: use `rem` for font-size, line-height, and spacing. Keep `px` only for borders, outlines, and border-radius
 - **Fonts**: IBM Plex Sans (body), IBM Plex Sans Condensed (headings), IBM Plex Mono (code), Crimson Text (serif accents)
 - **Breakpoints**: mobile < 576px, tablet 576px–1023px, desktop >= 1024px
+- **Layout**: one centered column. `--page-width` (56rem) bounds the page, `--measure` (38rem) bounds prose, `--gutter` is the side padding, `--section-gap` separates home sections. Images with `.border-backdrop` get a 0.5rem inset so the offset backdrop aligns with the text edge
 
 ## Stack
 

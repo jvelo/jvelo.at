@@ -5,23 +5,18 @@ interface Project {
   description: string;
   image: string;
   imagePosition?: string;
-  badge?: string;
   link: string;
 }
 
-const ProjectCard: FC<Project> = ({ title, description, image, imagePosition, badge, link }) => {
+const ProjectCard: FC<Project> = ({ title, description, image, imagePosition, link }) => {
   return (
     <a href={link} class="work-card">
       <div class="project-image border-backdrop">
         <img src={image} alt={title} style={imagePosition ? `object-position: ${imagePosition}` : ''} />
       </div>
       <div class="project-content">
-        <div class="project-header">
-          <h3 class="project-title">{title}</h3>
-          {badge && <span class="project-badge">{badge}</span>}
-        </div>
+        <h3 class="project-title">{title}</h3>
         <p class="project-description">{description}</p>
-        <span class="project-link">Learn more <span aria-hidden="true">→</span></span>
       </div>
     </a>
   );
@@ -39,7 +34,6 @@ const projects: Project[] = [
     description: "A rich-text editor framework focused on performance and extensibility",
     image: "/images/typebar.png",
     imagePosition: "top",
-    badge: "private beta",
     link: "/typebar"
   },
   {
@@ -53,7 +47,7 @@ const projects: Project[] = [
 export const SelectedWorks: FC = () => {
   return (
     <section class="selected-works">
-      <h2 class="section-title">SELECTED WORKS</h2>
+      <h2 class="section-title">Selected works</h2>
       <div class="works-grid">
         {projects.map((project) => (
           <ProjectCard {...project} />

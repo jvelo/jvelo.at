@@ -6,6 +6,6 @@ subtitle:
 
 My mail is `jerome` AT `velociter` DOT `fr`.
 
-Or <a href="#contact" onclick="event.preventDefault(); document.querySelector('contact-form').open();">send me a message</a> directly.
+Or [send me a message](#contact) directly.
 
 Should you need it, here's my [PGP key](/pgp).

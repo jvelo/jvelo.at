@@ -58,7 +58,6 @@ export interface PageData {
   title: string;
   subtitle?: string;
   description?: string;
-  hero_title?: string;
   image?: string;
   badge?: string;
   technologies?: string[];

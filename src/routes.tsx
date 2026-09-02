@@ -6,6 +6,7 @@ import { WorkPage } from './components/WorkPage';
 import { SelectedWorks } from './components/SelectedWorks';
 import { Expertise } from './components/Expertise';
 import { ReachOut } from './components/ReachOut';
+import { Hero } from './components/Hero';
 import { Sink } from './components/KitchenSink';
 import { AtlasPage } from './components/AtlasPage';
 import { verifyTurnstile, sendContactEmail } from './lib/contact';
@@ -64,6 +65,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     const page = provider.getHome();
     return render(c,
       <Layout title={page.title} description={page.description} turnstileSiteKey={getTurnstileKey(c)}>
+        <Hero />
         <SelectedWorks />
         <Expertise />
         <ReachOut />
@@ -126,7 +128,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     const items = results as unknown as StarredMediaRow[];
 
     return render(c,
-      <Layout title="Starred media" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
+      <Layout title="Starred media" turnstileSiteKey={getTurnstileKey(c)}>
         <div class="starred-media-page">
           <h1 class="page-title">starred media</h1>
           <div class="masonry" id="masonry-grid" data-cols="3">
@@ -163,7 +165,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     const error = c.req.query('error') || '';
 
     return render(c,
-      <Layout title="Sign in" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
+      <Layout title="Sign in" turnstileSiteKey={getTurnstileKey(c)}>
         <div class="auth-page">
           <h1 class="page-title">Sign in</h1>
           {error && <p class="auth-error">{error}</p>}
@@ -214,7 +216,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     const redirectSig = await signRedirect(redirect, secret);
 
     return render(c,
-      <Layout title="Enter your code" turnstileSiteKey={getTurnstileKey(c)} sidebar={false}>
+      <Layout title="Enter your code" turnstileSiteKey={getTurnstileKey(c)}>
         <div class="auth-page">
           <h1 class="page-title">Check your email</h1>
           <p class="auth-subtitle">We sent a 6-digit code to <strong>{email}</strong></p>
@@ -358,10 +360,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     if (!page) {
       return render(c,
         <Layout title="Page Not Found" turnstileSiteKey={tsKey}>
-          <div class="page-title">
-            <h1>404 - Page Not Found</h1>
-            <p class="subtitle">The page you're looking for doesn't exist.</p>
-          </div>
+          <PageTitle title="404 - Page Not Found" subtitle="The page you're looking for doesn't exist." />
           <div class="content">
             <p><a href="/">Return to home</a></p>
           </div>

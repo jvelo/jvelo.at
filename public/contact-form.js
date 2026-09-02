@@ -47,11 +47,18 @@ class ContactForm extends HTMLElement {
       }
     });
 
+    document.addEventListener('click', this._onClick = (e) => {
+      if (!e.target.closest('a[href="#contact"]')) return;
+      e.preventDefault();
+      this.open();
+    });
+
     this._form.addEventListener('submit', (e) => this._handleSubmit(e));
   }
 
   disconnectedCallback() {
     if (this._onKey) document.removeEventListener('keydown', this._onKey);
+    if (this._onClick) document.removeEventListener('click', this._onClick);
   }
 
   open() {

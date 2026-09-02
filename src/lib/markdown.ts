@@ -17,7 +17,6 @@ export function getHomePage(): PageData {
     slug: 'home',
     title: data.title || 'Home',
     description: data.description,
-    hero_title: data.hero_title,
     content,
     html: marked(content) as string,
   };

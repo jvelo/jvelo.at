@@ -9,7 +9,6 @@ const ExpertiseCard: FC<ExpertiseItem> = ({ title, description }) => {
   return (
     <div class="expertise-card">
       <h3 class="expertise-title">{title}</h3>
-      <hr class="expertise-divider" />
       <div class="expertise-description">
         {description.map((p) => (
           <p>{p}</p>
@@ -41,7 +40,7 @@ const items: ExpertiseItem[] = [
 export const Expertise: FC = () => {
   return (
     <section class="expertise">
-      <h2 class="section-title">EXPERTISE</h2>
+      <h2 class="section-title">Expertise</h2>
       <div class="expertise-grid">
         {items.map((item) => (
           <ExpertiseCard {...item} />

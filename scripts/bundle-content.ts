@@ -21,7 +21,6 @@ function processMarkdownFile(filePath: string, slug: string): PageData {
     title: data.title || '',
     subtitle: data.subtitle || undefined,
     description: data.description || undefined,
-    hero_title: data.hero_title || undefined,
     image: data.image || undefined,
     badge: data.badge || undefined,
     technologies: data.technologies || undefined,

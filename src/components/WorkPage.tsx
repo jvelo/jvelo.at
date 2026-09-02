@@ -45,7 +45,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
   const hasMeta = !!(page.technologies?.length || page.years || page.license || page.source);
 
   return (
-    <Layout title={page.title} description={page.description} turnstileSiteKey={turnstileSiteKey} bodyClass="page-work">
+    <Layout title={page.title} description={page.description} turnstileSiteKey={turnstileSiteKey}>
       <article class="project">
         <nav class="breadcrumb">
           <a href="/">selected works</a>
@@ -69,7 +69,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
             <section class="work-cta">
               <p class="work-cta-text">Working on an ambitious product?</p>
-              <a href="#contact" class="work-cta-link" onclick="event.preventDefault(); document.querySelector('contact-form').open();">Let's talk →</a>
+              <a href="#contact" class="cta-link">Let's talk →</a>
             </section>
           </div>
           <aside class="content-aside">

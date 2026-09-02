@@ -29,7 +29,7 @@ export const AtlasPage: FC<AtlasPageProps> = ({ entries, turnstileSiteKey = '' }
   const isAdmin = user?.role === 'admin';
 
   return (
-    <Layout title="Atlas" description="A collection of websites worth visiting" turnstileSiteKey={turnstileSiteKey} sidebar={false}>
+    <Layout title="Atlas" description="A collection of websites worth visiting" turnstileSiteKey={turnstileSiteKey}>
       <div class="atlas-page">
         <PageTitle title="Atlas" subtitle="Corners of the web worth wandering into." />
 
