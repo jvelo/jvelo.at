@@ -64,7 +64,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
   app.get('/', async (c) => {
     const page = provider.getHome();
     return render(c,
-      <Layout title={page.title} description={page.description} turnstileSiteKey={getTurnstileKey(c)}>
+      <Layout title={page.title} description={page.description} path="/" turnstileSiteKey={getTurnstileKey(c)}>
         <Hero />
         <SelectedWorks />
         <Expertise />
@@ -374,7 +374,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     }
 
     return render(c,
-      <Layout title={page.title} description={page.subtitle} turnstileSiteKey={tsKey}>
+      <Layout title={page.title} description={page.subtitle} path={`/${slug}`} turnstileSiteKey={tsKey}>
         <PageTitle title={page.title} subtitle={page.subtitle} />
         <div class="content" dangerouslySetInnerHTML={{ __html: page.html }}></div>
       </Layout>

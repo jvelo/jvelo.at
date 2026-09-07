@@ -45,7 +45,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
   const hasMeta = !!(page.technologies?.length || page.years || page.license || page.source);
 
   return (
-    <Layout title={page.title} description={page.description} turnstileSiteKey={turnstileSiteKey}>
+    <Layout title={page.title} description={page.description} image={`/og/${page.slug}.png`} path={`/${page.slug}`} turnstileSiteKey={turnstileSiteKey}>
       <article class="project">
         <nav class="breadcrumb">
           <a href="/">selected works</a>

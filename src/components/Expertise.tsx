@@ -28,11 +28,11 @@ const items: ExpertiseItem[] = [
     ],
   },
   {
-    title: "Technical leadership for teams and products",
+    title: "Technical leadership",
     description: [
       "I help teams make better technical decisions and work together more effectively.",
       "Architecture matters, as do clarity, ownership, and the way a team works together.",
-      "I can step in as a lead, a senior individual contributor, or a close technical partner.",
+      "I can step in as a lead, a senior engineer, or a hands-on manager",
     ],
   },
 ];

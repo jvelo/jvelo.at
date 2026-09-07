@@ -6,6 +6,14 @@ import type { AppEnv } from './types';
 
 const app = new Hono<AppEnv>();
 
+// Canonical host is the bare domain. Redirect www permanently.
+app.use('*', async (c, next) => {
+  const url = new URL(c.req.url);
+  if (url.hostname !== 'www.jvelo.at') return next();
+  url.hostname = 'jvelo.at';
+  return c.redirect(url.toString(), 301);
+});
+
 app.route('/admin', adminApp);
 
 setupRoutes(app, {

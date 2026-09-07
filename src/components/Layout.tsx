@@ -1,14 +1,20 @@
 import type { Child, FC } from 'hono/jsx';
 import { useAuth } from '../auth';
 
+const SITE_URL = 'https://jvelo.at';
+
 interface LayoutProps {
   title: string;
   description?: string;
+  // Social preview card, 1200x630, under /public/og
+  image?: string;
+  // Canonical path of the page, used for og:url when known
+  path?: string;
   turnstileSiteKey?: string;
   children?: Child;
 }
 
-export const Layout: FC<LayoutProps> = ({ title, description, turnstileSiteKey = '', children }) => {
+export const Layout: FC<LayoutProps> = ({ title, description, image = '/og/home.png', path, turnstileSiteKey = '', children }) => {
   return (
     <html lang="en">
       <head>
@@ -16,6 +22,15 @@ export const Layout: FC<LayoutProps> = ({ title, description, turnstileSiteKey =
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Jérôme Velociter" />
+        <meta property="og:title" content={title} />
+        {description && <meta property="og:description" content={description} />}
+        {path && <meta property="og:url" content={`${SITE_URL}${path}`} />}
+        <meta property="og:image" content={`${SITE_URL}${image}`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />

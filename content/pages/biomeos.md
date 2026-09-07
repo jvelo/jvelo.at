@@ -2,7 +2,7 @@
 title: BiomeOS
 type: work
 subtitle: A controlled-environment agriculture platform for indoor farms and research facilities.
-description: Software platform for operating indoor farms — environment control, real-time monitoring, safety systems, and agronomic protocol management. Runs dozens of facilities across three continents.
+description: Software platform for operating indoor farms — environment control, real-time monitoring, safety systems, and agronomic protocol management. Runs dozens of facilities across three time zones.
 image: /images/biomeos-touchscreen.png
 technologies:
   - Python
@@ -25,7 +25,7 @@ contaminants.
 BiomeOS is the software platform that runs these research and production facilities, for Orius 
 and for its customers. As co-founder and head of software engineering at Orius, I designed and 
 built the BiomeOS platform, from a single prototype chamber to several facilities running across 
-three continents.
+three time zones.
 
 ## Design principles
 
