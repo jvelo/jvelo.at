@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx';
-import { Layout } from './Layout';
+import { Layout, PageTitle, SocialLinks } from './Layout';
 import type { ResumeData, ResumeEntry, ResumeRole } from '../types';
 
 const PDF_PATH = '/Jerome_Velociter_Tech_Product_Lead_2026.pdf';
@@ -40,19 +40,11 @@ const Entry: FC<{ entry: ResumeEntry }> = ({ entry }) => (
 
 export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> = ({ resume, turnstileSiteKey }) => (
   <Layout title="Résumé" description={`${resume.name}, ${resume.headline}`} path="/resume" turnstileSiteKey={turnstileSiteKey}>
-    <article class="project resume">
-      <h1 class="project-name">{resume.name}</h1>
-      <p class="project-tagline">{resume.headline}</p>
-      <p class="resume-contacts">
-        {resume.contacts.map((c, i) => (
-          <>
-            {i > 0 && <span class="resume-sep"> · </span>}
-            <a href={c.url}>{c.label}</a>
-          </>
-        ))}
-      </p>
-      <p class="resume-download">
+    <article class="resume">
+      <PageTitle title="Résumé" subtitle={`${resume.name} · ${resume.headline}`} />
+      <p class="resume-actions">
         <a href={PDF_PATH} class="cta-link">Download as PDF →</a>
+        <span class="resume-social"><SocialLinks /></span>
       </p>
       <div class="prose resume-body">
         <p><Html html={resume.summary} /></p>
