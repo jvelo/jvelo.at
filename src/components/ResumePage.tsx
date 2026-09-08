@@ -126,10 +126,6 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
           <h2 class="aside-heading">Download</h2>
           <p class="aside-meta"><a href={PDF_PATH} class="aside-link">PDF, two pages</a></p>
         </section>
-        <section class="aside-section">
-          <h2 class="aside-heading">Availability</h2>
-          {resume.availability.map((line) => <p class="aside-meta">{line}</p>)}
-        </section>
       </aside>
       </div>
     </article>

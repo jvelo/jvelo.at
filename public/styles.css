@@ -1580,19 +1580,12 @@ ul {
 @media screen and (min-width: 1280px) {
   .resume-layout > .content-aside {
     display: block;
-  }
-
-  .resume-actions {
-    display: none;
+    max-width: 14rem;
   }
 
   .resume-layout > .resume-body {
     max-width: var(--measure);
     overflow: visible;
-  }
-
-  .resume-layout .resume-availability {
-    display: none;
   }
 
   .resume-entry,
