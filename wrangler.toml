@@ -2,7 +2,10 @@ name = "jvelo-at"
 main = "src/index.tsx"
 compatibility_date = "2025-01-14"
 compatibility_flags = ["nodejs_compat"]
-routes = [{ pattern = "www.jvelo.at", custom_domain = true }]
+routes = [
+  { pattern = "jvelo.at", custom_domain = true },
+  { pattern = "www.jvelo.at", custom_domain = true },
+]
 
 [assets]
 directory = "public"
