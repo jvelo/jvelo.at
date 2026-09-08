@@ -82,6 +82,10 @@ export interface ResumeRole {
 
 export interface ResumeEntry {
   dates: string;
+  /** File name in public/images/resume/. */
+  logo?: string;
+  /** Padding inside the logo tile, as a fraction of its size. */
+  logo_inset?: number;
   roles: ResumeRole[];
 }
 

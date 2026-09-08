@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx';
-import { Layout, PageTitle, SocialLinks } from './Layout';
+import { Layout, SocialLinks } from './Layout';
 import type { ResumeData, ResumeEntry, ResumeRole } from '../types';
 
 const PDF_PATH = '/Jerome_Velociter_Tech_Product_Lead_2026.pdf';
@@ -31,7 +31,14 @@ const Role: FC<{ role: ResumeRole }> = ({ role }) => (
 
 const Entry: FC<{ entry: ResumeEntry }> = ({ entry }) => (
   <section class="resume-entry">
-    <p class="resume-dates">{entry.dates}</p>
+    <div class="resume-gutter">
+      {entry.logo && (
+        <span class="resume-logo" style={entry.logo_inset ? `--inset: ${entry.logo_inset}` : undefined}>
+          <img src={`/images/resume/${entry.logo}`} alt="" data-no-gallery />
+        </span>
+      )}
+      <p class="resume-dates">{entry.dates}</p>
+    </div>
     <div class="resume-entry-body">
       {entry.roles.map((role) => <Role role={role} />)}
     </div>
@@ -41,8 +48,13 @@ const Entry: FC<{ entry: ResumeEntry }> = ({ entry }) => (
 export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> = ({ resume, turnstileSiteKey }) => (
   <Layout title="Résumé" description={`${resume.name}, ${resume.headline}`} path="/resume" turnstileSiteKey={turnstileSiteKey}>
     <article class="resume">
-      <PageTitle title="Résumé" subtitle={`${resume.name} · ${resume.headline}`} />
-      <p class="resume-social"><SocialLinks /></p>
+      <div class="page-header">
+        <h1 class="page-title">Résumé</h1>
+        <div class="resume-subtitle-row">
+          <p class="page-subtitle">{resume.name} · {resume.headline}</p>
+          <span class="resume-social"><SocialLinks /></span>
+        </div>
+      </div>
       <p class="resume-actions">
         <a href={PDF_PATH} class="cta-link">Download as PDF →</a>
       </p>

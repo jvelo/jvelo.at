@@ -1,5 +1,5 @@
 # Résumé content. Rendered to PDF by resume.typ and to /resume by the site.
-# Text fields accept Markdown links: [label](url).
+# Text fields accept Markdown links: [label](url). Logos are files in public/images/resume/.
 
 name: Jérôme Velociter
 headline: Freelance Tech & Product Lead
@@ -23,13 +23,13 @@ availability:
 experience:
   - dates: 2026 – present
     logo: symbol.svg
-    logo_inset_mm: 1.6
+    logo_inset: 0.21
     roles:
       - title: Freelance Tech & Product Lead
         summary: "Product engineering, technical leadership and team coaching in AI-assisted development. Practical guidance on integrating coding agents into delivery workflows, from task scoping and architectural decisions to code review and verification."
 
   - dates: 2021 – 2026
-    logo: logos/orius-gray.png
+    logo: orius-gray.png
     roles:
       - title: Co-founder — Software, Product & Marketing
         org: Orius
@@ -44,7 +44,7 @@ experience:
           - "Co-led a €4M funding round, owning the investment narrative and investor materials."
 
   - dates: 2016 – 2021
-    logo: logos/agricool-gray.png
+    logo: agricool-gray.png
     roles:
       - title: Director of Software Engineering
         org: Agricool
@@ -62,7 +62,7 @@ experience:
           - "Delivered remote crop management for year-round, commercial-scale indoor strawberry production, including a pilot farm in Dubai operated over 4G."
 
   - dates: 2011 – 2016
-    logo: logos/46cl-gray.png
+    logo: 46cl-gray.png
     roles:
       - title: Co-founder & Technical Director
         org: 46cl
@@ -72,7 +72,7 @@ experience:
           - "Created and led development of [Mayocat Shop](https://github.com/jvelo/mayocat-shop), an open source multi-tenant commerce platform on the JVM spanning storefronts, merchant administration, payments and content management. Production sites still run on it 12+ years later."
 
   - dates: 2007 – 2011
-    logo: logos/xwiki-gray.png
+    logo: xwiki-gray.png
     roles:
       - title: Software Engineer
         org: XWiki
@@ -83,7 +83,7 @@ experience:
           - "Led customer and partner projects from pre-sales to delivery. Mentor for Google Summer of Code in 2008."
 
   - dates: 2005 – 2006
-    logo: logos/frog-gray.png
+    logo: frog-gray.png
     roles:
       - title: Software Developer Intern
         org: Frog Navigation Systems (now Oceaneering)

@@ -1401,10 +1401,20 @@ ul {
 
 /* Résumé */
 
+.resume .page-header {
+  max-width: 46rem;
+}
+
+.resume-subtitle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
 .resume-social {
   display: flex;
   gap: 0.75rem;
-  margin: -0.75rem 0 1.5rem 0;
 }
 
 .resume-social a {
@@ -1443,6 +1453,44 @@ ul {
   grid-template-columns: 7.5rem 1fr;
   column-gap: 1.5rem;
   margin: 0 0 2rem 0;
+}
+
+.resume-logo {
+  --size: 2.25rem;
+  display: block;
+  box-sizing: border-box;
+  width: var(--size);
+  height: var(--size);
+  padding: calc(var(--inset, 0) * var(--size));
+  margin: 0.15rem 0 0.5rem 0;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.resume-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .resume-logo {
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  :root:not([data-theme="light"]) .resume-logo img {
+    filter: invert(1);
+  }
+}
+
+:root[data-theme="dark"] .resume-logo {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+:root[data-theme="dark"] .resume-logo img {
+  filter: invert(1);
 }
 
 .resume-dates {
@@ -1530,8 +1578,16 @@ ul {
     grid-template-columns: 1fr;
   }
 
+  .resume-gutter {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .resume-logo,
   .resume-dates {
-    margin: 0 0 0.25rem 0;
+    margin: 0;
   }
 
   .resume-role-sep {

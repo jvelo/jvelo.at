@@ -41,7 +41,7 @@ function processResume(filePath: string): ResumeData {
     ...data,
     summary: inline(data.summary),
     experience: data.experience.map((e) => ({
-      dates: e.dates,
+      ...e,
       roles: e.roles.map((r) => ({
         ...r,
         summary: r.summary && inline(r.summary),

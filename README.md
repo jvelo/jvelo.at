@@ -26,7 +26,7 @@ pnpm run deploy
 
 ## Résumé
 
-The résumé content lives in `resume/resume.yaml`. Text fields accept Markdown links. Two renderers read it: `resume/resume.typ` ([Typst](https://typst.app)) produces the PDF, and `src/components/ResumePage.tsx` renders `/resume`. The content bundle step pre-renders the Markdown, so the page updates on the next build; the PDF is built by `pnpm run resume`, which `pnpm run deploy` runs automatically. The PDF build needs the `typst` binary and the IBM Plex Sans, IBM Plex Sans Condensed and Departure Mono fonts installed, and fails if the document exceeds two pages.
+The résumé content lives in `resume/resume.yaml`, with its logos in `public/images/resume/`. Text fields accept Markdown links. Two renderers read it: `resume/resume.typ` ([Typst](https://typst.app)) produces the PDF, and `src/components/ResumePage.tsx` renders `/resume`. The content bundle step pre-renders the Markdown, so the page updates on the next build; the PDF is built by `pnpm run resume`, which `pnpm run deploy` runs automatically. The PDF build needs the `typst` binary and the IBM Plex Sans, IBM Plex Sans Condensed and Departure Mono fonts installed, and fails if the document exceeds two pages.
 
 ## Database
 

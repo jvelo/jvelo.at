@@ -3,6 +3,7 @@
 // TODO: *builder* *AI*
 
 #let data = yaml("resume.yaml")
+#let images = "/public/images/resume/"
 
 #let ink = rgb("#181818")
 #let muted = rgb("#6F6A66")
@@ -79,7 +80,7 @@
       columns: (27mm, 1fr),
       column-gutter: 4mm,
       [
-        #if "logo" in e [#tile(e.logo, inset: e.at("logo_inset_mm", default: 0) * 1mm) #v(0.1em)]
+        #if "logo" in e [#tile(images + e.logo, inset: 7.5mm * e.at("logo_inset", default: 0)) #v(0.1em)]
         #meta[#e.dates]
       ],
       [
