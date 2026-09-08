@@ -68,9 +68,63 @@ export interface PageData {
   html: string;
 }
 
+export interface ResumeRole {
+  title: string;
+  url?: string;
+  org?: string;
+  place?: string;
+  dates?: string;
+  /** Inline HTML. */
+  summary?: string;
+  /** Inline HTML per item. */
+  bullets?: string[];
+}
+
+export interface ResumeEntry {
+  dates: string;
+  roles: ResumeRole[];
+}
+
+export interface ResumeProject {
+  dates: string;
+  title: string;
+  url?: string;
+  /** Inline HTML. */
+  summary: string;
+}
+
+export interface ResumePublication {
+  title: string;
+  contribution: string;
+  venue: string;
+  year: number;
+  doi: string;
+}
+
+export interface ResumeSkill {
+  label: string;
+  items: string;
+}
+
+/** The résumé with its Markdown fields already rendered to inline HTML. */
+export interface ResumeData {
+  name: string;
+  headline: string;
+  contacts: { label: string; url: string }[];
+  summary: string;
+  availability: string[];
+  experience: ResumeEntry[];
+  projects: ResumeProject[];
+  publications: ResumePublication[];
+  skills: ResumeSkill[];
+  education: string;
+  languages: string;
+}
+
 export interface PageProvider {
   getHome: () => PageData;
   getPage: (slug: string) => PageData | null;
+  getResume: () => ResumeData;
 }
 
 export interface UrlMetadata {

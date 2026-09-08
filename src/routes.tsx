@@ -3,6 +3,7 @@ import type { Child } from 'hono/jsx';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { Layout, PageTitle } from './components/Layout';
 import { WorkPage } from './components/WorkPage';
+import { ResumePage } from './components/ResumePage';
 import { SelectedWorks } from './components/SelectedWorks';
 import { Expertise } from './components/Expertise';
 import { ReachOut } from './components/ReachOut';
@@ -73,7 +74,9 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     );
   });
 
-  app.get('/resume', (c) => c.redirect('/Jerome_Velociter_Tech_Product_Lead_2026.pdf'));
+  app.get('/resume', async (c) => {
+    return render(c, <ResumePage resume={provider.getResume()} turnstileSiteKey={getTurnstileKey(c)} />);
+  });
 
   app.get('/kitchen-sink', async (c) => {
     return render(c,

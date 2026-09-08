@@ -1398,3 +1398,139 @@ ul {
     transform: none;
   }
 }
+
+/* Résumé */
+
+.resume-contacts {
+  font-family: var(--font-accent-mono);
+  font-size: 0.85rem;
+  margin: 0 0 1rem 0;
+}
+
+.resume-contacts a {
+  font-weight: normal;
+}
+
+.resume-sep {
+  color: var(--color-muted);
+}
+
+.resume-download {
+  margin: 0 0 2.5rem 0;
+}
+
+.resume-body {
+  max-width: 46rem;
+}
+
+.resume-availability {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.resume-entry {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  column-gap: 1.5rem;
+  margin: 0 0 2rem 0;
+}
+
+.resume-dates {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0.2rem 0 0 0;
+}
+
+.resume-role + .resume-role {
+  margin-top: 1.5rem;
+}
+
+.resume-role-title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: bold;
+  line-height: 1.5;
+  margin: 0 0 0.5rem 0;
+}
+
+.resume-role-sep,
+.resume-role-org {
+  font-weight: normal;
+  color: var(--color-muted);
+}
+
+.resume-role-dates {
+  float: right;
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.resume-body .resume-role p {
+  margin: 0 0 0.75rem 0;
+}
+
+.resume-body .resume-role ul {
+  margin: 0.5rem 0 0 0;
+}
+
+.resume-body .resume-role li {
+  margin-bottom: 0.6rem;
+}
+
+.resume-publication {
+  margin: 0 0 1.25rem 0;
+}
+
+.resume-body .resume-publication-title {
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin: 0 0 0.25rem 0;
+}
+
+.resume-body .resume-publication-meta {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.resume-skills {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
+  margin: 0 0 2rem 0;
+}
+
+.resume-skills dt {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.resume-skills dd {
+  margin: 0;
+  line-height: 1.7;
+}
+
+@media screen and (max-width: 575px) {
+  .resume-entry,
+  .resume-skills {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-dates {
+    margin: 0 0 0.25rem 0;
+  }
+
+  .resume-role-sep {
+    display: none;
+  }
+
+  .resume-role-org,
+  .resume-role-dates {
+    float: none;
+    display: block;
+  }
+}

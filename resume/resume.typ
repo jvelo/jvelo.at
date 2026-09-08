@@ -1,7 +1,8 @@
-// Jérôme Velociter, resume.
+// Jérôme Velociter, resume. Content lives in resume.yaml; this file is layout only.
+// Build with `pnpm run resume` from the repo root.
 // TODO: *builder* *AI*
-// Build: typst compile resume.typ
-// Deliver: typst compile resume.typ Jerome_Velociter_Tech_Product_Lead_2026.pdf
+
+#let data = yaml("resume.yaml")
 
 #let ink = rgb("#181818")
 #let muted = rgb("#6F6A66")
@@ -14,20 +15,35 @@
 #let mono(body) = text(font: "Departure Mono", size: 8.5pt, fill: rgb("#4A4643"), body)
 #let meta(body) = text(size: 8.5pt, fill: muted, body)
 
-#set document(title: "Jérôme Velociter, Tech & Product Lead", author: "Jérôme Velociter")
+// Render the Markdown links in a data string; everything else is plain text.
+#let md(s) = {
+  let re = regex("\\[([^\\]]+)\\]\\(([^)]+)\\)")
+  let out = ()
+  let pos = 0
+  for m in s.matches(re) {
+    out.push(s.slice(pos, m.start))
+    out.push(link(m.captures.at(1), m.captures.at(0)))
+    pos = m.end
+  }
+  out.push(s.slice(pos))
+  out.join()
+}
+
+#set document(title: data.name + ", " + data.headline, author: data.name)
 #set page(
   paper: "a4",
   margin: (x: 16mm, top: 14mm, bottom: 14mm),
   footer: context {
     let n = counter(page).get().first()
     if n > 1 {
-      align(right, meta[Jérôme Velociter · #n/2])
+      align(right, meta[#data.name · #n/2])
     }
   },
 )
 #set text(font: "IBM Plex Sans", size: 10pt, fill: ink, lang: "en")
 #set par(leading: 0.72em, spacing: 0.82em)
 #set list(marker: text(fill: accent)[•], indent: 0em, body-indent: 0.6em, spacing: 1.05em)
+#show "IT/OT": it => box(it)
 
 #show heading.where(level: 1): it => block(sticky: true, above: 1.4em, below: 0.8em)[
   #condensed(size: 9pt, weight: 700, upper(it.body))
@@ -41,120 +57,75 @@
   image(logo, width: 100%, height: 100%, fit: "contain"),
 )
 
-// One company or item. `body` holds the roles and bullets.
-#let entry(dates, logo: none, logo-inset: 0mm, breakable: false, body) = block(breakable: breakable, below: 1.4em)[
-  #grid(
-    columns: (27mm, 1fr),
-    column-gutter: 4mm,
-    [
-      #if logo != none [#tile(logo, inset: logo-inset) #v(0.1em)]
-      #meta[#dates]
-    ],
-    body,
-  )
+#let role-line(r) = block(below: 0.85em)[
+  #text(weight: 600)[#r.title]
+  #if "org" in r [#text(fill: muted)[·] #r.org#if "place" in r [ #text(fill: muted)[· #r.place]]]
+  #if "dates" in r [#h(1fr) #meta[#r.dates]]
 ]
 
-// A role line inside an entry. Trailing dates only when a company had several roles.
-#let role(title, org: none, place: none, dates: none) = block(below: 0.85em)[
-  #text(weight: 600)[#title]
-  #if org != none [#text(fill: muted)[·] #org#if place != none [ #text(fill: muted)[· #place]]]
-  #if dates != none [#h(1fr) #meta[#dates]]
-]
+#let role-body(r) = {
+  role-line(r)
+  if "summary" in r { md(r.summary) }
+  let bullets = r.at("bullets", default: ())
+  if bullets.len() > 0 { list(..bullets.map(md)) }
+}
+
+// One company or project: logo and dates in the gutter, roles on the right.
+// An entry with several roles may break between them; each role stays whole.
+#let entry(e) = {
+  let multi = e.roles.len() > 1
+  block(breakable: multi, below: 1.4em)[
+    #grid(
+      columns: (27mm, 1fr),
+      column-gutter: 4mm,
+      [
+        #if "logo" in e [#tile(e.logo, inset: e.at("logo_inset_mm", default: 0) * 1mm) #v(0.1em)]
+        #meta[#e.dates]
+      ],
+      [
+        #for (i, r) in e.roles.enumerate() {
+          if i > 0 { v(0.3em) }
+          block(breakable: false, role-body(r))
+        }
+      ],
+    )
+  ]
+}
 
 // Header
 
-#condensed(size: 21pt)[Jérôme Velociter] \
+#condensed(size: 21pt)[#data.name] \
 #v(0.1em)
-#box(fill: accent, inset: (x: 4pt, y: 3pt), outset: (y: 0pt))[#text(size: 11.5pt, weight: 700)[Freelance Tech & Product Lead]]
+#box(fill: accent, inset: (x: 4pt, y: 3pt), outset: (y: 0pt))[#text(size: 11.5pt, weight: 700)[#data.headline]]
 #v(0.5em)
-#mono[
-  #link("mailto:jerome@velociter.fr")[jerome\@velociter.fr] · #link("https://jvelo.at")[www.jvelo.at] · #link("https://linkedin.com/in/jvelociter")[linkedin.com/in/jvelociter] · #link("https://github.com/jvelo")[github.com/jvelo]
-]
+#mono[#data.contacts.map(c => link(c.url)[#c.label]).join([ · ])]
 
 #v(1.2em)
 
-Tech and product lead with 20 years of experience building web products and industrial software, including 10 as a founder. I help teams take products from architecture to production, evolve existing systems and solve hard engineering problems. I combine product ownership with hands-on engineering in TypeScript, Python and Go, across cloud and edge infrastructure.
+#md(data.summary)
 
 #v(0.3em)
-#text(size: 9pt, fill: muted)[Toulouse, France · Open to full-time or fractional engagements \
-  Remote or hybrid · Available for regular travel to Paris, London and Amsterdam]
+#text(size: 9pt, fill: muted)[#data.availability.join(linebreak())]
 
 = Experience
 
-#entry("2026 – present", logo: "symbol.svg", logo-inset: 1.6mm)[
-  #role("Freelance Tech & Product Lead")
-  Product engineering, technical leadership and team coaching in AI-assisted development. Practical guidance on integrating coding agents into delivery workflows, from task scoping and architectural decisions to code review and verification.
-]
-
-#entry("2021 – 2026", logo: "logos/orius-gray.png")[
-  #role("Co-founder — Software, Product & Marketing", org: "Orius", place: "Toulouse, FR")
-  Turnkey systems for growing high-value plants indoors. Selected for France 2030 funding.
-  - Built the software stack from scratch, then led a small team running it in production: growth chamber (phytotron) automation, #box[IT/OT] monitoring, and #link("https://jvelo.at/biomeos")[BiomeOS], the cloud and data platform. Dozens of growth units across three continents on an offline-first architecture, so each site keeps operating through connectivity loss.
-  - Built the control and data software for two projects with CNES, the French space agency: prototype greenhouses for lunar and Martian habitats, and Gravilab, a gravity simulator for plant biology.
-  - Translated agronomic requirements into executable control protocols, including calibrated lighting and nutrient management.
-  - Owned BiomeOS as a product and designed its interfaces: what to build, in what order, for which users, from research labs to production sites.
-  - Led marketing: brand identity, website and sales collateral.
-  - Co-led a €4M funding round, owning the investment narrative and investor materials.
-]
-
-#entry("2016 – 2021", logo: "logos/agricool-gray.png", breakable: true)[
-  #role("Director of Software Engineering", org: "Agricool", place: "Paris, FR", dates: "2018 – 2021")
-  - Grew the engineering team from one engineer to eight, across embedded software, microservices, full-stack, DevOps and data science.
-  - Built and ran the platform operating several dozen container farms in France and the UAE, used daily by growers, operations and sales: edge and cloud infrastructure, data and analytics, back-office and mobile apps, with failsafes for remote operation.
-  - Shipped on the hardware construction calendar, so software never delayed a planting.
-  - Led the rewrite from a Kotlin monolith to Go microservices as farms moved from shared servers to dedicated compute per container, limiting the impact of a server failure to one container instead of eight. Delivered on schedule.
-  #v(0.3em)
-  #block(breakable: false)[
-    #role("Lead Software Engineer", dates: "2016 – 2018")
-    - Owned the first generations of the proprietary farming software, from industrial IoT automation to agronomic domain modelling.
-    - Delivered remote crop management for year-round, commercial-scale indoor strawberry production, including a pilot farm in Dubai operated over 4G.
-  ]
-]
-
-#entry("2011 – 2016", logo: "logos/46cl-gray.png")[
-  #role("Co-founder & Technical Director", org: "46cl", place: "Lyon, FR")
-  - Co-founded a web, mobile and UX agency and ran it for six years with a team of developers and designers, for clients from communications agencies to corporations.
-  - Created and led development of #link("https://github.com/jvelo/mayocat-shop")[Mayocat Shop], an open source multi-tenant commerce platform on the JVM spanning storefronts, merchant administration, payments and content management. Production sites still run on it 12+ years later.
-]
-
-#entry("2007 – 2011", logo: "logos/xwiki-gray.png")[
-  #role("Software Engineer", org: "XWiki", place: "Paris, FR")
-  - Core committer on the XWiki open source platform, from back-end services to user-facing features, including the Bespin editor integration and Markdown rendering support.
-  - Bootstrapped the Iași office in Romania on site over 18 months: hired, trained and managed its development team.
-  - Led customer and partner projects from pre-sales to delivery. Mentor for Google Summer of Code in 2008.
-]
-
-#entry("2005 – 2006", logo: "logos/frog-gray.png")[
-  #role("Software Developer Intern", org: "Frog Navigation Systems (now Oceaneering)", place: "Utrecht, NL")
-  Black-box QA suite in Python for the AGVs' embedded computers, log mining for fault patterns, and CORBA services in Java.
-]
+#for e in data.experience { entry(e) }
 
 = Projects
 
-#entry("2025 – present")[
-  #role(link("https://jvelo.at/typebar")[Typebar])
-  Canvas-native rich-text engine with its own layout, text measurement, IME input and undo/redo, built for consistent performance on large documents. TypeScript with zero runtime dependencies. Private beta.
-]
-
-#entry("2025 – present")[
-  #role("Savannah")
-  Desktop writing app built on Typebar with Electron.
-]
-
-#entry("2026 – present")[
-  #role(link("https://github.com/jvelo/tapemark")[Tapemark])
-  Designed and built an open source SQLite administration toolkit with an embeddable web UI and a CLI, running on Node.js and Cloudflare D1 through a framework-independent core.
-]
+#for p in data.projects {
+  let title = if "url" in p { link(p.url)[#p.title] } else { p.title }
+  entry((dates: p.dates, roles: ((title: title, summary: p.summary),)))
+}
 
 = Publications
 
-#let paper(title, doi) = block(below: 0.9em)[
-  #text(weight: 600)[#title] \
-  #meta[Co-author · International Conference on Environmental Systems, 2026 · #link("https://doi.org/" + doi)[doi.org/#doi]]
-]
-
-#paper("Development of a Modular and Deployable Plant Production System for Lunar and Martian Habitats", "10.32865/2346/108859")
-#paper("Gravilab: An Advanced Random Positioning Machine for Arbitrary Gravity Simulation", "10.32865/2346/108860")
+#for p in data.publications {
+  block(below: 0.9em)[
+    #text(weight: 600)[#p.title] \
+    #meta[#p.contribution · #p.venue, #p.year · #link("https://doi.org/" + p.doi)[doi.org/#p.doi]]
+  ]
+}
 
 = Skills
 
@@ -162,21 +133,13 @@ Tech and product lead with 20 years of experience building web products and indu
   columns: (27mm, 1fr),
   column-gutter: 4mm,
   row-gutter: 0.68em,
-  meta[Programming], [TypeScript, Python, Go, Java, Kotlin],
-  meta[Frontend], [React, Next.js, Lit, Web APIs, canvas, PWA],
-  meta[Backend], [GraphQL, PostgreSQL, microservices, offline-first architectures],
-  meta[Architecture], [Library and framework design, extensible platforms, developer tooling],
-  meta[Infrastructure], [Docker, Ansible, Terraform, CI/CD, Cloudflare Workers, Prometheus, Loki, Grafana],
-  meta[Industrial], [Embedded Linux, IoT automation, Modbus, MQTT, IT/OT integration],
-  meta[Product], [Product design, UX, discovery, brand and marketing],
-  meta[Leadership], [Hiring, mentoring, team management, stakeholder management],
-  meta[Workflow], [Claude Code, Codex, agent-assisted development, automated testing],
+  ..data.skills.map(s => (meta[#s.label], [#s.items])).flatten(),
 )
 
 = Education & Languages
 
 #block(breakable: false)[
-  IMT Nord Europe, engineering degree (MSc), 2007 #h(1.5em) #text(fill: muted)[·] #h(1.5em) French, native · English, fluent
+  #data.education #h(1.5em) #text(fill: muted)[·] #h(1.5em) #data.languages
 ]
 
 #context assert(counter(page).final().first() <= 2, message: "resume exceeds two pages")
