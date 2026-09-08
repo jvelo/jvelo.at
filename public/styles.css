@@ -1578,6 +1578,10 @@ ul {
 }
 
 @media screen and (min-width: 1280px) {
+  .resume-layout {
+    justify-content: space-between;
+  }
+
   .resume-layout > .content-aside {
     display: block;
     max-width: 14rem;
