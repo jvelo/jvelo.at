@@ -1401,10 +1401,6 @@ ul {
 
 /* Résumé */
 
-.resume .page-header {
-  max-width: 46rem;
-}
-
 .resume-subtitle-row {
   display: flex;
   justify-content: space-between;
@@ -1440,7 +1436,9 @@ ul {
 }
 
 .resume-body {
-  max-width: 46rem;
+  --resume-gutter: 7.5rem;
+  --resume-gap: 1.5rem;
+  max-width: calc(var(--measure) + var(--resume-gutter) + var(--resume-gap));
 }
 
 .resume-availability {
@@ -1450,8 +1448,8 @@ ul {
 
 .resume-entry {
   display: grid;
-  grid-template-columns: 7.5rem 1fr;
-  column-gap: 1.5rem;
+  grid-template-columns: var(--resume-gutter) 1fr;
+  column-gap: var(--resume-gap);
   margin: 0 0 2rem 0;
 }
 
@@ -1555,8 +1553,8 @@ ul {
 
 .resume-skills {
   display: grid;
-  grid-template-columns: 7.5rem 1fr;
-  column-gap: 1.5rem;
+  grid-template-columns: var(--resume-gutter) 1fr;
+  column-gap: var(--resume-gap);
   row-gap: 0.5rem;
   margin: 0 0 2rem 0;
 }
