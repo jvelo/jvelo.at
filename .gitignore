@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 src/content-bundle.ts
+public/Jerome_Velociter_Tech_Product_Lead_2026.pdf
 
 # Wrangler
 .wrangler/

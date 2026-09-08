@@ -24,6 +24,10 @@ pnpm run build
 pnpm run deploy
 ```
 
+## Résumé
+
+The résumé source is `resume/resume.typ` ([Typst](https://typst.app)). `pnpm run resume` compiles it to `public/`, and `pnpm run deploy` does so automatically. It is served at `/resume`. The build needs the `typst` binary and the IBM Plex Sans, IBM Plex Sans Condensed and Departure Mono fonts installed; it fails if the document exceeds two pages.
+
 ## Database
 
 See [ADMIN.md](ADMIN.md) for D1 database commands (execute SQL, export, manage users, apply migrations).

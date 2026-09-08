@@ -73,6 +73,8 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     );
   });
 
+  app.get('/resume', (c) => c.redirect('/Jerome_Velociter_Tech_Product_Lead_2026.pdf'));
+
   app.get('/kitchen-sink', async (c) => {
     return render(c,
       <Layout title="Kitchen Sink" turnstileSiteKey={getTurnstileKey(c)}>
