@@ -9,7 +9,8 @@ const SECTIONS: [string, string][] = [
   ['projects', 'Projects'],
   ['publications', 'Publications'],
   ['skills', 'Skills'],
-  ['education', 'Education & Languages'],
+  ['education', 'Education'],
+  ['languages', 'Languages'],
 ];
 
 const Html: FC<{ html: string }> = ({ html }) => <span dangerouslySetInnerHTML={{ __html: html }} />;
@@ -106,13 +107,11 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
           ))}
         </dl>
 
-        <h2 id="education">Education &amp; Languages</h2>
-        <dl class="resume-skills">
-          <dt>Degree</dt>
-          <dd>{resume.education}</dd>
-          <dt>Languages</dt>
-          <dd>{resume.languages}</dd>
-        </dl>
+        <h2 id="education">Education</h2>
+        <p>{resume.education}</p>
+
+        <h2 id="languages">Languages</h2>
+        <p>{resume.languages}</p>
       </div>
       <aside class="content-aside">
         <section class="toc">

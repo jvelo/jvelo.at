@@ -1592,8 +1592,7 @@ ul {
     overflow: visible;
   }
 
-  .resume-entry,
-  .resume-skills {
+  .resume-entry {
     margin-left: calc(-1 * (var(--resume-gutter) + var(--resume-gap)));
   }
 }
