@@ -1435,7 +1435,7 @@ ul {
   margin: 0 0 2.5rem 0;
 }
 
-.resume-body {
+.resume-layout > .resume-body {
   --resume-gutter: 7.5rem;
   --resume-gap: 1.5rem;
   max-width: calc(var(--measure) + var(--resume-gutter) + var(--resume-gap));
@@ -1568,6 +1568,37 @@ ul {
 .resume-skills dd {
   margin: 0;
   line-height: 1.7;
+}
+
+/* The aside and the gutter outdent arrive together. The site shows asides
+   from 1200px, but the outdent needs a wider margin to clear the viewport
+   edge, so the résumé waits until 1280px for both. */
+.resume-layout > .content-aside {
+  display: none;
+}
+
+@media screen and (min-width: 1280px) {
+  .resume-layout > .content-aside {
+    display: block;
+  }
+
+  .resume-actions {
+    display: none;
+  }
+
+  .resume-layout > .resume-body {
+    max-width: var(--measure);
+    overflow: visible;
+  }
+
+  .resume-layout .resume-availability {
+    display: none;
+  }
+
+  .resume-entry,
+  .resume-skills {
+    margin-left: calc(-1 * (var(--resume-gutter) + var(--resume-gap)));
+  }
 }
 
 @media screen and (max-width: 575px) {

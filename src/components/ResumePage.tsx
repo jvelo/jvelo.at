@@ -4,6 +4,14 @@ import type { ResumeData, ResumeEntry, ResumeRole } from '../types';
 
 const PDF_PATH = '/Jerome_Velociter_Tech_Product_Lead_2026.pdf';
 
+const SECTIONS: [string, string][] = [
+  ['experience', 'Experience'],
+  ['projects', 'Projects'],
+  ['publications', 'Publications'],
+  ['skills', 'Skills'],
+  ['education', 'Education & Languages'],
+];
+
 const Html: FC<{ html: string }> = ({ html }) => <span dangerouslySetInnerHTML={{ __html: html }} />;
 
 const Role: FC<{ role: ResumeRole }> = ({ role }) => (
@@ -58,7 +66,8 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
       <p class="resume-actions">
         <a href={PDF_PATH} class="cta-link">Download as PDF →</a>
       </p>
-      <div class="prose resume-body">
+      <div class="content-with-aside resume-layout">
+      <div class="content-primary prose resume-body">
         <p><Html html={resume.summary} /></p>
         <p class="resume-availability">
           {resume.availability.map((line, i) => (
@@ -69,15 +78,15 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
           ))}
         </p>
 
-        <h2>Experience</h2>
+        <h2 id="experience">Experience</h2>
         {resume.experience.map((entry) => <Entry entry={entry} />)}
 
-        <h2>Projects</h2>
+        <h2 id="projects">Projects</h2>
         {resume.projects.map((p) => (
           <Entry entry={{ dates: p.dates, roles: [{ title: p.title, url: p.url, summary: p.summary }] }} />
         ))}
 
-        <h2>Publications</h2>
+        <h2 id="publications">Publications</h2>
         {resume.publications.map((p) => (
           <div class="resume-publication">
             <p class="resume-publication-title">{p.title}</p>
@@ -87,7 +96,7 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
           </div>
         ))}
 
-        <h2>Skills</h2>
+        <h2 id="skills">Skills</h2>
         <dl class="resume-skills">
           {resume.skills.map((s) => (
             <>
@@ -97,13 +106,31 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
           ))}
         </dl>
 
-        <h2>Education &amp; Languages</h2>
+        <h2 id="education">Education &amp; Languages</h2>
         <dl class="resume-skills">
           <dt>Degree</dt>
           <dd>{resume.education}</dd>
           <dt>Languages</dt>
           <dd>{resume.languages}</dd>
         </dl>
+      </div>
+      <aside class="content-aside">
+        <section class="toc">
+          <h2 class="aside-heading">Contents</h2>
+          <nav>
+            {SECTIONS.map(([id, label]) => <a href={`#${id}`} class="toc-link">{label}</a>)}
+          </nav>
+        </section>
+        <hr class="aside-divider" />
+        <section class="aside-section">
+          <h2 class="aside-heading">Download</h2>
+          <p class="aside-meta"><a href={PDF_PATH} class="aside-link">PDF, two pages</a></p>
+        </section>
+        <section class="aside-section">
+          <h2 class="aside-heading">Availability</h2>
+          {resume.availability.map((line) => <p class="aside-meta">{line}</p>)}
+        </section>
+      </aside>
       </div>
     </article>
   </Layout>
