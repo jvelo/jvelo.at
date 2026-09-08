@@ -1570,20 +1570,6 @@ ul {
   line-height: 1.7;
 }
 
-/* Wide screens: the dates and logos hang in the left margin, so the text
-   column starts where the title does. The breakpoint is the width at which
-   the outdent still clears the viewport edge by a few rem. */
-@media screen and (min-width: 1280px) {
-  .resume-body {
-    max-width: var(--measure);
-  }
-
-  .resume-entry,
-  .resume-skills {
-    margin-left: calc(-1 * (var(--resume-gutter) + var(--resume-gap)));
-  }
-}
-
 @media screen and (max-width: 575px) {
   .resume-entry,
   .resume-skills {
