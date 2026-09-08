@@ -42,9 +42,9 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
   <Layout title="Résumé" description={`${resume.name}, ${resume.headline}`} path="/resume" turnstileSiteKey={turnstileSiteKey}>
     <article class="resume">
       <PageTitle title="Résumé" subtitle={`${resume.name} · ${resume.headline}`} />
+      <p class="resume-social"><SocialLinks /></p>
       <p class="resume-actions">
         <a href={PDF_PATH} class="cta-link">Download as PDF →</a>
-        <span class="resume-social"><SocialLinks /></span>
       </p>
       <div class="prose resume-body">
         <p><Html html={resume.summary} /></p>
