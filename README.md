@@ -17,6 +17,12 @@ pnpm run dev
 
 Opens at [http://localhost:8787](http://localhost:8787).
 
+Markdown pages and the résumé are compiled into `src/content-bundle.ts` at build time. To rebuild the bundle automatically while editing content, run this in a second terminal:
+
+```bash
+pnpm run dev:content
+```
+
 ## Build & Deploy
 
 ```bash
@@ -31,6 +37,10 @@ The résumé content lives in `resume/resume.yaml`, with its logos in `public/im
 ## Database
 
 See [ADMIN.md](ADMIN.md) for D1 database commands (execute SQL, export, manage users, apply migrations).
+
+## Footer artwork
+
+See [the artwork guide](docs/footer-artwork.md) for the approved owl reference, reusable processing prompt, pixel/dithering workflow, and light/dark footer integration requirements.
 
 ## License
 

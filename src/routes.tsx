@@ -5,12 +5,13 @@ import { Layout, PageTitle } from './components/Layout';
 import { WorkPage } from './components/WorkPage';
 import { ResumePage } from './components/ResumePage';
 import { SelectedWorks } from './components/SelectedWorks';
-import { Expertise } from './components/Expertise';
+import { Range } from './components/Range';
 import { ReachOut } from './components/ReachOut';
 import { Hero } from './components/Hero';
 import { Sink } from './components/KitchenSink';
 import { AtlasPage } from './components/AtlasPage';
 import { verifyTurnstile, sendContactEmail } from './lib/contact';
+import { fetchLatestTrack, LatestTrackContext } from './lib/lastfm';
 import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
   isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
@@ -28,9 +29,15 @@ function getTurnstileKey(c: AppContext): string {
   return c.env?.TURNSTILE_SITE_KEY || '';
 }
 
-function render(c: AppContext, jsx: Child, status?: ContentfulStatusCode) {
+async function render(c: AppContext, jsx: Child, status?: ContentfulStatusCode) {
   const user = c.get('user') || null;
-  return c.html(<AuthContext value={user}>{jsx}</AuthContext>, status);
+  const track = await fetchLatestTrack(c.env?.LASTFM_API_KEY);
+  return c.html(
+    <AuthContext value={user}>
+      <LatestTrackContext value={track}>{jsx}</LatestTrackContext>
+    </AuthContext>,
+    status,
+  );
 }
 
 function loginError(c: AppContext, message: string, redirect?: string) {
@@ -68,7 +75,7 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
       <Layout title={page.title} description={page.description} path="/" turnstileSiteKey={getTurnstileKey(c)}>
         <Hero />
         <SelectedWorks />
-        <Expertise />
+        <Range />
         <ReachOut />
       </Layout>
     );

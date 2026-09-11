@@ -12,24 +12,21 @@ years: 2025–present
 license: Commercial
 ---
 
-## Problem space
+## Motivation
 
-How do you build a rich-text editor that can handle editing large, novel-sized documents
-without dropping frames, and run in native desktop or mobile apps as well as a web browser?
-Typebar grows out of this need and addresses the challenge by providing a fully-featured,
-extensible rich-text editor framework, built from scratch on top of the Canvas API, free of any
-third-party dependencies.
+Most web editors build on the browser's own text rendering. This provides layout, selection, and
+text input out of the box, but it also means working within behaviour designed for web pages rather
+than editing products. Interactions such as typewriter mode, animated navigation, or a custom caret
+become difficult, while very large documents leave the browser maintaining thousands of DOM nodes.
 
-## Philosophy
+I built Typebar to give applications control over the entire editing surface. It is a TypeScript
+editing engine with its own document model, layout, selection, and rendering pipeline, drawn
+entirely on an HTML canvas. This architecture makes richer interactions possible while keeping the
+editor responsive as documents grow, including documents containing several million words.
 
-Most rich-text editors for the web are built on top of the browser's own text rendering. That
-gives you a lot for free — the browser handles layout, selection, cursor behavior — but it also
-means you're constrained by what it was designed to do. Things like keeping the active line
-centered on screen, animating viewport transitions, or even just drawing a custom caret become
-convoluted or outright impossible when the browser owns the rendering.
-
-There's also a performance ceiling. Large documents mean thousands of DOM nodes to maintain,
-style, and lay out. It gets slow, and there's not much you can do about it.
+Typebar now powers [Savannah](/savannah), but it is not limited to conventional writing
+applications. Its document and rendering model can also serve richer or more spatial interfaces
+where text is only one part of a canvas.
 
 <figure>
 <img src="/images/typebar-savannah.png" alt="Typebar used in a desktop Writer application" />

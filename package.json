@@ -11,9 +11,10 @@
     "preinstall": "npx only-allow pnpm",
     "dev": "wrangler dev src/index.tsx",
     "dev:node": "tsx watch src/server.tsx",
+    "dev:content": "tsx watch --clear-screen=false --include 'content/**' --include 'resume/resume.yaml' scripts/bundle-content.ts",
     "prebuild": "tsx scripts/bundle-content.ts",
     "build": "tsc",
-    "resume": "typst compile --root . resume/resume.typ public/Jerome_Velociter_Tech_Product_Lead_2026.pdf",
+    "resume": "typst compile --root . resume/resume.typ public/Jerome_Velociter_Product_Engineer_Tech_Lead_2026.pdf",
     "predeploy": "tsx scripts/bundle-content.ts && pnpm run resume",
     "deploy": "wrangler deploy",
     "start": "node dist/server.js"

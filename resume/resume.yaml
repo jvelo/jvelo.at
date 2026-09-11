@@ -2,7 +2,7 @@
 # Text fields accept Markdown links: [label](url). Logos are files in public/images/resume/.
 
 name: Jérôme Velociter
-headline: Freelance Tech & Product Lead
+headline: Freelance Product Engineer & Tech Lead
 
 contacts:
   - label: jerome@velociter.fr
@@ -25,7 +25,7 @@ experience:
     logo: symbol.svg
     logo_inset: 0.21
     roles:
-      - title: Freelance Tech & Product Lead
+      - title: Freelance Product Engineer & Tech Lead
         summary: "Product engineering, technical leadership and team coaching in AI-assisted development. Practical guidance on integrating coding agents into delivery workflows, from task scoping and architectural decisions to code review and verification."
 
   - dates: 2021 – 2026

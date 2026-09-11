@@ -334,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.appendChild(img.cloneNode(true));
 
     if (figure) {
+      gallery.className = figure.className;
       const caption = figure.querySelector('figcaption');
       if (caption) {
         gallery.appendChild(caption.cloneNode(true));

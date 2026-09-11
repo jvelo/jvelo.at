@@ -69,7 +69,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
             <section class="work-cta">
               <p class="work-cta-text">Working on an ambitious product?</p>
-              <a href="#contact" class="cta-link">Let's talk →</a>
+              <a href="#contact">Let's talk →</a>
             </section>
           </div>
           <aside class="content-aside">

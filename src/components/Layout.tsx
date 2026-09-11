@@ -1,5 +1,6 @@
 import type { Child, FC } from 'hono/jsx';
 import { useAuth } from '../auth';
+import { useLatestTrack } from '../lib/lastfm';
 
 const SITE_URL = 'https://jvelo.at';
 
@@ -78,12 +79,18 @@ export const SocialLinks: FC = () => (
         <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"></path>
       </svg>
     </a>
+    <a href="https://x.com/intent/follow?screen_name=jvelo_at" rel="noopener noreferrer" aria-label="X">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path>
+      </svg>
+    </a>
   </>
 );
 
 export const Footer: FC = () => {
   const user = useAuth();
   const isAdmin = user?.role === 'admin';
+  const track = useLatestTrack();
 
   return (
     <footer id="navigation" class="footer">
@@ -92,30 +99,53 @@ export const Footer: FC = () => {
         <img src="/arrowup.svg" alt="Back to top" />
       </a>
       <div class="footer-inner">
-        <nav class="nav-menu">
-          <a href="/">Home</a>
-          {/*<a href="/about">About</a>*/}
-          <a href="/connect">Contact</a>
-        </nav>
-        <nav class="nav-secondary">
-          {user ? (
-            <>
-              <a href="/starred-media">Starred media</a>
-              <a href="/atlas">Atlas</a>
-              {isAdmin && <a href="/kitchen-sink">Kitchen sink</a>}
-              {isAdmin && <a href="/admin">Admin</a>}
-              <span class="nav-secondary-sep" />
-              <a href="/logout">Sign out</a>
-            </>
-          ) : (
-            <a href="/login">Members space</a>
-          )}
-        </nav>
-        <div class="footer-social">
-          <SocialLinks />
+        <div class="footer-main">
+          <div class="footer-navigation">
+            <nav class="nav-menu">
+              <a href="/">Home</a>
+              <a href="/about">About</a>
+              <a href="/resume">Résumé</a>
+              <a href="/connect">Contact</a>
+            </nav>
+            <nav class="nav-secondary">
+              {user ? (
+                <>
+                  <a href="/starred-media">Starred media</a>
+                  <a href="/atlas">Atlas</a>
+                  {isAdmin && <a href="/kitchen-sink">Kitchen sink</a>}
+                  {isAdmin && <a href="/admin">Admin</a>}
+                  <span class="nav-secondary-sep" />
+                  <a href="/logout">Sign out</a>
+                </>
+              ) : (
+                <a href="/login">Members space</a>
+              )}
+            </nav>
+            <div class="footer-social">
+              <SocialLinks />
+            </div>
+          </div>
+          <div class="footer-artwork" aria-hidden="true">
+            <img class="footer-artwork-owl" src="/images/footer-owl.png" alt="" width="1536" height="1024" loading="lazy" decoding="async" data-no-gallery />
+            <img class="footer-artwork-crows" src="/images/footer-crows-right-seam.png" alt="" width="1086" height="1448" loading="lazy" decoding="async" data-no-gallery />
+          </div>
         </div>
-        <div class="theme-toggle">
-          <theme-switcher></theme-switcher>
+        <div class="footer-bottom">
+          <div class="theme-toggle">
+            <theme-switcher></theme-switcher>
+          </div>
+          {track && (
+            <a href={track.url} rel="noopener noreferrer" class="footer-listening">
+              <span class="footer-listening-art">
+                {track.image && <img src={track.image} alt="" width="56" height="56" loading="lazy" data-no-gallery onerror="this.remove()" />}
+              </span>
+              <span class="footer-listening-text">
+                <span class="footer-listening-label">{track.nowPlaying ? 'Now playing' : 'Last played'}</span>
+                <span class="footer-listening-title">{track.name}</span>
+                <span class="footer-listening-meta">{track.artist}{track.album && ` · ${track.album}`}</span>
+              </span>
+            </a>
+          )}
         </div>
       </div>
     </footer>

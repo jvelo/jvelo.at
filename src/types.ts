@@ -36,6 +36,7 @@ export interface Bindings {
   CONTACT_FROM_EMAIL: string;
   ANTHROPIC_API_KEY?: string;
   OPENGRAPH_API_KEY?: string;
+  LASTFM_API_KEY?: string;
 }
 
 export type Role = 'admin' | 'member';

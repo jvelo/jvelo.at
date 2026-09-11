@@ -19,23 +19,28 @@ html {
 
 :root {
   --color-bg: #ffffff;
-  --color-text: #000000;
-  --color-heading: #181818;
+  --color-ink: #181818;
+  --color-text: var(--color-ink);
+  --color-heading: var(--color-ink);
   --color-muted: #5f5f5f;
   --color-accent: #9C7D7D;
-  --color-border: #181818;
-  --color-selection-bg: #181818;
-  --color-selection-text: #ffffff;
+  --color-border: var(--color-ink);
+  --color-selection-bg: var(--color-ink);
+  --color-selection-text: var(--color-bg);
   --color-code-bg: #f0f0f0;
-  --color-footer-bg: #181818;
-  --color-footer-text: #ffffff;
-  --color-top-bar: #ffffff;
+  --color-footer-bg: var(--color-ink);
+  --color-footer-text: var(--color-bg);
+  --footer-art-filter: grayscale(1) brightness(0.8) contrast(1.3);
+  --footer-art-blend: screen;
+  --footer-owl-display: block;
+  --footer-crows-display: none;
   --font-serif: 'Crimson Text', Georgia, serif;
   --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: 'IBM Plex Sans Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
   --font-accent-mono: 'Departure Mono', 'Courier New', monospace;
   --page-width: 56rem;
+  --backdrop-offset: 0.3125rem;
   --measure: 38rem;
   --gutter: clamp(1.25rem, 5vw, 3rem);
   --chrome-inset: clamp(1.25rem, 2.5vw, 2rem);
@@ -45,37 +50,31 @@ html {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --color-bg: #181818;
-    --color-text: #ffffff;
-    --color-heading: #F3F3F3;
+    --color-ink: #e7e7e7;
     --color-muted: #a8a8a8;
     --color-accent: #FFD043;
-    --color-border: #F3F3F3;
-    --color-selection-bg: #ffffff;
-    --color-selection-text: #000000;
     --color-code-bg: #1a1a1a;
-    --color-footer-bg: #ffffff;
-    --color-footer-text: #000000;
-    --color-top-bar: #000000;
+    --footer-art-filter: grayscale(1) brightness(0.8) contrast(1.3) invert(1);
+    --footer-art-blend: multiply;
+    --footer-owl-display: none;
+    --footer-crows-display: block;
   }
 }
 
 :root[data-theme="dark"] {
   --color-bg: #181818;
-  --color-text: #ffffff;
-  --color-heading: #F3F3F3;
+  --color-ink: #e7e7e7;
   --color-muted: #a8a8a8;
   --color-accent: #FFD043;
-  --color-border: #F3F3F3;
-  --color-selection-bg: #ffffff;
-  --color-selection-text: #000000;
   --color-code-bg: #1a1a1a;
-  --color-footer-bg: #ffffff;
-  --color-footer-text: #000000;
-  --color-top-bar: #000000;
+  --footer-art-filter: grayscale(1) brightness(0.8) contrast(1.3) invert(1);
+  --footer-art-blend: multiply;
+  --footer-owl-display: none;
+  --footer-crows-display: block;
 }
 
 .border-backdrop {
-  box-shadow: -0.5rem -0.5rem 0 0 var(--color-border);
+  box-shadow: calc(-1 * var(--backdrop-offset)) calc(-1 * var(--backdrop-offset)) 0 0 var(--color-border);
 }
 
 body {
@@ -245,23 +244,27 @@ ul {
   width: 5rem;
   height: 5rem;
   object-fit: cover;
-  margin: 0.5rem 0 0 0.5rem;
+  margin: var(--backdrop-offset) 0 0 var(--backdrop-offset);
 }
 
 .hero-text {
-  max-width: 32rem;
+  max-width: var(--measure);
   min-width: 0;
   padding-top: 0.25rem;
-  text-wrap: balance;
 }
 
-.hero-title {
+/* Body size and face like the rest of the hero; only weight and color set the hierarchy */
+.hero-name {
   font-family: var(--font-sans);
   font-size: inherit;
   line-height: inherit;
-  font-weight: normal;
   color: var(--color-text);
   margin: 0;
+}
+
+.hero-meta {
+  margin: 0;
+  color: var(--color-muted);
 }
 
 .nowrap {
@@ -269,11 +272,27 @@ ul {
 }
 
 .hero-lead {
-  margin: 0;
+  margin: 0.75rem 0 0 0;
+  text-wrap: balance;
 }
 
 .hero-cta {
   margin: 1rem 0 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+}
+
+.hero-about {
+  color: var(--color-muted);
+  font-weight: normal;
+  box-shadow: none;
+}
+
+.hero-about:hover {
+  color: var(--color-text);
+  background: none;
+  box-shadow: 0 0.125rem 0 0 var(--color-border);
 }
 
 @media screen and (max-width: 575px) {
@@ -285,13 +304,6 @@ ul {
     width: 4rem;
     height: 4rem;
   }
-}
-
-/* Calls to action share one treatment: bold text, accent underline, inverted on hover */
-.cta-link {
-  font-weight: bold;
-  color: var(--color-text);
-  box-shadow: 0 0.125rem 0 0 var(--color-accent);
 }
 
 /* Section Title */
@@ -331,6 +343,21 @@ ul {
   max-width: var(--measure);
 }
 
+.about-resume {
+  margin-top: -0.5rem;
+  color: var(--color-muted);
+}
+
+.about-resume a {
+  color: var(--color-muted);
+  font-weight: inherit;
+  box-shadow-color: var(--color-muted);
+}
+
+.about-resume a:hover {
+  color: var(--color-bg);
+}
+
 /* Selected Works */
 .works-grid {
   display: grid;
@@ -354,7 +381,7 @@ ul {
 
 /* Inset by the backdrop offset so the backdrop aligns with the text edge */
 .project-image {
-  margin: 0.5rem 0 1rem 0.5rem;
+  margin: var(--backdrop-offset) 0 1rem var(--backdrop-offset);
   overflow: hidden;
   aspect-ratio: 4 / 3;
   border: 1px solid;
@@ -399,25 +426,113 @@ ul {
   line-height: 1.5rem;
 }
 
-/* Expertise */
-.expertise-grid {
+/* Range */
+.range-heading {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--color-accent);
+  margin: 0 0 1rem 0;
+}
+
+.range-intro {
+  max-width: var(--measure);
+  margin: 0 0 2.5rem 0;
+}
+
+/* Range as an editorial index: each territory is one ruled row. */
+.range-grid {
+  counter-reset: range-item;
+}
+
+.range-cell {
+  counter-increment: range-item;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: 2.5rem 3rem;
+  grid-template-columns: 2rem minmax(12rem, 0.9fr) minmax(0, 1.5fr);
+  gap: 0.75rem 1rem;
+  align-items: start;
+  padding: 1.25rem 0;
+  border-top: 2px solid var(--color-border);
 }
 
-.expertise-title {
-  font-size: 1.125rem;
+.range-cell:last-child {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.range-cell::before {
+  content: counter(range-item, decimal-leading-zero);
+  grid-row: 1;
+  align-self: baseline;
+  font-family: var(--font-accent-mono);
+  font-size: 0.75rem;
   line-height: 1.5rem;
-  margin: 0 0 0.75rem 0;
+  color: var(--color-accent);
 }
 
-.expertise-description p {
-  margin: 0 0 0.75rem 0;
+.range-title {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: baseline;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  margin: 0;
 }
 
-.expertise-description p:last-child {
-  margin-bottom: 0;
+.range-description {
+  grid-column: 3;
+  grid-row: 1;
+  margin: 0;
+}
+
+.range-tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-accent-mono);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: var(--color-muted);
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.range-tags li {
+  display: inline;
+}
+
+.range-tags li + li::before {
+  content: " · ";
+}
+
+@media (max-width: 900px) {
+  .range-cell {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+  }
+
+  .range-title,
+  .range-description,
+  .range-tags {
+    grid-column: 2;
+  }
+
+  .range-title {
+    grid-row: 1;
+    align-self: baseline;
+  }
+
+  .range-cell::before {
+    grid-row: 1;
+    align-self: baseline;
+  }
+
+  .range-description {
+    grid-row: 2;
+  }
+
+  .range-tags {
+    grid-row: 3;
+  }
 }
 
 /* Reach Out */
@@ -494,9 +609,9 @@ ul {
 }
 
 .hero-cover {
-  margin: 1.5rem 0 3rem 0.5rem;
+  margin: 1.5rem 0 3rem var(--backdrop-offset);
   aspect-ratio: 21 / 10;
-  max-width: calc(100% - 0.5rem);
+  max-width: calc(100% - var(--backdrop-offset));
 }
 
 .hero-cover img {
@@ -515,8 +630,9 @@ ul {
   align-items: flex-start;
 }
 
+/* Sizes to the measure, but shrinks below it on narrow screens */
 .content-with-aside > .content-primary {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   max-width: var(--measure);
   min-width: 0;
   overflow: hidden;
@@ -565,6 +681,19 @@ ul {
   width: 100%;
   display: block;
   border: 1px solid var(--color-border);
+}
+
+/* gallery.js turns figures into image-gallery elements and keeps the class */
+figure.narrow,
+image-gallery.narrow {
+  max-width: 55%;
+}
+
+@media screen and (max-width: 575px) {
+  figure.narrow,
+  image-gallery.narrow {
+    max-width: none;
+  }
 }
 
 .prose figcaption {
@@ -748,7 +877,8 @@ ul {
   text-decoration: none;
   box-shadow: none;
   font-weight: normal;
-  display: inline;
+  max-width: 10.5rem;
+  text-align: right;
 }
 
 .toc-link:hover {
@@ -769,7 +899,7 @@ ul {
 
 .footer::before {
   content: '';
-  background: var(--color-top-bar);
+  background: var(--color-bg);
   position: absolute;
   z-index: 9999;
   height: 15px;
@@ -794,6 +924,69 @@ ul {
   flex-direction: column;
   padding-top: 2.5rem;
   padding-bottom: 3rem;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 2rem;
+}
+
+.footer-navigation {
+  min-width: 0;
+}
+
+/* Crop only the empty left half of the approved study. Dark background
+   pixels become black before screen blending (white before multiply),
+   so the artwork meets either footer palette without a rectangular seam. */
+.footer-artwork {
+  width: 100%;
+  max-width: 23rem;
+  aspect-ratio: 3 / 4;
+  justify-self: end;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: var(--footer-art-blend);
+}
+
+.footer-artwork img {
+  display: block;
+  width: 200%;
+  max-width: none;
+  height: 100%;
+  margin-left: -100%;
+  image-rendering: pixelated;
+  filter: var(--footer-art-filter);
+}
+
+.footer-artwork .footer-artwork-owl {
+  display: var(--footer-owl-display);
+}
+
+/* The crows already have a light background: clip it to white for
+   multiply blending, without inverting the birds' natural dark tones. */
+.footer-artwork .footer-artwork-crows {
+  display: var(--footer-crows-display);
+  width: 100%;
+  margin-left: 0;
+  object-fit: contain;
+  /* Move the crop to ~80% of the source width, just beyond the upper
+     branch. The wrapper clips the excess trunk without rescaling birds. */
+  transform: translateX(20%);
+  filter: grayscale(1) brightness(1.05) contrast(1.1);
+  opacity: 0.7;
+}
+
+@media (max-width: 575px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-artwork {
+    max-width: 20rem;
+  }
 }
 
 .footer a {
@@ -882,10 +1075,87 @@ ul {
   background: none;
 }
 
-/* Theme Toggle */
-.theme-toggle {
+.footer-bottom {
   margin-top: auto;
   padding-top: 3rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+/* Below tablet width the toggle and the track stack instead of squeezing the title */
+@media screen and (max-width: 575px) {
+  .footer-bottom {
+    flex-wrap: wrap;
+  }
+}
+
+.footer-listening {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 1.25rem;
+  margin-left: auto;
+  min-width: 0;
+  text-align: right;
+  opacity: 0.5;
+}
+
+.footer-listening:hover {
+  opacity: 1;
+}
+
+/* Tinted square with a note glyph; a loaded cover sits on top and hides it */
+.footer-listening-art {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  box-shadow: calc(-1 * var(--backdrop-offset)) calc(-1 * var(--backdrop-offset)) 0 0 currentColor;
+  font-family: var(--font-accent-mono);
+  font-size: 1.5rem;
+}
+
+.footer-listening-art::before {
+  content: '\266A';
+}
+
+.footer-listening-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.footer-listening-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.footer-listening-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.footer-listening-meta {
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+/* Theme Toggle */
+.theme-toggle {
   display: flex;
   align-items: center;
   opacity: 0.5;

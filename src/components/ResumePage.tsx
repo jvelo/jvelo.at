@@ -2,7 +2,7 @@ import type { FC } from 'hono/jsx';
 import { Layout, SocialLinks } from './Layout';
 import type { ResumeData, ResumeEntry, ResumeRole } from '../types';
 
-const PDF_PATH = '/Jerome_Velociter_Tech_Product_Lead_2026.pdf';
+const PDF_PATH = '/Jerome_Velociter_Product_Engineer_Tech_Lead_2026.pdf';
 
 const SECTIONS: [string, string][] = [
   ['experience', 'Experience'],
@@ -65,7 +65,7 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
         </div>
       </div>
       <p class="resume-actions">
-        <a href={PDF_PATH} class="cta-link">Download as PDF →</a>
+        <a href={PDF_PATH}>Download as PDF →</a>
       </p>
       <div class="content-with-aside resume-layout">
       <div class="content-primary prose resume-body">

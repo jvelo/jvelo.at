@@ -5,9 +5,13 @@ export const Hero: FC = () => {
     <section class="hero">
       <img src="/images/jvelo.png" alt="Jérôme Velociter" class="hero-photo border-backdrop" width="80" height="80" />
       <div class="hero-text">
-        <h1 class="hero-title">Bonjour, I’m Jérôme, a <strong>freelance <span class="nowrap">Tech &amp; Product Lead</span></strong>.</h1>
-        <p class="hero-lead">I help startups shape and ship ambitious software, either as a senior engineer or a hands‑on manager.</p>
-        <p class="hero-cta"><a href="#contact">Let’s talk.</a></p>
+        <h1 class="hero-name">Jérôme Velociter</h1>
+        <p class="hero-meta">Freelance <span class="nowrap">Product Engineer &amp; Tech Lead</span></p>
+        <p class="hero-lead">I build software alongside startup teams, from early product conversations onward.</p>
+        <p class="hero-cta">
+          <a href="#contact">Let’s talk.</a>
+          <a href="/about" class="hero-about">More about me →</a>
+        </p>
       </div>
     </section>
   );
