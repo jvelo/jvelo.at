@@ -38,6 +38,7 @@ export function getPageBySlug(slug: string): PageData | null {
       badge: data.badge,
       technologies: data.technologies,
       years: data.years,
+      yearsLabel: data.yearsLabel,
       license: data.license,
       source: data.source,
       content,

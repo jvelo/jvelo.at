@@ -12,6 +12,7 @@ technologies:
   - Lit
   - Embedded Linux
 years: 2024–2026
+yearsLabel: Years on project
 ---
 
 ## Context

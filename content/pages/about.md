@@ -18,7 +18,7 @@ keyboard tray</figcaption>
 </figure>
 
 I went on to make it my job: first as a software developer, then in tech leadership and product 
-work. My first job in software was an internship at Frog Navigation Systems, a Dutch company 
+work. My first actual job in software was an internship at Frog Navigation Systems, a Dutch company 
 making AGVs (now part of Oceaneering Mobile Robotics). That's where I made my first open source 
 contribution, a small patch on JacORB. That was in 2006. Funnily, I didn't hear back about it until 
 about six years later, when it was merged. By then, open source had already shaped my early career: 

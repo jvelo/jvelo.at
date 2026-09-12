@@ -63,6 +63,7 @@ export interface PageData {
   badge?: string;
   technologies?: string[];
   years?: string;
+  yearsLabel?: string;
   license?: string;
   source?: string;
   content: string;

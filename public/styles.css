@@ -351,7 +351,7 @@ ul {
 .about-resume a {
   color: var(--color-muted);
   font-weight: inherit;
-  box-shadow-color: var(--color-muted);
+  box-shadow: 0 0.125rem 0 0 var(--color-muted);
 }
 
 .about-resume a:hover {

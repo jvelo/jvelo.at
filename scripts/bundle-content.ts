@@ -25,6 +25,7 @@ function processMarkdownFile(filePath: string, slug: string): PageData {
     badge: data.badge || undefined,
     technologies: data.technologies || undefined,
     years: data.years || undefined,
+    yearsLabel: data.yearsLabel || undefined,
     license: data.license || undefined,
     source: data.source || undefined,
     content,

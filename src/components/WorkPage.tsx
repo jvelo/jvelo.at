@@ -3,7 +3,7 @@ import { Layout } from './Layout';
 import { extractToc, addHeadingIds } from '../lib/html';
 import type { PageData } from '../types';
 
-const ProjectMeta: FC<{ technologies?: string[]; years?: string; license?: string; source?: string }> = ({ technologies, years, license, source }) => {
+const ProjectMeta: FC<{ technologies?: string[]; years?: string; yearsLabel?: string; license?: string; source?: string }> = ({ technologies, years, yearsLabel, license, source }) => {
   if (!technologies?.length && !years && !license && !source) return null;
   return (
     <>
@@ -19,7 +19,7 @@ const ProjectMeta: FC<{ technologies?: string[]; years?: string; license?: strin
       )}
       {years && (
         <section class="aside-section">
-          <h2 class="aside-heading">Years active</h2>
+          <h2 class="aside-heading">{yearsLabel || 'Years active'}</h2>
           <p class="aside-meta">{years}</p>
         </section>
       )}
@@ -63,7 +63,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
             )}
             {hasMeta && (
               <div class="project-meta-mobile">
-                <ProjectMeta technologies={page.technologies} years={page.years} license={page.license} source={page.source} />
+                <ProjectMeta technologies={page.technologies} years={page.years} yearsLabel={page.yearsLabel} license={page.license} source={page.source} />
               </div>
             )}
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
@@ -84,7 +84,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
               </section>
             )}
             {hasMeta && <hr class="aside-divider" />}
-            <ProjectMeta technologies={page.technologies} years={page.years} license={page.license} source={page.source} />
+            <ProjectMeta technologies={page.technologies} years={page.years} yearsLabel={page.yearsLabel} license={page.license} source={page.source} />
           </aside>
         </div>
       </article>
