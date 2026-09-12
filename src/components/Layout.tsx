@@ -42,7 +42,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, image = '/og/home.
         <script src="/contact-form.js" defer></script>
         {turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>}
       </head>
-      <body id="#top">
+      <body id="top">
         <div class="page">
           <Header />
           <main class="main-content">

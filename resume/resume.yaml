@@ -14,7 +14,7 @@ contacts:
   - label: github.com/jvelo
     url: https://github.com/jvelo
 
-summary: "Tech and product lead with 20 years of experience building web products and industrial software, including 10 as a founder. I help teams take products from architecture to production, evolve existing systems and solve hard engineering problems. I combine product ownership with hands-on engineering in TypeScript, Python and Go, across cloud and edge infrastructure."
+summary: "Product engineer and tech lead with 20 years of experience building web products and industrial software, including 10 years as a founder. I work alongside startup teams from early conversations onward, combining product judgment with hands-on engineering. I build and evolve software in TypeScript, Python, Java and Go, across cloud and edge infrastructure."
 
 availability:
   - "Toulouse, France · Open to full-time or fractional engagements"
@@ -26,7 +26,7 @@ experience:
     logo_inset: 0.21
     roles:
       - title: Freelance Product Engineer & Tech Lead
-        summary: "Product engineering, technical leadership and team coaching in AI-assisted development. Practical guidance on integrating coding agents into delivery workflows, from task scoping and architectural decisions to code review and verification."
+        summary: "Hands-on product engineering, technical leadership and team coaching for startup teams. I work as an individual contributor, hands-on manager or fractional CTO, with a particular interest in AI-native products and bringing AI capabilities into existing software."
 
   - dates: 2021 – 2026
     logo: orius-gray.png
@@ -34,12 +34,11 @@ experience:
       - title: Co-founder — Software, Product & Marketing
         org: Orius
         place: Toulouse, FR
-        summary: "Turnkey systems for growing high-value plants indoors. Selected for France 2030 funding."
+        summary: "Botanical research and production for cosmetics, nutrition and pharmaceuticals. Selected for France 2030 funding."
         bullets:
-          - "Built the software stack from scratch, then led a small team running it in production: growth chamber (phytotron) automation, IT/OT monitoring, and [BiomeOS](https://jvelo.at/biomeos), the cloud and data platform. Dozens of growth units across three continents on an offline-first architecture, so each site keeps operating through connectivity loss."
+          - "Built [BiomeOS](https://jvelo.at/biomeos) from scratch across chamber automation, IT/OT monitoring, cloud and data infrastructure, then led the team running it across dozens of units in three time zones. Its offline-first architecture keeps each site operating through connectivity loss."
           - "Built the control and data software for two projects with CNES, the French space agency: prototype greenhouses for lunar and Martian habitats, and Gravilab, a gravity simulator for plant biology."
-          - "Translated agronomic requirements into executable control protocols, including calibrated lighting and nutrient management."
-          - "Owned BiomeOS as a product and designed its interfaces: what to build, in what order, for which users, from research labs to production sites."
+          - "Set BiomeOS’s product direction and built it to fit how researchers, growers and operators worked, from experimental protocols to day-to-day production."
           - "Led marketing: brand identity, website and sales collateral."
           - "Co-led a €4M funding round, owning the investment narrative and investor materials."
 
@@ -52,7 +51,7 @@ experience:
         dates: 2018 – 2021
         bullets:
           - "Grew the engineering team from one engineer to eight, across embedded software, microservices, full-stack, DevOps and data science."
-          - "Built and ran the platform operating several dozen container farms in France and the UAE, used daily by growers, operations and sales: edge and cloud infrastructure, data and analytics, back-office and mobile apps, with failsafes for remote operation."
+          - "Led the team that built and ran the platform used across several dozen container farms in France and the UAE. It served growers, operations and sales, spanning edge and cloud infrastructure, data and analytics, back-office and mobile apps."
           - "Shipped on the hardware construction calendar, so software never delayed a planting."
           - "Led the rewrite from a Kotlin monolith to Go microservices as farms moved from shared servers to dedicated compute per container, limiting the impact of a server failure to one container instead of eight. Delivered on schedule."
       - title: Lead Software Engineer
@@ -69,7 +68,7 @@ experience:
         place: Lyon, FR
         bullets:
           - "Co-founded a web, mobile and UX agency and ran it for six years with a team of developers and designers, for clients from communications agencies to corporations."
-          - "Created and led development of [Mayocat Shop](https://github.com/jvelo/mayocat-shop), an open source multi-tenant commerce platform on the JVM spanning storefronts, merchant administration, payments and content management. Production sites still run on it 12+ years later."
+          - "Created and led development of [Mayocat Shop](https://jvelo.at/mayocat-shop), an open source multi-tenant commerce platform on the JVM spanning storefronts, merchant administration, payments and content management. Production sites still run on it 12+ years later."
 
   - dates: 2007 – 2011
     logo: xwiki-gray.png
@@ -94,10 +93,11 @@ projects:
   - dates: 2025 – present
     title: Typebar
     url: https://jvelo.at/typebar
-    summary: "Canvas-native rich-text engine with its own layout, text measurement, IME input and undo/redo, built for consistent performance on large documents. TypeScript with zero runtime dependencies. Private beta."
+    summary: "Canvas-native rich-text engine with its own layout, text measurement, IME input and undo/redo, built for consistent performance on large documents. TypeScript with zero runtime dependencies. Beta."
   - dates: 2025 – present
     title: Savannah
-    summary: "Desktop writing app built on Typebar with Electron."
+    url: https://jvelo.at/savannah
+    summary: "Desktop writing app built on Typebar, with a quiet interface, a local document library, and AI features designed to support rather than replace the writer."
   - dates: 2026 – present
     title: Tapemark
     url: https://github.com/jvelo/tapemark
