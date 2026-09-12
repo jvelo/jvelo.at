@@ -10,7 +10,7 @@ const territories: Territory[] = [
   {
     title: "Product engineering",
     description: "Turning product ideas into reliable software, from early decisions to launch and continued evolution.",
-    examples: ["SaaS", "Apps", "E-commerce", "Internal tools"],
+    examples: ["SaaS", "AI", "Apps", "E-commerce", "Internal tools"],
   },
   {
     title: "Data & infrastructure",

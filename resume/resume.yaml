@@ -52,13 +52,12 @@ experience:
         bullets:
           - "Grew the engineering team from one engineer to eight, across embedded software, microservices, full-stack, DevOps and data science."
           - "Led the team that built and ran the platform used across several dozen container farms in France and the UAE. It served growers, operations and sales, spanning edge and cloud infrastructure, data and analytics, back-office and mobile apps."
-          - "Shipped on the hardware construction calendar, so software never delayed a planting."
-          - "Led the rewrite from a Kotlin monolith to Go microservices as farms moved from shared servers to dedicated compute per container, limiting the impact of a server failure to one container instead of eight. Delivered on schedule."
+          - "Owned delivery of the rewrite from a Kotlin monolith to Go microservices as the farm architecture evolved from standalone containers to multiple growing environments with shared utilities. Coordinated the team, reviewed designs and code, coached engineers, and kept software aligned with the hardware construction calendar so it never delayed a planting."
       - title: Lead Software Engineer
         dates: 2016 – 2018
         bullets:
           - "Owned the first generations of the proprietary farming software, from industrial IoT automation to agronomic domain modelling."
-          - "Delivered remote crop management for year-round, commercial-scale indoor strawberry production, including a pilot farm in Dubai operated over 4G."
+          - "Delivered remote crop management for year-round, commercial-scale indoor strawberry production, including a pilot farm in Dubai managed remotely over LTE."
 
   - dates: 2011 – 2016
     logo: 46cl-gray.png
@@ -117,23 +116,21 @@ publications:
 
 skills:
   - label: Programming
-    items: TypeScript, Python, Go, Java, Kotlin
+    items: TypeScript, Python, Java, Go, Kotlin
   - label: Frontend
-    items: React, Next.js, Lit, Web APIs, canvas, PWA
+    items: React, Lit, Web APIs, canvas
   - label: Backend
-    items: GraphQL, PostgreSQL, microservices, offline-first architectures
+    items: APIs, GraphQL, PostgreSQL, microservices
   - label: Architecture
-    items: Library and framework design, extensible platforms, developer tooling
-  - label: Infrastructure
-    items: Docker, Ansible, Terraform, CI/CD, Cloudflare Workers, Prometheus, Loki, Grafana
+    items: Systems design, library and framework design
+  - label: Cloud & infra
+    items: AWS, Docker, Terraform, CI/CD, observability
   - label: Industrial
-    items: Embedded Linux, IoT automation, Modbus, MQTT, IT/OT integration
+    items: Embedded Linux, IoT automation, industrial protocols
   - label: Product
-    items: Product design, UX, discovery, brand and marketing
+    items: Discovery, UX, product design
   - label: Leadership
-    items: Hiring, mentoring, team management, stakeholder management
-  - label: Workflow
-    items: Claude Code, Codex, agent-assisted development, automated testing
+    items: Hiring, mentoring, team & stakeholder management
 
 education: IMT Nord Europe, engineering degree (MSc), 2007
 languages: French, native · English, fluent
