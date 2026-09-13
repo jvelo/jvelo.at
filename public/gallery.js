@@ -322,10 +322,11 @@ class ImageGallery extends HTMLElement {
 
 customElements.define('image-gallery', ImageGallery);
 
-// Wrap standalone images in work pages as single-image galleries
+// Wrap standalone images in work pages as single-image galleries.
+// Images marked data-no-gallery are decoration, not content.
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.prose img, .content img').forEach((img) => {
-    if (img.closest('image-gallery') || img.closest('.hero-cover')) return;
+    if (img.closest('image-gallery') || img.closest('.hero-cover') || img.hasAttribute('data-no-gallery')) return;
 
     const figure = img.closest('figure');
     const gallery = document.createElement('image-gallery');
@@ -333,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.appendChild(img.cloneNode(true));
 
     if (figure) {
+      gallery.className = figure.className;
       const caption = figure.querySelector('figcaption');
       if (caption) {
         gallery.appendChild(caption.cloneNode(true));

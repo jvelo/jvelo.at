@@ -19,6 +19,7 @@ app.route('/admin', adminApp);
 setupRoutes(app, {
   getHome: () => contentBundle.home,
   getPage: (slug: string) => contentBundle.pages[slug] || null,
+  getResume: () => contentBundle.resume,
 });
 
 export default app;

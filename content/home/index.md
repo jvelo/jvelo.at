@@ -1,4 +1,4 @@
 ---
-title: Jérôme Velociter – Freelance Tech & Product Lead
-description: I help startups shape and ship ambitious software, as a senior engineer or hands-on manager.
+title: Jérôme Velociter – Freelance Product Engineer & Tech Lead
+description: Hands-on product engineering and technical leadership for startups building ambitious software.
 ---

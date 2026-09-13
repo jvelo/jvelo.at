@@ -27,19 +27,9 @@ class PageLoader extends HTMLElement {
 
       #bar {
         height: 100%;
-        background: black;
+        background: var(--color-ink, black);
         width: 0%;
         transition: width 300ms linear;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :host-context(:root:not([data-theme="light"])) #bar {
-          background: white;
-        }
-      }
-
-      :host-context(:root[data-theme="dark"]) #bar {
-        background: white;
       }
     `;
 

@@ -1,0 +1,133 @@
+# Résumé content. Rendered to PDF by resume.typ and to /resume by the site.
+# Text fields accept Markdown links: [label](url). Logos are files in public/images/resume/.
+
+name: Jérôme Velociter
+headline: Freelance Product Engineer & Tech Lead
+
+contacts:
+  - label: jerome@velociter.fr
+    url: mailto:jerome@velociter.fr
+  - label: www.jvelo.at
+    url: https://jvelo.at
+  - label: linkedin.com/in/jvelociter
+    url: https://linkedin.com/in/jvelociter
+  - label: github.com/jvelo
+    url: https://github.com/jvelo
+
+summary: "Product engineer and tech lead with 20 years of experience, including a decade as a founder. I work with startup teams to build, improve and operate software, combining hands-on development with product judgment and technical leadership. I’ve built web products and industrial systems, and grown an engineering team from one to eight."
+
+availability:
+  - "Toulouse, France · Available for full-time or part-time freelance engagements"
+  - "Remote or hybrid · Regular travel to Paris, London and Amsterdam"
+
+experience:
+  - dates: 2026 – present
+    logo: symbol.svg
+    logo_inset: 0.21
+    roles:
+      - title: Freelance Product Engineer & Tech Lead
+        summary: "Available for hands-on product engineering, technical leadership and fractional CTO engagements with startup teams."
+
+  - dates: 2021 – 2026
+    logo: orius-gray.png
+    roles:
+      - title: Co-founder — Software, Product & Marketing
+        org: Orius
+        place: Toulouse, FR
+        summary: "Botanical research and production for cosmetics, nutrition and pharmaceuticals. Selected for France 2030 funding."
+        bullets:
+          - "Built [BiomeOS](https://jvelo.at/biomeos) to run growth chambers across dozens of units in three time zones, and led two engineers maintaining field systems and evolving the platform. Its offline-first architecture keeps sites running through connectivity loss and syncs data to the cloud."
+          - "Enabled researchers to independently configure experiments, run them and perform statistical analysis on the resulting data, automating equipment configuration and data processing."
+          - "Built control and data software for two CNES projects: prototype greenhouses for lunar and Martian habitats, and Gravilab, a gravity simulator for plant biology."
+          - "Co-led a €4M funding round, owning the investment narrative and investor materials, and led company marketing across brand, website and sales collateral."
+
+  - dates: 2016 – 2021
+    logo: agricool-gray.png
+    roles:
+      - title: Director of Software Engineering
+        org: Agricool
+        place: Paris, FR
+        dates: 2018 – 2021
+        bullets:
+          - "Grew the engineering team from one engineer to eight, across embedded software, backend services, full-stack applications, DevOps and data science."
+          - "Led development and operation of the software platform for several dozen container farms in France and the UAE, spanning equipment control, data analytics, and back-office and mobile applications for growers, operations and sales."
+          - "Led the software platform’s evolution from standalone growth chambers to farms with shared infrastructure, replacing a Kotlin monolith with Go services and aligning software delivery with the hardware rollout."
+      - title: Lead Software Engineer
+        dates: 2016 – 2018
+        bullets:
+          - "Designed and built the first versions of Agricool’s farming software, from industrial IoT automation to agronomic modelling."
+          - "Delivered remote crop management for year-round commercial indoor strawberry production, including a pilot farm in Dubai managed remotely over LTE."
+
+  - dates: 2011 – 2016
+    logo: 46cl-gray.png
+    roles:
+      - title: Co-founder & Technical Director
+        org: 46cl
+        place: Lyon, FR
+        bullets:
+          - "Co-founded a web, mobile and UX agency and ran it for six years with a team of developers and designers, for clients from communications agencies to corporations."
+          - "Created and led development of [Mayocat Shop](https://jvelo.at/mayocat-shop), an open source multi-tenant commerce platform on the JVM spanning storefronts, merchant administration, payments and content management. Production sites still run on it 12+ years later."
+
+  - dates: 2007 – 2011
+    logo: xwiki-gray.png
+    roles:
+      - title: Software Engineer
+        org: XWiki
+        place: Paris, FR
+        bullets:
+          - "Core committer on the XWiki open source platform, contributing across back-end services and user-facing features."
+          - "Bootstrapped the Iași office in Romania on site over 18 months: hired, trained and managed its development team."
+          - "Led customer and partner projects from pre-sales to delivery. Mentor for Google Summer of Code in 2008."
+
+  - dates: 2005 – 2006
+    logo: frog-gray.png
+    roles:
+      - title: Software Developer Intern
+        org: Frog Navigation Systems (now Oceaneering)
+        place: Utrecht, NL
+        summary: "Built Python QA tooling for AGV embedded computers and developed Java services."
+
+projects:
+  - dates: 2025 – present
+    title: Typebar
+    url: https://jvelo.at/typebar
+    summary: "Canvas-native rich-text engine with custom layout, supporting multi-million-word documents and optional offline-first sync. TypeScript core with zero runtime dependencies."
+  - dates: 2025 – present
+    title: Savannah
+    url: https://jvelo.at/savannah
+    summary: "Desktop app for long-form writing powered by Typebar, with focus modes, an autosaving local library, full-text search and optional AI-assisted document discussion. Private alpha."
+  - dates: 2026 – present
+    title: Tapemark
+    url: https://github.com/jvelo/tapemark
+    summary: "Designed and built an open source toolkit that turns SQLite databases into extensible admin interfaces, with automatic schema discovery, relationship-aware editing and custom actions. Embeddable or CLI-driven, running on Node.js and Cloudflare D1."
+
+publications:
+  - title: Development of a Modular and Deployable Plant Production System for Lunar and Martian Habitats
+    contribution: Co-author
+    venue: International Conference on Environmental Systems
+    year: 2026
+    doi: 10.32865/2346/108859
+  - title: "Gravilab: An Advanced Random Positioning Machine for Arbitrary Gravity Simulation"
+    contribution: Co-author
+    venue: International Conference on Environmental Systems
+    year: 2026
+    doi: 10.32865/2346/108860
+
+skills:
+  - label: Programming
+    items: TypeScript, Python, Java, Go, Kotlin
+  - label: Applications
+    items: React, Lit, Electron, progressive web apps (PWAs)
+  - label: Backend & data
+    items: RESTful APIs, GraphQL, PostgreSQL, SQLite
+  - label: Architecture
+    items: Systems design, library and framework design
+  - label: Cloud & infra
+    items: AWS, Docker, Terraform, CI/CD, observability
+  - label: Industrial
+    items: Embedded Linux, IoT automation, industrial protocols, touchscreen interfaces
+  - label: Product
+    items: Discovery, UX, product design
+
+education: IMT Nord Europe, engineering degree (MSc), 2007
+languages: French, native · English, fluent

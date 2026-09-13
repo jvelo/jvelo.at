@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { getHomePage, getPageBySlug } from './lib/markdown.js';
+import { contentBundle } from './content-bundle.js';
 import { setupRoutes } from './routes.js';
 import type { AppEnv } from './types.js';
 
@@ -11,6 +12,7 @@ app.use('/*', serveStatic({ root: './public' }));
 setupRoutes(app, {
   getHome: () => getHomePage(),
   getPage: (slug: string) => getPageBySlug(slug),
+  getResume: () => contentBundle.resume,
 });
 
 const port = Number(process.env.PORT) || 3000;
