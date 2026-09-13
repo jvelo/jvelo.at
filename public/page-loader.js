@@ -10,6 +10,9 @@ class PageLoader extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = `
+      /* Safari 26 on iOS tints its toolbar from the background-color of
+         fixed elements at the viewport edge. A transparent host makes the
+         toolbar see-through, so the host carries the page background. */
       :host {
         position: fixed;
         top: 0;
@@ -19,6 +22,7 @@ class PageLoader extends HTMLElement {
         z-index: 10000;
         pointer-events: none;
         display: none;
+        background-color: var(--color-bg, #ffffff);
       }
 
       :host([loading]) {

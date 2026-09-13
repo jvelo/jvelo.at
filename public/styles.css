@@ -15,6 +15,7 @@
 
 html {
   overscroll-behavior: none;
+  background-color: var(--color-bg);
 }
 
 :root {
@@ -1234,6 +1235,12 @@ image-gallery.narrow {
   opacity: 0;
   transition: opacity 0.2s;
   pointer-events: none;
+}
+
+/* Removed from the render tree when closed. Safari 26 on iOS samples fixed
+   elements even at opacity 0 to tint its toolbar. */
+.contact-overlay[aria-hidden="true"] {
+  display: none;
 }
 
 .contact-overlay[aria-hidden="false"] {

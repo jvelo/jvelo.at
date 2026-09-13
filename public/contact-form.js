@@ -64,6 +64,8 @@ class ContactForm extends HTMLElement {
   open() {
     this._resetForm();
     this._overlay.setAttribute('aria-hidden', 'false');
+    // Flush the display change so the opacity transition has a start value
+    void this._overlay.offsetWidth;
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => this._overlay.classList.add('open'));
     this._form.querySelector('input').focus();
