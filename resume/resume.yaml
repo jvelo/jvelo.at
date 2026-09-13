@@ -14,11 +14,11 @@ contacts:
   - label: github.com/jvelo
     url: https://github.com/jvelo
 
-summary: "Product engineer and tech lead with 20 years of experience building web products and industrial software, including 10 years as a founder. I work alongside startup teams from early conversations onward, combining product judgment with hands-on engineering. I build and evolve software in TypeScript, Python, Java and Go, across cloud and edge infrastructure."
+summary: "Product engineer and tech lead with 20 years of experience, including a decade as a founder. I work with startup teams to build, improve and operate software, combining hands-on development with product judgment and technical leadership. I’ve built web products and industrial systems, and grown an engineering team from one to eight."
 
 availability:
-  - "Toulouse, France · Open to full-time or fractional engagements"
-  - "Remote or hybrid · Available for regular travel to Paris, London and Amsterdam"
+  - "Toulouse, France · Available for full-time or part-time freelance engagements"
+  - "Remote or hybrid · Regular travel to Paris, London and Amsterdam"
 
 experience:
   - dates: 2026 – present
@@ -26,7 +26,7 @@ experience:
     logo_inset: 0.21
     roles:
       - title: Freelance Product Engineer & Tech Lead
-        summary: "Hands-on product engineering, technical leadership and team coaching for startup teams. I work as an individual contributor, hands-on manager or fractional CTO, with a particular interest in AI-native products and bringing AI capabilities into existing software."
+        summary: "Available for hands-on product engineering, technical leadership and fractional CTO engagements with startup teams."
 
   - dates: 2021 – 2026
     logo: orius-gray.png
@@ -36,11 +36,10 @@ experience:
         place: Toulouse, FR
         summary: "Botanical research and production for cosmetics, nutrition and pharmaceuticals. Selected for France 2030 funding."
         bullets:
-          - "Built [BiomeOS](https://jvelo.at/biomeos) from scratch across chamber automation, IT/OT monitoring, cloud and data infrastructure, then led the team running it across dozens of units in three time zones. Its offline-first architecture keeps each site operating through connectivity loss."
-          - "Built the control and data software for two projects with CNES, the French space agency: prototype greenhouses for lunar and Martian habitats, and Gravilab, a gravity simulator for plant biology."
-          - "Set BiomeOS’s product direction and built it to fit how researchers, growers and operators worked, from experimental protocols to day-to-day production."
-          - "Led marketing: brand identity, website and sales collateral."
-          - "Co-led a €4M funding round, owning the investment narrative and investor materials."
+          - "Built [BiomeOS](https://jvelo.at/biomeos) to run growth chambers across dozens of units in three time zones, and led two engineers maintaining field systems and evolving the platform. Its offline-first architecture keeps sites running through connectivity loss and syncs data to the cloud."
+          - "Enabled researchers to independently configure experiments, run them and perform statistical analysis on the resulting data, automating equipment configuration and data processing."
+          - "Built control and data software for two CNES projects: prototype greenhouses for lunar and Martian habitats, and Gravilab, a gravity simulator for plant biology."
+          - "Co-led a €4M funding round, owning the investment narrative and investor materials, and led company marketing across brand, website and sales collateral."
 
   - dates: 2016 – 2021
     logo: agricool-gray.png
@@ -50,14 +49,14 @@ experience:
         place: Paris, FR
         dates: 2018 – 2021
         bullets:
-          - "Grew the engineering team from one engineer to eight, across embedded software, microservices, full-stack, DevOps and data science."
-          - "Led the team that built and ran the platform used across several dozen container farms in France and the UAE. It served growers, operations and sales, spanning edge and cloud infrastructure, data and analytics, back-office and mobile apps."
-          - "Owned delivery of the rewrite from a Kotlin monolith to Go microservices as the farm architecture evolved from standalone containers to multiple growing environments with shared utilities. Coordinated the team, reviewed designs and code, coached engineers, and kept software aligned with the hardware construction calendar so it never delayed a planting."
+          - "Grew the engineering team from one engineer to eight, across embedded software, backend services, full-stack applications, DevOps and data science."
+          - "Led development and operation of the software platform for several dozen container farms in France and the UAE, spanning equipment control, data analytics, and back-office and mobile applications for growers, operations and sales."
+          - "Led the software platform’s evolution from standalone growth chambers to farms with shared infrastructure, replacing a Kotlin monolith with Go services and aligning software delivery with the hardware rollout."
       - title: Lead Software Engineer
         dates: 2016 – 2018
         bullets:
-          - "Owned the first generations of the proprietary farming software, from industrial IoT automation to agronomic domain modelling."
-          - "Delivered remote crop management for year-round, commercial-scale indoor strawberry production, including a pilot farm in Dubai managed remotely over LTE."
+          - "Designed and built the first versions of Agricool’s farming software, from industrial IoT automation to agronomic modelling."
+          - "Delivered remote crop management for year-round commercial indoor strawberry production, including a pilot farm in Dubai managed remotely over LTE."
 
   - dates: 2011 – 2016
     logo: 46cl-gray.png
@@ -76,7 +75,7 @@ experience:
         org: XWiki
         place: Paris, FR
         bullets:
-          - "Core committer on the XWiki open source platform, from back-end services to user-facing features, including the Bespin editor integration and Markdown rendering support."
+          - "Core committer on the XWiki open source platform, contributing across back-end services and user-facing features."
           - "Bootstrapped the Iași office in Romania on site over 18 months: hired, trained and managed its development team."
           - "Led customer and partner projects from pre-sales to delivery. Mentor for Google Summer of Code in 2008."
 
@@ -86,21 +85,21 @@ experience:
       - title: Software Developer Intern
         org: Frog Navigation Systems (now Oceaneering)
         place: Utrecht, NL
-        summary: "Black-box QA suite in Python for the AGVs’ embedded computers, log mining for fault patterns, and CORBA services in Java."
+        summary: "Built Python QA tooling for AGV embedded computers and developed Java services."
 
 projects:
   - dates: 2025 – present
     title: Typebar
     url: https://jvelo.at/typebar
-    summary: "Canvas-native rich-text engine with its own layout, text measurement, IME input and undo/redo, built for consistent performance on large documents. TypeScript with zero runtime dependencies. Beta."
+    summary: "Canvas-native rich-text engine with custom layout, supporting multi-million-word documents and optional offline-first sync. TypeScript core with zero runtime dependencies."
   - dates: 2025 – present
     title: Savannah
     url: https://jvelo.at/savannah
-    summary: "Desktop writing app built on Typebar, with a quiet interface, a local document library, and AI features designed to support rather than replace the writer."
+    summary: "Desktop app for long-form writing powered by Typebar, with focus modes, an autosaving local library, full-text search and optional AI-assisted document discussion. Private alpha."
   - dates: 2026 – present
     title: Tapemark
     url: https://github.com/jvelo/tapemark
-    summary: "Designed and built an open source SQLite administration toolkit with an embeddable web UI and a CLI, running on Node.js and Cloudflare D1 through a framework-independent core."
+    summary: "Designed and built an open source toolkit that turns SQLite databases into extensible admin interfaces, with automatic schema discovery, relationship-aware editing and custom actions. Embeddable or CLI-driven, running on Node.js and Cloudflare D1."
 
 publications:
   - title: Development of a Modular and Deployable Plant Production System for Lunar and Martian Habitats
@@ -117,20 +116,18 @@ publications:
 skills:
   - label: Programming
     items: TypeScript, Python, Java, Go, Kotlin
-  - label: Frontend
-    items: React, Lit, Web APIs, canvas
-  - label: Backend
-    items: APIs, GraphQL, PostgreSQL, microservices
+  - label: Applications
+    items: React, Lit, Electron, progressive web apps (PWAs)
+  - label: Backend & data
+    items: RESTful APIs, GraphQL, PostgreSQL, SQLite
   - label: Architecture
     items: Systems design, library and framework design
   - label: Cloud & infra
     items: AWS, Docker, Terraform, CI/CD, observability
   - label: Industrial
-    items: Embedded Linux, IoT automation, industrial protocols
+    items: Embedded Linux, IoT automation, industrial protocols, touchscreen interfaces
   - label: Product
     items: Discovery, UX, product design
-  - label: Leadership
-    items: Hiring, mentoring, team & stakeholder management
 
 education: IMT Nord Europe, engineering degree (MSc), 2007
 languages: French, native · English, fluent

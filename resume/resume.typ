@@ -15,6 +15,7 @@
 )
 #let mono(body) = text(font: "Departure Mono", size: 8.5pt, fill: rgb("#4A4643"), body)
 #let meta(body) = text(size: 8.5pt, fill: muted, body)
+#let work-link(url, body) = link(url, underline(stroke: 0.35pt + muted, offset: 2pt, body))
 
 // Render the Markdown links in a data string; everything else is plain text.
 #let md(s) = {
@@ -23,7 +24,7 @@
   let pos = 0
   for m in s.matches(re) {
     out.push(s.slice(pos, m.start))
-    out.push(link(m.captures.at(1), m.captures.at(0)))
+    out.push(work-link(m.captures.at(1), m.captures.at(0)))
     pos = m.end
   }
   out.push(s.slice(pos))
@@ -73,9 +74,9 @@
 
 // One company or project: logo and dates in the gutter, roles on the right.
 // An entry with several roles may break between them; each role stays whole.
-#let entry(e) = {
+#let entry(e, spacing: 2em, role-spacing: 0.3em) = {
   let multi = e.roles.len() > 1
-  block(breakable: multi, below: 1.4em)[
+  block(breakable: multi, below: spacing)[
     #grid(
       columns: (27mm, 1fr),
       column-gutter: 4mm,
@@ -85,7 +86,7 @@
       ],
       [
         #for (i, r) in e.roles.enumerate() {
-          if i > 0 { v(0.3em) }
+          if i > 0 { v(role-spacing) }
           block(breakable: false, role-body(r))
         }
       ],
@@ -97,7 +98,7 @@
 
 #condensed(size: 21pt)[#data.name] \
 #v(0.1em)
-#box(fill: accent, inset: (x: 4pt, y: 3pt), outset: (y: 0pt))[#text(size: 11.5pt, weight: 700)[#data.headline]]
+#box(fill: ink, inset: (x: 5pt, y: 3pt), outset: (y: 0pt))[#text(size: 11.5pt, weight: 700, fill: white)[#data.headline]]
 #v(0.5em)
 #mono[#data.contacts.map(c => link(c.url)[#c.label]).join([ · ])]
 
@@ -105,24 +106,31 @@
 
 #md(data.summary)
 
-#v(0.3em)
-#text(size: 9pt, fill: muted)[#data.availability.join(linebreak())]
+#v(0.7em)
+#text(size: 9pt, fill: muted)[
+  #set par(leading: 1em)
+  #data.availability.join(linebreak())
+]
+
+#v(0.7em)
 
 = Experience
 
-#for e in data.experience { entry(e) }
+#for (i, e) in data.experience.enumerate() {
+  entry(e, spacing: if i < 3 { 3.5em } else { 2em }, role-spacing: if i < 3 { 1em } else { 0.3em })
+}
 
 = Projects
 
 #for p in data.projects {
-  let title = if "url" in p { link(p.url)[#p.title] } else { p.title }
-  entry((dates: p.dates, roles: ((title: title, summary: p.summary),)))
+  let title = if "url" in p { work-link(p.url, p.title) } else { p.title }
+  entry((dates: p.dates, roles: ((title: title, summary: p.summary),)), spacing: 1.6em)
 }
 
 = Publications
 
 #for p in data.publications {
-  block(below: 0.9em)[
+  block(below: 0.9em, breakable: false)[
     #text(weight: 600)[#p.title] \
     #meta[#p.contribution · #p.venue, #p.year · #link("https://doi.org/" + p.doi)[doi.org/#p.doi]]
   ]
@@ -133,7 +141,7 @@
 #grid(
   columns: (27mm, 1fr),
   column-gutter: 4mm,
-  row-gutter: 0.68em,
+  row-gutter: 0.8em,
   ..data.skills.map(s => (meta[#s.label], [#s.items])).flatten(),
 )
 
