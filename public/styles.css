@@ -31,7 +31,6 @@ html {
   --color-code-bg: #f0f0f0;
   --color-footer-bg: var(--color-ink);
   --color-footer-text: var(--color-bg);
-  --footer-art-filter: grayscale(1) brightness(0.8) contrast(1.3);
   --footer-art-blend: screen;
   --footer-owl-display: block;
   --footer-crows-display: none;
@@ -55,7 +54,6 @@ html {
     --color-muted: #a8a8a8;
     --color-accent: #FFD043;
     --color-code-bg: #1a1a1a;
-    --footer-art-filter: grayscale(1) brightness(0.8) contrast(1.3) invert(1);
     --footer-art-blend: multiply;
     --footer-owl-display: none;
     --footer-crows-display: block;
@@ -68,7 +66,6 @@ html {
   --color-muted: #a8a8a8;
   --color-accent: #FFD043;
   --color-code-bg: #1a1a1a;
-  --footer-art-filter: grayscale(1) brightness(0.8) contrast(1.3) invert(1);
   --footer-art-blend: multiply;
   --footer-owl-display: none;
   --footer-crows-display: block;
@@ -938,9 +935,12 @@ image-gallery.narrow {
   min-width: 0;
 }
 
-/* Crop only the empty left half of the approved study. Dark background
-   pixels become black before screen blending (white before multiply),
-   so the artwork meets either footer palette without a rectangular seam. */
+/* Crop only the empty left half of the approved study. The PNGs are
+   pre-processed (grayscale, brightness, contrast) so that background pixels
+   are black for screen blending and white for multiply, and the artwork
+   meets either footer palette without a rectangular seam. The tone work is
+   baked into the files rather than applied with a CSS filter: Safari 26 on
+   iOS drops mix-blend-mode on filtered images. */
 .footer-artwork {
   width: 100%;
   max-width: 23rem;
@@ -958,15 +958,12 @@ image-gallery.narrow {
   height: 100%;
   margin-left: -100%;
   image-rendering: pixelated;
-  filter: var(--footer-art-filter);
 }
 
 .footer-artwork .footer-artwork-owl {
   display: var(--footer-owl-display);
 }
 
-/* The crows already have a light background: clip it to white for
-   multiply blending, without inverting the birds' natural dark tones. */
 .footer-artwork .footer-artwork-crows {
   display: var(--footer-crows-display);
   width: 100%;
@@ -975,7 +972,6 @@ image-gallery.narrow {
   /* Move the crop to ~80% of the source width, just beyond the upper
      branch. The wrapper clips the excess trunk without rescaling birds. */
   transform: translateX(20%);
-  filter: grayscale(1) brightness(1.05) contrast(1.1);
   opacity: 0.7;
 }
 
