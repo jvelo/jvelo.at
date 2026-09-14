@@ -11,6 +11,7 @@ import { Hero } from './components/Hero';
 import { Sink } from './components/KitchenSink';
 import { AtlasPage } from './components/AtlasPage';
 import { verifyTurnstile, sendContactEmail } from './lib/contact';
+import { AnalyticsContext } from './lib/analytics';
 import { fetchLatestTrack, LatestTrackContext } from './lib/lastfm';
 import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
@@ -34,7 +35,9 @@ async function render(c: AppContext, jsx: Child, status?: ContentfulStatusCode) 
   const track = await fetchLatestTrack(c.env?.LASTFM_API_KEY);
   return c.html(
     <AuthContext value={user}>
-      <LatestTrackContext value={track}>{jsx}</LatestTrackContext>
+      <LatestTrackContext value={track}>
+        <AnalyticsContext value={c.env?.UMAMI_WEBSITE_ID || null}>{jsx}</AnalyticsContext>
+      </LatestTrackContext>
     </AuthContext>,
     status,
   );

@@ -65,7 +65,7 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
         </div>
       </div>
       <p class="resume-actions">
-        <a href={PDF_PATH}>Download as PDF →</a>
+        <a href={PDF_PATH} data-umami-event="resume-pdf" data-umami-event-placement="header">Download as PDF →</a>
       </p>
       <div class="content-with-aside resume-layout">
       <div class="content-primary prose resume-body">
@@ -123,7 +123,7 @@ export const ResumePage: FC<{ resume: ResumeData; turnstileSiteKey?: string }> =
         <hr class="aside-divider" />
         <section class="aside-section">
           <h2 class="aside-heading">Download</h2>
-          <p class="aside-meta"><a href={PDF_PATH} class="aside-link">PDF, two pages</a></p>
+          <p class="aside-meta"><a href={PDF_PATH} class="aside-link" data-umami-event="resume-pdf" data-umami-event-placement="aside">PDF, two pages</a></p>
         </section>
       </aside>
       </div>

@@ -37,6 +37,7 @@ export interface Bindings {
   ANTHROPIC_API_KEY?: string;
   OPENGRAPH_API_KEY?: string;
   LASTFM_API_KEY?: string;
+  UMAMI_WEBSITE_ID?: string;
 }
 
 export type Role = 'admin' | 'member';

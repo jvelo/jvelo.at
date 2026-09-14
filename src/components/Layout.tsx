@@ -1,5 +1,6 @@
 import type { Child, FC } from 'hono/jsx';
 import { useAuth } from '../auth';
+import { UMAMI_SCRIPT_URL, useAnalytics } from '../lib/analytics';
 import { useLatestTrack } from '../lib/lastfm';
 
 const SITE_URL = 'https://jvelo.at';
@@ -16,6 +17,10 @@ interface LayoutProps {
 }
 
 export const Layout: FC<LayoutProps> = ({ title, description, image = '/og/home.png', path, turnstileSiteKey = '', children }) => {
+  const websiteId = useAnalytics();
+  // Signed-in visitors are members on the private pages, mostly the owner.
+  // Keep them out of the stats.
+  const analytics = websiteId && !useAuth();
   return (
     <html lang="en">
       <head>
@@ -41,6 +46,8 @@ export const Layout: FC<LayoutProps> = ({ title, description, image = '/og/home.
         <script src="/gallery.js" defer></script>
         <script src="/contact-form.js" defer></script>
         {turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>}
+        {analytics && <script src={UMAMI_SCRIPT_URL} data-website-id={websiteId} data-domains="jvelo.at,www.jvelo.at" defer></script>}
+        {analytics && <script src="/analytics.js" defer></script>}
       </head>
       <body id="top">
         <div class="page">

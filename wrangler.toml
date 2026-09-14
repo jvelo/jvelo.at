@@ -12,6 +12,7 @@ directory = "public"
 
 [vars]
 TURNSTILE_SITE_KEY = "0x4AAAAAACsq9y4begav6jOv"
+UMAMI_WEBSITE_ID = "9117e720-721b-489d-991d-7ff31130c857"
 
 [[d1_databases]]
 binding = "DB"
