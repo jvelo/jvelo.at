@@ -10,9 +10,9 @@ import { ReachOut } from './components/ReachOut';
 import { Hero } from './components/Hero';
 import { Sink } from './components/KitchenSink';
 import { AtlasPage } from './components/AtlasPage';
-import { verifyTurnstile, sendContactEmail } from './lib/contact';
+import { isEmail, verifyTurnstile, sendContactEmail } from './lib/contact';
 import { AnalyticsContext } from './lib/analytics';
-import { fetchLatestTrack, LatestTrackContext } from './lib/lastfm';
+import { latestTrack, LatestTrackContext } from './lib/lastfm';
 import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
   isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
@@ -30,9 +30,19 @@ function getTurnstileKey(c: AppContext): string {
   return c.env?.TURNSTILE_SITE_KEY || '';
 }
 
+// Keeps a promise alive past the response on Workers. The Node server has no
+// execution context; there the promise simply runs on its own.
+function waitUntil(c: AppContext, promise: Promise<unknown>) {
+  try {
+    c.executionCtx.waitUntil(promise);
+  } catch {
+    // no execution context outside Workers
+  }
+}
+
 async function render(c: AppContext, jsx: Child, status?: ContentfulStatusCode) {
   const user = c.get('user') || null;
-  const track = await fetchLatestTrack(c.env?.LASTFM_API_KEY);
+  const track = await latestTrack(c.env?.LASTFM_API_KEY, (p) => waitUntil(c, p));
   return c.html(
     <AuthContext value={user}>
       <LatestTrackContext value={track}>
@@ -102,6 +112,9 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
 
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return c.json({ error: 'All fields are required.' }, 400);
+    }
+    if (!isEmail(email.trim())) {
+      return c.json({ error: 'Please enter a valid email address.' }, 400);
     }
 
     const env = c.env;

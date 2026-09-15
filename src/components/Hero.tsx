@@ -3,7 +3,7 @@ import type { FC } from 'hono/jsx';
 export const Hero: FC = () => {
   return (
     <section class="hero">
-      <img src="/images/jvelo.png" alt="Jérôme Velociter" class="hero-photo border-backdrop" width="80" height="80" />
+      <img src="/images/jvelo-80.webp" srcset="/images/jvelo-80.webp 1x, /images/jvelo-160.webp 2x, /images/jvelo-240.webp 3x" alt="Jérôme Velociter" class="hero-photo border-backdrop" width="80" height="80" />
       <div class="hero-text">
         <h1 class="hero-name">Jérôme Velociter</h1>
         <p class="hero-meta">Freelance <span class="nowrap">Product Engineer &amp; Tech Lead</span></p>

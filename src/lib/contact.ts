@@ -1,3 +1,8 @@
+/** A plausible address: one @, something on both sides, a dot in the domain, no whitespace. */
+export function isEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 export async function verifyTurnstile(token: string, secret: string): Promise<boolean> {
   const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST',

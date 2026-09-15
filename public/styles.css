@@ -219,6 +219,67 @@ ul {
   filter: invert(1);
 }
 
+.header-nav {
+  --nav-gap: 1.25rem;
+  --nav-dot: 0.1875rem;
+  display: flex;
+  gap: var(--nav-gap);
+  font-family: var(--font-accent-mono);
+  font-size: 0.875rem;
+  line-height: 2.25rem;
+}
+
+/* A square dot centred in the gap before every link but the first. */
+.header-nav a + a {
+  position: relative;
+}
+
+.header-nav a + a::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - var(--nav-dot) / 2);
+  left: calc(-1 * (var(--nav-gap) + var(--nav-dot)) / 2);
+  width: var(--nav-dot);
+  height: var(--nav-dot);
+  background: var(--color-muted);
+}
+
+.header-nav a {
+  font-weight: 400;
+  color: var(--color-muted);
+  box-shadow: none;
+}
+
+.header-nav a:hover {
+  color: var(--color-muted);
+  background: none;
+  text-decoration: underline;
+  /* A solid bar reads darker than thin glyph strokes of the same colour. */
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+  text-decoration-thickness: 0.125rem;
+  text-underline-offset: 0.25em;
+  text-decoration-skip-ink: none;
+}
+
+/* After the hover rule so the current page stays in ink when hovered. */
+.header-nav a[aria-current="page"] {
+  color: var(--color-text);
+}
+
+@media screen and (max-width: 360px) {
+  .header-nav {
+    --nav-gap: 1rem;
+  }
+
+  .header-nav a:first-child {
+    display: none;
+  }
+
+  .header-nav a:nth-child(2)::before {
+    display: none;
+  }
+}
+
 /* Main Content */
 .main-content {
   flex: 1;

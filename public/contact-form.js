@@ -5,7 +5,7 @@ class ContactForm extends HTMLElement {
 
     this.innerHTML = `
       <div class="contact-overlay" aria-hidden="true">
-        <div class="contact-modal" role="dialog" aria-label="Contact form">
+        <div class="contact-modal" role="dialog" aria-modal="true" aria-label="Contact form">
           <div class="contact-modal-header">
             <h2 class="contact-title">Get in touch</h2>
             <button class="contact-close" aria-label="Close">&times;</button>
@@ -62,6 +62,9 @@ class ContactForm extends HTMLElement {
   }
 
   open() {
+    window.umami?.track('contact-open');
+    this._opener = document.activeElement;
+    this._setPageInert(true);
     this._resetForm();
     this._overlay.setAttribute('aria-hidden', 'false');
     // Flush the display change so the opacity transition has a start value
@@ -75,9 +78,19 @@ class ContactForm extends HTMLElement {
   close() {
     this._overlay.classList.remove('open');
     document.body.style.overflow = '';
+    this._setPageInert(false);
+    if (this._opener?.isConnected) this._opener.focus();
     setTimeout(() => {
       this._overlay.setAttribute('aria-hidden', 'true');
     }, 200);
+  }
+
+  // Everything outside the dialog becomes inert, so focus and clicks stay
+  // inside it. This is what a native modal dialog does.
+  _setPageInert(inert) {
+    for (const el of document.body.children) {
+      if (el !== this) el.inert = inert;
+    }
   }
 
   async _handleSubmit(e) {
@@ -88,6 +101,10 @@ class ContactForm extends HTMLElement {
 
     if (!name || !email || !message) {
       this._showStatus('Please fill in all fields.', true);
+      return;
+    }
+    if (!this._form.querySelector('[name="email"]').validity.valid) {
+      this._showStatus('Please enter a valid email address.', true);
       return;
     }
 
@@ -110,6 +127,7 @@ class ContactForm extends HTMLElement {
       });
 
       if (res.ok) {
+        window.umami?.track('contact-sent');
         this._form.style.display = 'none';
         this._showSuccess();
       } else {

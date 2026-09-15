@@ -37,4 +37,4 @@ Savannah is an Electron application written in TypeScript. The editor surface is
 The save path is designed around document integrity. Typebar emits document changes as deltas; Savannah queues them in order and applies each batch in a single SQLite transaction, using Typebar’s write planner to keep block ordering consistent. A fuzz suite runs random editing sessions through this pipeline to make sure the stored document never drifts from what is on screen.
 ## Status
 
-Savannah is in private alpha, with a new build available every few weeks. If you are interested in joining the alpha, drop me [an email](/contact).
+Savannah is in private alpha, with a new build available every few weeks. If you are interested in joining the alpha, drop me [an email](#contact).

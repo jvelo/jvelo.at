@@ -51,7 +51,7 @@ export const Layout: FC<LayoutProps> = ({ title, description, image = '/og/home.
       </head>
       <body id="top">
         <div class="page">
-          <Header />
+          <Header path={path} />
           <main class="main-content">
             {children}
           </main>
@@ -64,12 +64,24 @@ export const Layout: FC<LayoutProps> = ({ title, description, image = '/og/home.
   );
 };
 
-export const Header: FC = () => {
+const NAV = [
+  { label: 'work', href: '/#work', current: '/' },
+  { label: 'about', href: '/about', current: '/about' },
+  { label: 'résumé', href: '/resume', current: '/resume' },
+  { label: 'contact', href: '/connect', current: '/connect' },
+];
+
+export const Header: FC<{ path?: string }> = ({ path }) => {
   return (
     <header class="header">
-      <a href="#navigation" class="brand" aria-label="Menu">
+      <a href="/" class="brand" aria-label="Home">
         <span class="logo"></span>
       </a>
+      <nav class="header-nav" aria-label="Main">
+        {NAV.map((item) => (
+          <a href={item.href} aria-current={path === item.current ? 'page' : undefined}>{item.label}</a>
+        ))}
+      </nav>
     </header>
   );
 };
