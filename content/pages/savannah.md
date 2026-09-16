@@ -15,9 +15,11 @@ years: 2025–present
 license: Commercial
 ---
 
+I designed and built Savannah, a desktop app for long-form writing powered by the [Typebar](/typebar) editing engine. It pairs a quiet interface that stays out of the way with a full-featured editor.
+
 ## Motivation
 
-I designed and built Savannah as a desktop app for writers who want to stay close to their words. It follows in the tradition of calm, distraction-free writing tools pioneered by WriteRoom and iA Writer, but doesn’t pursue minimalism for its own sake. The interface stays quiet without limiting what the editor can do. You can use AI for a close edit, a critical second reading, or to explore the ideas around your work.
+Savannah is for writers who want to stay close to their words. It follows in the tradition of calm, distraction-free writing tools pioneered by WriteRoom and iA Writer, but doesn’t pursue minimalism for its own sake. The interface stays quiet without limiting what the editor can do. You can use AI for a close edit, a critical second reading, or to explore the ideas around your work.
 
 Savannah runs on [Typebar](/typebar), the pure TypeScript canvas-based editing engine I built for this kind of
 application. It gives Savannah control over the document model and the whole writing surface while remaining fast on novel-length documents.

@@ -731,6 +731,19 @@ ul {
   line-height: 1.8;
 }
 
+/* An opening paragraph before the first section acts as the project lead. */
+.project-body > p:first-child {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  line-height: 2.125rem;
+  font-weight: 400;
+  margin-bottom: 1.25rem;
+}
+
+.project-body > p:first-child a {
+  font-weight: inherit;
+}
+
 .prose figure {
   margin: 2rem 0;
   padding: 0;

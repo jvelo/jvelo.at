@@ -15,11 +15,13 @@ years: 2024–2026
 yearsLabel: Years on project
 ---
 
+I built the control software and embedded Linux platform for Gravilab, a gravity simulator developed by Orius with CNES, the French space agency. Researchers use it to run experiments lasting days or weeks under simulated lunar, Martian, and microgravity conditions.
+
 ## Context
 
 On a lunar or Martian base, gravity is not a parameter you can tune. [Gravilab](https://space.orius.co/engineering/gravilab/#explore) lets researchers experiment with crops and other living organisms under simulated gravity on Earth. Built by Orius with CNES, the French space agency, it is a random positioning machine: a two-axis frame that continuously reorients a living sample along a computed path, so the gravity felt on average settles at a chosen target. Standard scenarios simulate microgravity and the partial gravities of the Moon and Mars.
 
-I designed and developed Gravilab’s runtime and control software and packaged it as an embedded Linux application. The mechanics and trajectory science are the work of my colleagues at Orius. Gravilab was presented at the 2026 International Conference on Environmental Systems in a [paper](https://ttu-ir.tdl.org/items/09d24262-e043-4319-a9cd-0aad0e60331c) I co-authored.
+The mechanics and trajectory science are the work of my colleagues at Orius. Gravilab was presented at the 2026 International Conference on Environmental Systems in a [paper](https://ttu-ir.tdl.org/items/09d24262-e043-4319-a9cd-0aad0e60331c) I co-authored.
 
 <image-gallery ratio="3/2" align="top">
 <img src="/images/gravilab.jpg" alt="The Gravilab two-axis frame with a plant tray under LED lighting" />

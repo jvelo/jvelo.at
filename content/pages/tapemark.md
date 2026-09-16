@@ -15,12 +15,9 @@ license: MPL 2.0
 source: https://github.com/jvelo/tapemark
 ---
 
-## Motivation
+I built Tapemark to manage this website’s Cloudflare [D1](https://www.cloudflare.com/products/d1/) database, then extracted it into an open-source toolkit. It turns a SQLite schema into a working admin interface, available from the command line or embedded in an existing application.
 
-I initially built Tapemark as the back office for the 
-Cloudflare [D1](https://www.cloudflare.com/products/d1/) database behind this very website. I 
-later extracted it into a reusable open-source package because the same need comes up in many 
-small applications.
+## Motivation
 
 Database browsers like Datasette make a database easy to 
 browse and query. At the other end, frameworks like React Admin let you build a complete SPA, 

@@ -14,6 +14,8 @@ years: 2025–present
 license: Commercial
 ---
 
+I designed and built Typebar, a text editing engine for custom writing experiences. It gives applications full control over layout and rendering, and stays fast on documents containing millions of words.
+
 ## Motivation
 
 Most web editors build on the browser's own text rendering. This provides layout, selection, and
@@ -26,9 +28,8 @@ experiences such as a typewriter mode that anchors the active line, effects and 
 directly to text and embedded objects, or multiple editable areas inside a larger spatial canvas.
 
 Owning the editing surface also avoids maintaining thousands of DOM nodes as documents grow.
-Typebar remains responsive on documents containing several million words. It now powers
-[Savannah](/savannah), and its extensible block types, marks, views, and effects allow the same
-foundation to support other kinds of editor.
+Its extensible block types, marks, views, and effects allow the same foundation to support
+different kinds of editor.
 
 <figure>
 <img src="/images/typebar-savannah.png" alt="Typebar used in a desktop Writer application" />

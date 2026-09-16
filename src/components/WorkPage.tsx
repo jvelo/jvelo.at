@@ -66,7 +66,7 @@ export const WorkPage: FC<{ page: PageData; turnstileSiteKey?: string }> = ({ pa
                 <ProjectMeta technologies={page.technologies} years={page.years} yearsLabel={page.yearsLabel} license={page.license} source={page.source} />
               </div>
             )}
-            <div dangerouslySetInnerHTML={{ __html: html }}></div>
+            <div class="project-body" dangerouslySetInnerHTML={{ __html: html }}></div>
             <section class="work-cta">
               <p class="work-cta-text">Working on an ambitious product?</p>
               <a href="#contact">Let's talk →</a>

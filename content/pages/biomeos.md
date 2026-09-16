@@ -16,6 +16,8 @@ years: 2021–2026
 yearsLabel: Years on project
 ---
 
+I designed and built BiomeOS as co-founder at [Orius](https://www.orius.co/). It brings together experiment orchestration, environmental control, and scientific data collection in a platform that runs several dozen cultivation chambers across three time zones.
+
 ## Context
 
 [Orius](https://www.orius.co/) uses controlled-environment agriculture to research and produce
@@ -23,10 +25,8 @@ botanical ingredients for cosmetics, nutrition, and pharmaceuticals, as well as 
 research. Each experiment or production run depends on maintaining precise environmental conditions
 over several weeks.
 
-BiomeOS is the software platform that runs these research and production facilities, both for Orius
-and its customers. As co-founder and head of software engineering, I designed and built the platform.
-It first ran on a single prototype chamber and now operates across several facilities in three time
-zones.
+The platform started on a single prototype chamber before expanding to facilities operated by Orius
+and its customers.
 
 ## Design principles
 

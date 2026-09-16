@@ -14,10 +14,11 @@ license: MPL 2.0
 source: https://github.com/jvelo/mayocat-shop
 ---
 
+I designed and built Mayocat Shop, an open-source commerce platform for independent stores and multi-vendor marketplaces. It brings storefronts, merchant administration, and payments into one application, with production sites still running more than a decade later.
+
 ## Motivation
 
-I started Mayocat Shop because I wanted to build an open-source product of my own. At the time,
-most e-commerce platforms were designed around a single store. Supporting several merchants or
+Most e-commerce platforms at the time were designed around a single store. Supporting several merchants or
 building a marketplace often meant running separate installations or working against the
 platform's underlying model.
 
