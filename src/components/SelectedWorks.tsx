@@ -46,6 +46,12 @@ const projects: Project[] = [
     link: "/typebar"
   },
   {
+    title: "Writer’s Cut",
+    description: "A writing agent whose edits arrive as proposals for the author to review.",
+    image: "/images/writers-cut-card",
+    link: "/writers-cut"
+  },
+  {
     title: "Tapemark",
     description: "An open source SQLite browser and admin panel that embeds in your own application.",
     image: "/images/tapemark-card",
@@ -63,12 +69,6 @@ const projects: Project[] = [
     image: "/images/gravilab",
     imagePosition: "center 40%",
     link: "/gravilab"
-  },
-  {
-    title: "Mayocat Shop",
-    description: "A multi-tenant e-commerce platform for building storefronts and marketplaces.",
-    image: "/images/mayocat-card2",
-    link: "/mayocat-shop"
   },
 ];
 

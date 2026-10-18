@@ -14,7 +14,7 @@ contacts:
   - label: github.com/jvelo
     url: https://github.com/jvelo
 
-summary: "Product engineer and tech lead with 20 years of experience, including a decade as a founder. I work with startup teams to build, improve and operate software, combining hands-on development with product judgment and technical leadership. I’ve built web products and industrial systems, and grown an engineering team from one to eight."
+summary: "Product engineer and tech lead with 20 years of experience, including a decade as a founder. I work with startup teams to build, improve and operate software, combining hands-on development with product judgment and technical leadership. I’ve built web products and industrial systems, and grown an engineering team from one to eight. I have worked with coding agents daily since early 2025, and I design and build agentic product features."
 
 availability:
   - "Toulouse, France · Available for full-time or part-time freelance engagements"
@@ -36,7 +36,7 @@ experience:
         place: Toulouse, FR
         summary: "Botanical research and production for cosmetics, nutrition and pharmaceuticals. Selected for France 2030 funding."
         bullets:
-          - "Built [BiomeOS](https://jvelo.at/biomeos) to run growth chambers across dozens of units in three time zones, and led two engineers maintaining field systems and evolving the platform. Its offline-first architecture keeps sites running through connectivity loss and syncs data to the cloud."
+          - "Built [BiomeOS](https://jvelo.at/biomeos), in Python and TypeScript, to run dozens of growth chambers in three time zones, and led two engineers maintaining and evolving it. Its offline-first architecture keeps sites running through connectivity loss and syncs data to the cloud."
           - "Enabled researchers to independently configure experiments, run them and perform statistical analysis on the resulting data, automating equipment configuration and data processing."
           - "Built control and data software for two CNES projects: prototype greenhouses for lunar and Martian habitats, and Gravilab, a gravity simulator for plant biology."
           - "Co-led a €4M funding round, owning the investment narrative and investor materials, and led company marketing across brand, website and sales collateral."
@@ -65,7 +65,7 @@ experience:
         org: 46cl
         place: Lyon, FR
         bullets:
-          - "Co-founded a web, mobile and UX agency and ran it for six years with a team of developers and designers, for clients from communications agencies to corporations."
+          - "Co-founded a web, mobile and UX agency and ran it for five years, leading a team of developers and designers. Built the frontend of Globe Payroll, later acquired by SD Worx."
           - "Created and led development of [Mayocat Shop](https://jvelo.at/mayocat-shop), an open source multi-tenant commerce platform on the JVM spanning storefronts, merchant administration, payments and content management. Production sites still run on it 12+ years later."
 
   - dates: 2007 – 2011
@@ -79,27 +79,19 @@ experience:
           - "Bootstrapped the Iași office in Romania on site over 18 months: hired, trained and managed its development team."
           - "Led customer and partner projects from pre-sales to delivery. Mentor for Google Summer of Code in 2008."
 
-  - dates: 2005 – 2006
-    logo: frog-gray.png
-    roles:
-      - title: Software Developer Intern
-        org: Frog Navigation Systems (now Oceaneering)
-        place: Utrecht, NL
-        summary: "Built Python QA tooling for AGV embedded computers and developed Java services."
-
 projects:
   - dates: 2025 – present
     title: Typebar
     url: https://jvelo.at/typebar
-    summary: "Canvas-native rich-text engine with custom layout, supporting multi-million-word documents and optional offline-first sync. TypeScript core with zero runtime dependencies."
-  - dates: 2025 – present
-    title: Savannah
-    url: https://jvelo.at/savannah
-    summary: "Desktop app for long-form writing powered by Typebar, with focus modes, an autosaving local library, full-text search and optional AI-assisted document discussion. Private alpha."
+    summary: "Canvas-native rich-text engine with custom layout, supporting multi-million-word documents and optional offline-first sync. TypeScript core with zero runtime dependencies. Powers [Savannah](https://jvelo.at/savannah), a desktop app for long-form writing with AI-assisted document discussion, in private alpha."
+  - dates: 2026 – present
+    title: Writer’s Cut
+    url: https://jvelo.at/writers-cut
+    summary: "Demo of a writing agent built on Typebar. Its edits arrive as proposals the author reviews, accepts, edits or discusses one by one, anchored so they follow the text as the author keeps editing. Custom tool loop, with every run traced down to tokens and cost."
   - dates: 2026 – present
     title: Tapemark
     url: https://github.com/jvelo/tapemark
-    summary: "Designed and built an open source toolkit that turns SQLite databases into extensible admin interfaces, with automatic schema discovery, relationship-aware editing and custom actions. Embeddable or CLI-driven, running on Node.js and Cloudflare D1."
+    summary: "Open source toolkit that turns SQLite databases into extensible admin interfaces, with schema discovery, relationship-aware editing and custom actions. Embeddable or CLI-driven, on Node.js and Cloudflare D1."
 
 publications:
   - title: Development of a Modular and Deployable Plant Production System for Lunar and Martian Habitats
@@ -116,14 +108,16 @@ publications:
 skills:
   - label: Programming
     items: TypeScript, Python, Java, Go, Kotlin
+  - label: AI
+    items: Agentic coding (Claude Code, Codex), LLM tool loops, Anthropic API, OpenRouter
   - label: Applications
     items: React, Lit, Electron, progressive web apps (PWAs)
   - label: Backend & data
-    items: RESTful APIs, GraphQL, PostgreSQL, SQLite
+    items: Node.js, RESTful APIs, GraphQL, PostgreSQL, SQLite
   - label: Architecture
     items: Systems design, library and framework design
   - label: Cloud & infra
-    items: AWS, Docker, Terraform, CI/CD, observability
+    items: AWS, Docker, Terraform, Ansible, CI/CD, observability
   - label: Industrial
     items: Embedded Linux, IoT automation, industrial protocols, touchscreen interfaces
   - label: Product
