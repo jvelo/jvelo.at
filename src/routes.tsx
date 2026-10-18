@@ -156,10 +156,15 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     const images = c.env.IMAGES;
     if (!images) return c.text('Image transformations are not configured', 501);
 
+    // Auth runs before the cache lookup. The cached copy is public so the
+    // Cache API stores it; clients only ever get a private response.
     const cache = (caches as unknown as { default: Cache }).default;
     const cacheKey = new Request(c.req.url);
+    const privatePng = (body: BodyInit | null) => new Response(body, {
+      headers: { 'content-type': 'image/png', 'cache-control': 'private, max-age=86400' },
+    });
     const cached = await cache.match(cacheKey);
-    if (cached) return cached;
+    if (cached) return privatePng(cached.body);
 
     const row = await c.env.DB.prepare('SELECT media_url FROM starred_media WHERE id = ?')
       .bind(c.req.param('id')).first();
@@ -174,11 +179,11 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     const result = await images.input(upstream.body)
       .transform({ width: size, height: size, fit: 'scale-down' })
       .output({ format: 'image/png' });
-    const response = new Response(result.response().body, {
-      headers: { 'content-type': 'image/png', 'cache-control': 'private, max-age=86400' },
-    });
-    c.executionCtx.waitUntil(cache.put(cacheKey, response.clone()));
-    return response;
+    const png = await result.response().arrayBuffer();
+    c.executionCtx.waitUntil(cache.put(cacheKey, new Response(png, {
+      headers: { 'content-type': 'image/png', 'cache-control': 'public, max-age=86400' },
+    })));
+    return privatePng(png);
   });
 
   app.get('/starred-media', requireAuth('member'), async (c) => {
