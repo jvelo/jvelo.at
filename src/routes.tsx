@@ -17,7 +17,7 @@ import {
   generateCode, signToken, verifyToken, signRedirect, verifyRedirect,
   isRegistered, getUserRole, storeCode, verifyCode, cleanupExpiredCodes,
   setSession, clearSession, getSession, sendSigninEmail,
-  requireAuth, AuthContext,
+  requireAuth, requireMemberOrDevice, AuthContext,
 } from './auth';
 import type { AppEnv, PageProvider, SiteWithMetadata } from './types';
 
@@ -143,11 +143,47 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
 
   // -- Starred media --
 
-  app.get('/api/starred-media', requireAuth('member'), async (c) => {
+  app.get('/api/starred-media', requireMemberOrDevice(), async (c) => {
     const seed = parseInt(c.req.query('seed') || '0', 10) || 1;
     const offset = parseInt(c.req.query('offset') || '0', 10) || 0;
     const { results } = await c.env.DB.prepare(STARRED_MEDIA_QUERY).bind(seed, offset).all();
     return c.json({ items: results, hasMore: results.length === STARRED_MEDIA_PAGE_SIZE });
+  });
+
+  // One starred image, shrunk to fit a size x size box and re-encoded as PNG,
+  // for small devices that can't decode the progressive JPEGs Twitter serves.
+  app.get('/api/starred-media/:id/image', requireMemberOrDevice(), async (c) => {
+    const images = c.env.IMAGES;
+    if (!images) return c.text('Image transformations are not configured', 501);
+
+    // Auth runs before the cache lookup. The cached copy is public so the
+    // Cache API stores it; clients only ever get a private response.
+    const cache = (caches as unknown as { default: Cache }).default;
+    const cacheKey = new Request(c.req.url);
+    const privatePng = (body: BodyInit | null) => new Response(body, {
+      headers: { 'content-type': 'image/png', 'cache-control': 'private, max-age=86400' },
+    });
+    const cached = await cache.match(cacheKey);
+    if (cached) return privatePng(cached.body);
+
+    const row = await c.env.DB.prepare('SELECT media_url FROM starred_media WHERE id = ?')
+      .bind(c.req.param('id')).first();
+    if (!row) return c.notFound();
+
+    const size = Math.min(1024, Math.max(64, parseInt(c.req.query('size') || '480', 10) || 480));
+    const source = new URL(row.media_url as string);
+    source.searchParams.set('name', size <= 680 ? 'small' : 'medium');
+    const upstream = await fetch(source.toString());
+    if (!upstream.ok || !upstream.body) return c.text('Upstream image unavailable', 502);
+
+    const result = await images.input(upstream.body)
+      .transform({ width: size, height: size, fit: 'scale-down' })
+      .output({ format: 'image/png' });
+    const png = await result.response().arrayBuffer();
+    c.executionCtx.waitUntil(cache.put(cacheKey, new Response(png, {
+      headers: { 'content-type': 'image/png', 'cache-control': 'public, max-age=86400' },
+    })));
+    return privatePng(png);
   });
 
   app.get('/starred-media', requireAuth('member'), async (c) => {
