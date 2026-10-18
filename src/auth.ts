@@ -196,6 +196,31 @@ export function requireAuth(minRole?: Role) {
   };
 }
 
+// Same as requireAuth('member'), but also lets a device in with
+// `Authorization: Bearer <DEVICE_TOKEN>`. For JSON/image APIs only.
+export function requireMemberOrDevice() {
+  const memberAuth = requireAuth('member');
+  return async (c: Context, next: Next) => {
+    const expected = (c.env as Partial<Bindings>).DEVICE_TOKEN;
+    const header = c.req.header('authorization') || '';
+    if (expected && header.startsWith('Bearer ') && timingSafeEqual(header.slice(7), expected)) {
+      return next();
+    }
+    return memberAuth(c, next);
+  };
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  const enc = new TextEncoder();
+  const x = enc.encode(a);
+  const y = enc.encode(b);
+  let diff = x.length ^ y.length;
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    diff |= (x[i] ?? 0) ^ (y[i] ?? 0);
+  }
+  return diff === 0;
+}
+
 // -- Email --
 
 interface EmailConfig {

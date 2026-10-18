@@ -27,5 +27,9 @@ database_id = "a11a154b-9d2f-418d-8bb2-17cb003dda9a"
 binding = "SCREENSHOTS"
 bucket_name = "jvelo-at-screenshots"
 
+# Cloudflare Images, used to shrink starred media for devices.
+[images]
+binding = "IMAGES"
+
 [observability]
 enabled = true
