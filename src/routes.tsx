@@ -150,7 +150,8 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     return c.json({ items: results, hasMore: results.length === STARRED_MEDIA_PAGE_SIZE });
   });
 
-  // One starred image, shrunk to fit a size x size box and re-encoded as PNG,
+  // One starred image, shrunk to fit a size x size box (or to fill it, cropped,
+  // with ?fit=cover) and re-encoded as PNG,
   // for small devices that can't decode the progressive JPEGs Twitter serves.
   app.get('/api/starred-media/:id/image', requireMemberOrDevice(), async (c) => {
     const images = c.env.IMAGES;
@@ -171,13 +172,15 @@ export function setupRoutes(app: Hono<AppEnv>, provider: PageProvider) {
     if (!row) return c.notFound();
 
     const size = Math.min(1024, Math.max(64, parseInt(c.req.query('size') || '480', 10) || 480));
+    const fit = c.req.query('fit') === 'cover' ? 'cover' : 'scale-down';
     const source = new URL(row.media_url as string);
-    source.searchParams.set('name', size <= 680 ? 'small' : 'medium');
+    // Cover needs the short side to reach `size`, so start from a bigger variant
+    source.searchParams.set('name', fit === 'scale-down' && size <= 680 ? 'small' : 'medium');
     const upstream = await fetch(source.toString());
     if (!upstream.ok || !upstream.body) return c.text('Upstream image unavailable', 502);
 
     const result = await images.input(upstream.body)
-      .transform({ width: size, height: size, fit: 'scale-down' })
+      .transform({ width: size, height: size, fit })
       .output({ format: 'image/png' });
     const png = await result.response().arrayBuffer();
     c.executionCtx.waitUntil(cache.put(cacheKey, new Response(png, {
