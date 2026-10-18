@@ -53,7 +53,7 @@ npx wrangler d1 execute jvelo-at-db --remote --command "DELETE FROM users WHERE 
 
 ### Device access to starred media
 
-`/api/starred-media` and `/api/starred-media/:id/image` also accept `Authorization: Bearer <DEVICE_TOKEN>`, so a device can read them without a session. The image endpoint shrinks each picture to fit `?size=` (default 480) and returns a PNG, using the Cloudflare Images binding.
+`/api/starred-media` and `/api/starred-media/:id/image` also accept `Authorization: Bearer <DEVICE_TOKEN>`, so a device can read them without a session. The image endpoint shrinks each picture to fit `?size=` (default 480), or fills that square and crops the overflow with `?fit=cover`, and returns a PNG, using the Cloudflare Images binding.
 
 ```bash
 # Set or rotate the token (then update the device's secrets.py)
