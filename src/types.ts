@@ -24,9 +24,20 @@ export interface R2Bucket {
   delete(key: string): Promise<void>;
 }
 
+// Cloudflare Images binding (only the subset we use).
+export interface ImageTransformer {
+  transform(options: { width?: number; height?: number; fit?: 'scale-down' | 'contain' | 'cover' | 'crop' | 'pad' }): ImageTransformer;
+  output(options: { format: 'image/png' | 'image/jpeg' | 'image/webp' | 'image/avif' }): Promise<{ response(): Response }>;
+}
+
+export interface ImagesBinding {
+  input(stream: ReadableStream<Uint8Array>): ImageTransformer;
+}
+
 export interface Bindings {
   DB: D1Database;
   SCREENSHOTS: R2Bucket;
+  IMAGES?: ImagesBinding;
   JWT_SECRET: string;
   TURNSTILE_SITE_KEY: string;
   TURNSTILE_SECRET_KEY: string;
@@ -38,6 +49,8 @@ export interface Bindings {
   OPENGRAPH_API_KEY?: string;
   LASTFM_API_KEY?: string;
   UMAMI_WEBSITE_ID?: string;
+  /** Bearer token that lets a device read the starred media APIs. */
+  DEVICE_TOKEN?: string;
 }
 
 export type Role = 'admin' | 'member';
